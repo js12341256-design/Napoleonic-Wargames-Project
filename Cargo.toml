@@ -1,0 +1,43 @@
+# Grand Campaign 1805 — workspace root.
+# See docs/PROMPT.md §3.1 for crate boundaries and §4 for layout.
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/core-schema",
+    "crates/core-rng",
+    "crates/core-validate",
+    "crates/ai",
+    "crates/server",
+    "crates/netcode",
+    "crates/client-shared",
+    "crates/client-desktop",
+    "crates/client-web",
+    "crates/cli",
+    "tools/xtask",
+    "tools/asset-pipeline",
+]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+rust-version = "1.94"
+license = "UNLICENSED"
+repository = "https://github.com/js12341256-design/project1"
+publish = false
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+# §2.2: no floats, no wall-clock, no hash iteration in simulation core.
+# These are informational at the workspace level; `core` re-enforces them.
+float_arithmetic = "warn"
+
+# Release profile; debug profile uses cargo defaults.
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

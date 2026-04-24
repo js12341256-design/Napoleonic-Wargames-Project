@@ -1,0 +1,15 @@
+[package]
+name = "gc1805-client-web"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Web client (Rust→WASM core, TS/React shell lives under /web)."
+
+# Expose as a cdylib so wasm-bindgen / wasm-pack can consume it when Phase 15 lands.
+[lib]
+crate-type = ["rlib"]
+
+[lints]
+workspace = true

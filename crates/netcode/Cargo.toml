@@ -1,0 +1,11 @@
+[package]
+name = "gc1805-netcode"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Client–server message protocol types."
+
+[lints]
+workspace = true

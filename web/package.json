@@ -1,0 +1,10 @@
+{
+  "name": "gc1805-web",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Phase 0 placeholder for the TS/React web shell. Real implementation lands in Phase 15 per docs/PROMPT.md §16.16.",
+  "type": "module",
+  "scripts": {
+    "placeholder": "echo 'Phase 0: web shell not yet implemented.'"
+  }
+}

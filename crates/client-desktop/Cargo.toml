@@ -1,0 +1,15 @@
+[package]
+name = "gc1805-client-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Desktop client (Bevy).  Full implementation: Phase 14 per PROMPT.md §16.15."
+
+[[bin]]
+name = "gc1805-client-desktop"
+path = "src/main.rs"
+
+[lints]
+workspace = true

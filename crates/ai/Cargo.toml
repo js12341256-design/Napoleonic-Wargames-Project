@@ -1,0 +1,11 @@
+[package]
+name = "gc1805-ai"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "AI decision layer.  Operates on projections only — never on full state (§15.3)."
+
+[lints]
+workspace = true
