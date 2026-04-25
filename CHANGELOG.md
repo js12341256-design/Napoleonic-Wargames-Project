@@ -110,6 +110,10 @@ Sections that may appear per release:
 - Phase 14 — desktop UI Bevy skeleton: desktop client dependencies,
   main-menu and game-board placeholder screens, app-state helper module,
   `docs/rules/ui_desktop.md`, and `docs/phase-reports/phase-14.md`.
+- Phase 18 — replay support: `ReplayFile`/`TurnHash`/`ReplayPlayer`,
+  `create_replay`, `append_events`, `seek_to_turn`, `verify_integrity`,
+  replay save/load helpers, `Event::TurnCompleted`, `docs/rules/replay.md`,
+  and 16 hand-written replay tests.  See `docs/phase-reports/phase-18.md`.
 
 ### Rules
 

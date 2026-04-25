@@ -20,6 +20,7 @@ pub mod naval;
 pub mod orders;
 pub mod political;
 pub mod projection;
+pub mod replay;
 pub mod supply;
 pub mod turn_loop;
 pub mod validate;

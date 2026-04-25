@@ -15,3 +15,4 @@ Expected files (grows by phase):
 - `political.md`
 - `supply.md`
 - `weather.md`
+- `replay.md`
