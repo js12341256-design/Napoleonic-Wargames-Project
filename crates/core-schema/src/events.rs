@@ -16,7 +16,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::combat_types::{BattleOutcome, LeaderCasualtyKind};
-use crate::ids::{AreaId, CorpsId, LeaderId, PowerId};
+use crate::ids::{AreaId, CorpsId, LeaderId, MinorId, PowerId};
 use crate::scenario::{ProductionKind, TaxPolicy};
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
@@ -104,6 +104,16 @@ pub enum Event {
         leader: LeaderId,
         casualty_kind: LeaderCasualtyKind,
     },
+
+    // ─── Minors (Phase 8) ────────────────────────────────────────────────
+    /// A minor changed status through deterministic activation.
+    MinorActivated {
+        minor: MinorId,
+        new_status: String,
+        patron: Option<PowerId>,
+    },
+    /// A revolt broke out in one of the minor's home areas.
+    MinorRevolt { minor: MinorId, area: AreaId },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]

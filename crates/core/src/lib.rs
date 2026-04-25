@@ -12,6 +12,7 @@ pub mod combat;
 pub mod economy;
 pub mod loader;
 pub mod map;
+pub mod minors;
 pub mod movement;
 pub mod orders;
 pub mod projection;
