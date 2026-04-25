@@ -228,6 +228,11 @@
         "terrain"
       ],
       "properties": {
+        "blockaded": {
+          "description": "Whether this area is currently under naval blockade.  Blockaded areas yield no income during the economic phase (PROMPT.md §16.4).",
+          "default": false,
+          "type": "boolean"
+        },
         "capital_of": {
           "default": null,
           "type": [

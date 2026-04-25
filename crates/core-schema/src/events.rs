@@ -15,7 +15,8 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::ids::{AreaId, CorpsId};
+use crate::ids::{AreaId, CorpsId, PowerId};
+use crate::scenario::{ProductionKind, TaxPolicy};
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
 /// canonical JSON form `{"kind": "MOVEMENT_RESOLVED", ...fields}`.
@@ -32,6 +33,48 @@ pub enum Event {
     InterceptionQueued(InterceptionQueued),
     /// An order was rejected at validation.
     OrderRejected(OrderRejected),
+
+    // ─── Economy (Phase 3) ───────────────────────────────────────────────
+    /// Income collected at the start of the economic phase.
+    IncomePaid {
+        power: PowerId,
+        /// Raw area yield before tax multiplier.
+        gross: i64,
+        /// Yield after applying `tax_policy` multiplier (integer Q4 division).
+        net: i64,
+        tax_policy: TaxPolicy,
+    },
+    /// Upkeep deducted from treasury for all corps and fleets.
+    MaintenancePaid {
+        power: PowerId,
+        corps_cost: i64,
+        fleet_cost: i64,
+    },
+    /// Treasury ran short; clamped at zero for the remainder of this phase.
+    TreasuryInDeficit {
+        power: PowerId,
+        /// How much could not be paid.
+        shortfall: i64,
+    },
+    /// A replacement batch from the manpower queue arrived.
+    ReplacementsArrived { owner: PowerId, sp_amount: i32 },
+    /// A production item completed and a new unit entered the scenario.
+    UnitProduced {
+        owner: PowerId,
+        area: AreaId,
+        unit_kind: ProductionKind,
+    },
+    /// A pending subsidy was transferred between powers.
+    SubsidyTransferred {
+        from: PowerId,
+        to: PowerId,
+        amount: i64,
+    },
+    /// A power's tax policy was changed by a `SetTaxPolicy` order.
+    TaxPolicySet {
+        power: PowerId,
+        new_policy: TaxPolicy,
+    },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]

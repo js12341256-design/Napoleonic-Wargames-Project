@@ -13,12 +13,14 @@
 use std::path::PathBuf;
 use std::process::ExitCode;
 
+use gc1805_core::economy::resolve_economic_phase;
 use gc1805_core::movement::{validate_or_reject, MovementPlan};
 use gc1805_core::orders::{MoveOrder, Order};
 use gc1805_core::{load_scenario_str, MapGraph};
 use gc1805_core_schema::canonical_hash;
 use gc1805_core_schema::events::Event;
 use gc1805_core_schema::ids::AreaId;
+use gc1805_core_schema::tables::EconomyTable;
 
 fn main() -> ExitCode {
     let mut args = std::env::args().skip(1);
@@ -32,6 +34,23 @@ fn main() -> ExitCode {
             Some(p) => cmd_move_all_to_capital(&p),
             None => usage_err(),
         },
+        "economic-phase" => {
+            match args.next().map(PathBuf::from) {
+                Some(scenario_path) => {
+                    // Optional --tables <path>
+                    let tables_path: Option<PathBuf> = {
+                        let flag = args.next();
+                        if flag.as_deref() == Some("--tables") {
+                            args.next().map(PathBuf::from)
+                        } else {
+                            None
+                        }
+                    };
+                    cmd_economic_phase(&scenario_path, tables_path.as_deref())
+                }
+                None => usage_err(),
+            }
+        }
         "" | "help" | "--help" | "-h" => {
             print_help();
             ExitCode::SUCCESS
@@ -54,6 +73,8 @@ USAGE:\n\
 SUBCOMMANDS:\n\
     load <scenario.json>                  Parse + validate; print state hash.\n\
     move-all-to-capital <scenario.json>   Try to march every corps home.\n\
+    economic-phase <scenario.json>        Run one economic phase turn.\n\
+             [--tables <economy.json>]\n\
     help                                  Show this message."
     );
 }
@@ -189,6 +210,65 @@ fn cmd_move_all_to_capital(path: &std::path::Path) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+fn cmd_economic_phase(
+    scenario_path: &std::path::Path,
+    tables_path: Option<&std::path::Path>,
+) -> ExitCode {
+    let json = match std::fs::read_to_string(scenario_path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("read {}: {e}", scenario_path.display());
+            return ExitCode::from(1);
+        }
+    };
+    let (mut scenario, _report) = match load_scenario_str(&json) {
+        Ok(x) => x,
+        Err(e) => {
+            eprintln!("load failed: {e}");
+            return ExitCode::from(1);
+        }
+    };
+
+    let tables: EconomyTable = if let Some(tp) = tables_path {
+        let t_json = match std::fs::read_to_string(tp) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("read tables {}: {e}", tp.display());
+                return ExitCode::from(1);
+            }
+        };
+        match serde_json::from_str(&t_json) {
+            Ok(t) => t,
+            Err(e) => {
+                eprintln!("parse tables: {e}");
+                return ExitCode::from(1);
+            }
+        }
+    } else {
+        EconomyTable::default()
+    };
+
+    let events = resolve_economic_phase(&mut scenario, &tables);
+
+    // Print events as JSON array.
+    match serde_json::to_string_pretty(&events) {
+        Ok(s) => println!("{s}"),
+        Err(e) => {
+            eprintln!("serialize events: {e}");
+            return ExitCode::from(1);
+        }
+    }
+
+    // Print treasury per power.
+    println!("---");
+    println!("Treasury after economic phase:");
+    for (power_id, ps) in &scenario.power_state {
+        println!("  {power_id}: {}", ps.treasury);
+    }
+
+    ExitCode::SUCCESS
+}
+
 fn log_event(corps: &gc1805_core_schema::ids::CorpsId, ev: &Event) {
     match ev {
         Event::MovementResolved(m) => {
@@ -206,5 +286,6 @@ fn log_event(corps: &gc1805_core_schema::ids::CorpsId, ev: &Event) {
         Event::OrderRejected(r) => {
             println!("{corps}: REJECTED [{}] {}", r.reason_code, r.message);
         }
+        _ => {} // economic and other events are not corps-specific
     }
 }

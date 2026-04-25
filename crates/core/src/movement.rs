@@ -310,6 +310,7 @@ mod tests {
                     manpower_yield: Maybe::Value(0),
                     capital_of: None,
                     port: false,
+                    blockaded: false,
                     map_x: 0,
                     map_y: 0,
                 },

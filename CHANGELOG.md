@@ -37,6 +37,11 @@ Sections that may appear per release:
   `docs/phase-reports/phase-02.md`.
 - Adjudication 0001 (`docs/adjudications.md`) — interception scope at
   Phase 2 reduced to "typed and queueable" pending impulse model.
+- Phase 3 — economic phase resolver (income, maintenance, replacement
+  queue, production queue, subsidies), economy order vocabulary
+  (`SetTaxPolicy`, `BuildCorps`, `BuildFleet`, `Subsidize`), 22
+  hand-written test cases, `gc1805 economic-phase` CLI subcommand.
+  92 tests passing.  See `docs/phase-reports/phase-03.md`.
 
 ### Rules
 

@@ -278,6 +278,10 @@ pub struct Area {
     pub capital_of: Option<PowerId>,
     #[serde(default)]
     pub port: bool,
+    /// Whether this area is currently under naval blockade.  Blockaded areas
+    /// yield no income during the economic phase (PROMPT.md §16.4).
+    #[serde(default)]
+    pub blockaded: bool,
     /// Strategic map coords (1400×900 viewBox), UI only.
     pub map_x: i32,
     pub map_y: i32,
