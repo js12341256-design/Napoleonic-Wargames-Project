@@ -20,6 +20,14 @@ Sections that may appear per release:
 
 ### Added
 
+- Phase 7 — political phase: PP tracking in `power_state.prestige`,
+  `apply_pp_delta` with `PpModifiersTable` lookup (all Placeholder),
+  revolt triggers (`check_revolts`), abdication condition
+  (`check_abdication`), `resolve_political_phase` entry point.
+  `PrestigeAwarded`, `RevoltTriggered`, `PeaceConferenceOpened`,
+  `AbdicationForced` event variants.  30 hand-written test cases,
+  `docs/rules/political.md`.  All thresholds are structural placeholders.
+  See `docs/phase-reports/phase-07.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design

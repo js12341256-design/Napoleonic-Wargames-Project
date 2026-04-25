@@ -104,6 +104,21 @@ pub enum Event {
         leader: LeaderId,
         casualty_kind: LeaderCasualtyKind,
     },
+
+    // ─── Political (Phase 7) ────────────────────────────────────────────
+    /// Prestige points awarded or deducted from a power.
+    PrestigeAwarded {
+        power: PowerId,
+        delta: i32,
+        reason: String,
+    },
+    /// A revolt triggered in an area whose owner's prestige is below
+    /// the revolt threshold (structural placeholder, see `political.md`).
+    RevoltTriggered { area: AreaId, owner: PowerId },
+    /// A peace conference opened among the listed powers.
+    PeaceConferenceOpened { powers: Vec<PowerId> },
+    /// A power's ruler was forced to abdicate due to extremely low prestige.
+    AbdicationForced { power: PowerId },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
