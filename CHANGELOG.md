@@ -26,6 +26,9 @@ Sections that may appear per release:
   (`MinorStatus`, `activate_minor`, `validate_minor_control`), added
   `MinorActivated` / `MinorRevolt` events, authored `docs/rules/minors.md`,
   and closed Q6 in `docs/questions.md`.
+- Phase 11 — deterministic AI heuristics in `gc1805-ai`, default personality
+  config, projection-only order generation, `DeclareWar` order support, and
+  25 hand-written tests.  See `docs/phase-reports/phase-11.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design
