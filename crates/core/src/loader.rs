@@ -72,12 +72,32 @@ pub fn load_scenario_str(json: &str) -> Result<(Scenario, LoadReport), LoadError
     scan_placeholders(&raw, "$", &mut report.placeholder_paths);
 
     // Second pass: typed deserialization.
-    let scenario: Scenario = serde_json::from_value(raw)?;
+    let mut scenario: Scenario = serde_json::from_value(raw)?;
+
+    // Initialise the live PowerState from PowerSetup.starting_* if not
+    // already present in the JSON.  This keeps the scenario file
+    // authoring-friendly: scenario authors only write the immutable
+    // setup; the mutable state defaults from it.
+    initialize_power_state(&mut scenario);
 
     // Structural validation.
     report.integrity = validate_scenario(&scenario);
 
     Ok((scenario, report))
+}
+
+fn initialize_power_state(s: &mut Scenario) {
+    use gc1805_core_schema::scenario::{PowerState, TaxPolicy};
+    for (id, setup) in &s.powers {
+        s.power_state
+            .entry(id.clone())
+            .or_insert_with(|| PowerState {
+                treasury: setup.starting_treasury,
+                manpower: setup.starting_manpower,
+                prestige: setup.starting_pp,
+                tax_policy: TaxPolicy::Standard,
+            });
+    }
 }
 
 fn scan_placeholders(value: &Value, path: &str, out: &mut Vec<String>) {

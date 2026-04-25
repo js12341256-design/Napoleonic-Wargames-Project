@@ -11,6 +11,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use gc1805_core_schema::ids::{AreaId, CorpsId, PowerId};
+use gc1805_core_schema::scenario::{CorpsComposition, TaxPolicy};
 
 /// Top-level order submitted by a player or the AI.
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -27,6 +28,15 @@ pub enum Order {
     /// Standing-order interception; resolution deferred until Phase 10.
     /// See `docs/adjudications.md` adjudication 0001.
     Interception(InterceptionOrder),
+    /// Set the power's tax policy; takes effect at the next economic
+    /// phase (PROMPT.md §8.2 + Phase 3 rules).
+    SetTaxPolicy(SetTaxPolicyOrder),
+    /// Build a new corps in a mobilization area.
+    BuildCorps(BuildCorpsOrder),
+    /// Build a new fleet in a port.
+    BuildFleet(BuildFleetOrder),
+    /// Send money to another power; applied at the next economic phase.
+    Subsidize(SubsidyOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -50,6 +60,32 @@ pub struct ForcedMarchOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct SetTaxPolicyOrder {
+    pub submitter: PowerId,
+    pub policy: TaxPolicy,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct BuildCorpsOrder {
+    pub submitter: PowerId,
+    pub area: AreaId,
+    pub composition: CorpsComposition,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct BuildFleetOrder {
+    pub submitter: PowerId,
+    pub area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct SubsidyOrder {
+    pub submitter: PowerId,
+    pub recipient: PowerId,
+    pub amount: i64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -67,15 +103,34 @@ impl Order {
             Order::Move(o) => &o.submitter,
             Order::ForcedMarch(o) => &o.submitter,
             Order::Interception(o) => &o.submitter,
+            Order::SetTaxPolicy(o) => &o.submitter,
+            Order::BuildCorps(o) => &o.submitter,
+            Order::BuildFleet(o) => &o.submitter,
+            Order::Subsidize(o) => &o.submitter,
         }
     }
 
-    pub fn corps(&self) -> &CorpsId {
+    /// Returns the corps targeted by this order, when it has one.
+    /// Economic and diplomatic orders return `None`.
+    pub fn corps(&self) -> Option<&CorpsId> {
         match self {
-            Order::Hold(o) => &o.corps,
-            Order::Move(o) => &o.corps,
-            Order::ForcedMarch(o) => &o.corps,
-            Order::Interception(o) => &o.corps,
+            Order::Hold(o) => Some(&o.corps),
+            Order::Move(o) => Some(&o.corps),
+            Order::ForcedMarch(o) => Some(&o.corps),
+            Order::Interception(o) => Some(&o.corps),
+            Order::SetTaxPolicy(_)
+            | Order::BuildCorps(_)
+            | Order::BuildFleet(_)
+            | Order::Subsidize(_) => None,
         }
+    }
+
+    /// True if this is a movement-family order (validated by
+    /// [`crate::movement::validate_order`]).
+    pub fn is_movement(&self) -> bool {
+        matches!(
+            self,
+            Order::Hold(_) | Order::Move(_) | Order::ForcedMarch(_) | Order::Interception(_)
+        )
     }
 }

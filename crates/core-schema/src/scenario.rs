@@ -157,7 +157,7 @@ pub enum ProductionKind {
     Depot,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct CorpsComposition {
     pub infantry_sp: i32,
     pub cavalry_sp: i32,

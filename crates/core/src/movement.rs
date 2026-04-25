@@ -37,6 +37,8 @@ pub enum MovementRejection {
     StackingLimit { limit: i32 },
     #[error("rules table value is placeholder: {0}")]
     PlaceholderRule(&'static str),
+    #[error("not a movement-family order: {0}")]
+    NotMovementOrder(String),
 }
 
 impl MovementRejection {
@@ -49,6 +51,7 @@ impl MovementRejection {
             Self::OverBudget { .. } => "OVER_BUDGET",
             Self::StackingLimit { .. } => "STACKING_LIMIT",
             Self::PlaceholderRule(_) => "PLACEHOLDER_RULE",
+            Self::NotMovementOrder(_) => "NOT_MOVEMENT_ORDER",
         }
     }
 }
@@ -60,7 +63,9 @@ impl MovementRejection {
 /// destination is the corps's current area.  For [`Order::Interception`]
 /// validation is structural — see `docs/adjudications.md` 0001.
 pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, MovementRejection> {
-    let corps_id = order.corps();
+    let corps_id = order
+        .corps()
+        .ok_or_else(|| MovementRejection::NotMovementOrder(format!("{order:?}")))?;
     let corps = s
         .corps
         .get(corps_id)
@@ -91,6 +96,13 @@ pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, Movem
             Ok(MovementPlan::InterceptionQueued {
                 target: o.target_area.clone(),
             })
+        }
+        Order::SetTaxPolicy(_)
+        | Order::BuildCorps(_)
+        | Order::BuildFleet(_)
+        | Order::Subsidize(_) => {
+            // Economic orders go through gc1805_core::economy.
+            Err(MovementRejection::NotMovementOrder(format!("{order:?}")))
         }
     }
 }
@@ -152,20 +164,31 @@ fn plan_move(
 /// `debug_assert!` only; in release it returns an `OrderRejected`
 /// event with a defensive code.
 pub fn resolve_order(s: &mut Scenario, order: &Order, plan: MovementPlan) -> Event {
+    let corps_id = order
+        .corps()
+        .cloned()
+        .expect("resolve_order called with non-movement order");
     match plan {
-        MovementPlan::Hold { at } => Event::MovementResolved(MovementResolved {
-            corps: order.corps().clone(),
-            from: at.clone(),
-            to: at,
-            hops: 0,
-            path: vec![order.corps_area_or_default(s)],
-        }),
+        MovementPlan::Hold { at } => {
+            let corps_area = s
+                .corps
+                .get(&corps_id)
+                .map(|c| c.area.clone())
+                .unwrap_or_else(|| at.clone());
+            Event::MovementResolved(MovementResolved {
+                corps: corps_id,
+                from: at.clone(),
+                to: at,
+                hops: 0,
+                path: vec![corps_area],
+            })
+        }
         MovementPlan::Move { path, hops } => {
             let from = path.first().cloned().expect("non-empty path");
             let to = path.last().cloned().expect("non-empty path");
-            apply_move(s, order.corps(), &to);
+            apply_move(s, &corps_id, &to);
             Event::MovementResolved(MovementResolved {
-                corps: order.corps().clone(),
+                corps: corps_id,
                 from,
                 to,
                 hops,
@@ -175,17 +198,17 @@ pub fn resolve_order(s: &mut Scenario, order: &Order, plan: MovementPlan) -> Eve
         MovementPlan::ForcedMarch { path, hops } => {
             let from = path.first().cloned().expect("non-empty path");
             let to = path.last().cloned().expect("non-empty path");
-            apply_move(s, order.corps(), &to);
+            apply_move(s, &corps_id, &to);
             let morale_loss = match &s.movement_rules.forced_march_morale_loss_q4 {
                 Maybe::Value(v) => *v,
                 Maybe::Placeholder(_) => 0,
             };
             // Apply the morale drop directly; clamp at zero.
-            if let Some(c) = s.corps.get_mut(order.corps()) {
+            if let Some(c) = s.corps.get_mut(&corps_id) {
                 c.morale_q4 = (c.morale_q4 - morale_loss).max(0);
             }
             Event::ForcedMarchResolved(ForcedMarchResolved {
-                corps: order.corps().clone(),
+                corps: corps_id,
                 from,
                 to,
                 hops,
@@ -195,7 +218,7 @@ pub fn resolve_order(s: &mut Scenario, order: &Order, plan: MovementPlan) -> Eve
         }
         MovementPlan::InterceptionQueued { target } => {
             Event::InterceptionQueued(InterceptionQueued {
-                corps: order.corps().clone(),
+                corps: corps_id,
                 target_area: target,
             })
         }
@@ -205,19 +228,6 @@ pub fn resolve_order(s: &mut Scenario, order: &Order, plan: MovementPlan) -> Eve
 fn apply_move(s: &mut Scenario, corps_id: &gc1805_core_schema::ids::CorpsId, to: &AreaId) {
     if let Some(c) = s.corps.get_mut(corps_id) {
         c.area = to.clone();
-    }
-}
-
-trait CorpsAreaLookup {
-    fn corps_area_or_default(&self, s: &Scenario) -> AreaId;
-}
-
-impl CorpsAreaLookup for Order {
-    fn corps_area_or_default(&self, s: &Scenario) -> AreaId {
-        s.corps
-            .get(self.corps())
-            .map(|c| c.area.clone())
-            .unwrap_or_else(|| AreaId::from(""))
     }
 }
 
