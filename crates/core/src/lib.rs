@@ -14,6 +14,7 @@ pub mod economy;
 pub mod loader;
 pub mod map;
 pub mod minors;
+pub mod mod_loader;
 pub mod movement;
 pub mod naval;
 pub mod orders;
