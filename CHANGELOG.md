@@ -33,6 +33,7 @@ Sections that may appear per release:
   `PbemHost` collection state, signature verification, host-side turn/game/
   duplicate submission checks, PBEM rules documentation, and 17 tests.  See
   `docs/phase-reports/phase-13.md`.
+- Phase 15 — Web UI: `gc1805-client-web` Rust/WASM bridge, `WasmGame` JSON interface, React/Vite shell in `web/`, `docs/rules/ui_web.md`, and 12 client-web tests. See `docs/phase-reports/phase-15.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design

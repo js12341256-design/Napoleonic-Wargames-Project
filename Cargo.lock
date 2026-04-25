@@ -2073,6 +2073,15 @@ version = "0.0.0"
 [[package]]
 name = "gc1805-client-web"
 version = "0.0.0"
+dependencies = [
+ "console_error_panic_hook",
+ "gc1805-core",
+ "gc1805-core-schema",
+ "js-sys",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "gc1805-core"
