@@ -389,6 +389,7 @@ mod tests {
                 transports: 0,
                 morale_q4: 8000,
                 admiral: None,
+                embarked_corps: Vec::new(),
             },
         );
         let p = project(&s, &PowerId::from("FRA"));

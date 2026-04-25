@@ -16,7 +16,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::combat_types::{BattleOutcome, LeaderCasualtyKind};
-use crate::ids::{AreaId, CorpsId, LeaderId, PowerId};
+use crate::ids::{AreaId, CorpsId, FleetId, LeaderId, PowerId, SeaZoneId};
+use crate::naval_types::NavalOutcome;
 use crate::scenario::{ProductionKind, TaxPolicy};
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
@@ -103,6 +104,39 @@ pub enum Event {
     LeaderCasualty {
         leader: LeaderId,
         casualty_kind: LeaderCasualtyKind,
+    },
+    /// A fleet moved between sea zones.
+    FleetMoved {
+        fleet: FleetId,
+        from: SeaZoneId,
+        to: SeaZoneId,
+    },
+    /// A fleet entered port from an adjacent sea zone.
+    FleetEnteredPort { fleet: FleetId, area: AreaId },
+    /// A fleet left port for an adjacent sea zone.
+    FleetLeftPort { fleet: FleetId, area: AreaId },
+    /// A naval battle resolved in a sea zone.
+    NavalBattleResolved {
+        sea_zone: SeaZoneId,
+        attacker: PowerId,
+        defender: PowerId,
+        attacker_ships_lost: i32,
+        defender_ships_lost: i32,
+        outcome: NavalOutcome,
+    },
+    /// A fleet established a blockade from an adjacent sea zone.
+    BlockadeEstablished { fleet: FleetId, sea_zone: SeaZoneId },
+    /// A corps embarked onto a fleet at a port.
+    CorpsEmbarked {
+        corps: CorpsId,
+        fleet: FleetId,
+        area: AreaId,
+    },
+    /// A corps disembarked from a fleet at a port.
+    CorpsDisembarked {
+        corps: CorpsId,
+        fleet: FleetId,
+        area: AreaId,
     },
 }
 

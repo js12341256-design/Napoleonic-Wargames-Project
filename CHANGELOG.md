@@ -50,6 +50,12 @@ Sections that may appear per release:
   table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
   provide real combat.json values).  144 tests passing.
   See `docs/phase-reports/phase-04.md`.
+- Phase 9 — naval system skeleton: sea-zone graph, fleet movement,
+  blockade detection, embark/disembark transport flow, naval order
+  vocabulary, `NavalOutcome`, placeholder-authored naval combat/weather
+  tables, `docs/rules/naval.md`, and 37 naval tests in
+  `crates/core/src/naval.rs`.  Gate OPEN pending designer-authored
+  naval combat and weather values.  See `docs/phase-reports/phase-09.md`.
 
 ### Rules
 

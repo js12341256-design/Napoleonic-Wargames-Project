@@ -10,7 +10,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use gc1805_core_schema::ids::{AreaId, CorpsId, PowerId};
+use gc1805_core_schema::ids::{AreaId, CorpsId, FleetId, PowerId, SeaZoneId};
 use gc1805_core_schema::scenario::{CorpsComposition, TaxPolicy};
 
 /// Top-level order submitted by a player or the AI.
@@ -41,6 +41,14 @@ pub enum Order {
     Attack(AttackOrder),
     /// Bombard an adjacent enemy area (artillery-only action).
     Bombard(BombardOrder),
+    /// Move a fleet through connected sea zones.
+    MoveFleet(MoveFleetOrder),
+    /// Attack enemy fleets in a target sea zone.
+    NavalAttack(NavalAttackOrder),
+    /// Embark a corps onto a fleet at a coastal port.
+    Embark(EmbarkOrder),
+    /// Disembark a corps from a fleet into a coastal port.
+    Disembark(DisembarkOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -105,6 +113,35 @@ pub struct BombardOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct MoveFleetOrder {
+    pub submitter: PowerId,
+    pub fleet: FleetId,
+    pub destination: SeaZoneId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct NavalAttackOrder {
+    pub submitter: PowerId,
+    pub fleet: FleetId,
+    pub target_zone: SeaZoneId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct EmbarkOrder {
+    pub submitter: PowerId,
+    pub corps: CorpsId,
+    pub fleet: FleetId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct DisembarkOrder {
+    pub submitter: PowerId,
+    pub corps: CorpsId,
+    pub fleet: FleetId,
+    pub target_area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -128,6 +165,10 @@ impl Order {
             Order::Subsidize(o) => &o.submitter,
             Order::Attack(o) => &o.submitter,
             Order::Bombard(o) => &o.submitter,
+            Order::MoveFleet(o) => &o.submitter,
+            Order::NavalAttack(o) => &o.submitter,
+            Order::Embark(o) => &o.submitter,
+            Order::Disembark(o) => &o.submitter,
         }
     }
 
@@ -144,7 +185,11 @@ impl Order {
             | Order::BuildFleet(_)
             | Order::Subsidize(_)
             | Order::Attack(_)
-            | Order::Bombard(_) => None,
+            | Order::Bombard(_)
+            | Order::MoveFleet(_)
+            | Order::NavalAttack(_)
+            | Order::Embark(_)
+            | Order::Disembark(_) => None,
         }
     }
 

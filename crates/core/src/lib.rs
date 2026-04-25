@@ -13,6 +13,7 @@ pub mod economy;
 pub mod loader;
 pub mod map;
 pub mod movement;
+pub mod naval;
 pub mod orders;
 pub mod projection;
 pub mod validate;

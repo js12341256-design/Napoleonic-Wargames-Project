@@ -205,6 +205,7 @@ pub fn resolve_economic_phase(scenario: &mut Scenario, tables: &EconomyTable) ->
                         transports: 0,
                         morale_q4: 10_000,
                         admiral: None,
+                        embarked_corps: Vec::new(),
                     },
                 );
                 events.push(Event::UnitProduced {
@@ -538,6 +539,10 @@ fn order_kind_name(order: &Order) -> &'static str {
         Order::Subsidize(_) => "Subsidize",
         Order::Attack(_) => "Attack",
         Order::Bombard(_) => "Bombard",
+        Order::MoveFleet(_) => "MoveFleet",
+        Order::NavalAttack(_) => "NavalAttack",
+        Order::Embark(_) => "Embark",
+        Order::Disembark(_) => "Disembark",
     }
 }
 
