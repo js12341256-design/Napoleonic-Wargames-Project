@@ -101,7 +101,7 @@ mod tests {
     use gc1805_core_schema::ids::{AreaId, CorpsId, LeaderId, PowerId};
     use gc1805_core_schema::scenario::{
         Area, Corps, DiplomaticPairKey, DiplomaticState, Features, Fleet, GameDate, Leader,
-        MovementRules, Owner, PowerSetup, PowerSlot, Scenario, Terrain, SCHEMA_VERSION,
+        MovementRules, Owner, PowerSetup, PowerSlot, SCHEMA_VERSION, Scenario, Terrain,
     };
     use std::collections::BTreeMap;
 

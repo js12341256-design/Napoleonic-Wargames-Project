@@ -1,28 +1,313 @@
 {
+  "$schema": "../schemas/combat.schema.json",
   "schema_version": 1,
-  "ratio_buckets": ["1:3","1:2","1:1","3:2","2:1","3:1"],
+  "rules_version": "0.1.0-starter",
+  "_provenance": {
+    "authored_by": "DESIGNER (starter values)",
+    "authored_date": "2026-04-25",
+    "status": "STARTER_FOR_TUNING",
+    "notes": [
+      "These values are internally coherent starter values designed to produce playable combat.",
+      "They are NOT a reproduction of the Australian Design Group (ADG) Empires in Arms (1983) combat table.",
+      "Treat every numeric value below as a tuning parameter to be revised after playtest.",
+      "When changing any value, regenerate the determinism golden hash per Section 2.6 of PROMPT.md.",
+      "Replace this file with licensed authentic values if Posture A (license) is taken."
+    ]
+  },
+
   "die_faces": 6,
-  "formations": ["LINE","ATTACK_COLUMN","SQUARE","SKIRMISH"],
+  "die_count": 1,
+
+  "ratio_buckets": [
+    { "id": "R_1_4", "min_ratio_pct": 0,    "max_ratio_pct": 33,   "label": "1:4 or worse" },
+    { "id": "R_1_3", "min_ratio_pct": 33,   "max_ratio_pct": 45,   "label": "1:3" },
+    { "id": "R_1_2", "min_ratio_pct": 45,   "max_ratio_pct": 67,   "label": "1:2" },
+    { "id": "R_2_3", "min_ratio_pct": 67,   "max_ratio_pct": 90,   "label": "2:3" },
+    { "id": "R_1_1", "min_ratio_pct": 90,   "max_ratio_pct": 125,  "label": "1:1" },
+    { "id": "R_3_2", "min_ratio_pct": 125,  "max_ratio_pct": 175,  "label": "3:2" },
+    { "id": "R_2_1", "min_ratio_pct": 175,  "max_ratio_pct": 250,  "label": "2:1" },
+    { "id": "R_3_1", "min_ratio_pct": 250,  "max_ratio_pct": 350,  "label": "3:1" },
+    { "id": "R_4_1", "min_ratio_pct": 350,  "max_ratio_pct": 500,  "label": "4:1" },
+    { "id": "R_5_1", "min_ratio_pct": 500,  "max_ratio_pct": 99999,"label": "5:1 or better" }
+  ],
+  "_ratio_note": "Ratios are computed as (attacker_effective_strength * 100 / defender_effective_strength). Ranges are min-inclusive, max-exclusive.",
+
+  "formations": [
+    { "id": "LINE",      "label": "Line",          "description": "Wide frontage, balanced fire and resilience." },
+    { "id": "COLUMN",    "label": "Column (Assault)", "description": "Concentrated mass, strong attack into open terrain, vulnerable to fire." },
+    { "id": "SQUARE",    "label": "Square",        "description": "Anti-cavalry posture, weak in protracted infantry exchange." },
+    { "id": "DEFENSIVE", "label": "Defensive",     "description": "Prepared positions, reduced losses but no pursuit capability." },
+    { "id": "ECHELON",   "label": "Echelon",       "description": "Refused-flank attack; rewards initiative." },
+    { "id": "SKIRMISH",  "label": "Skirmish",      "description": "Light infantry / scouting posture; minimal casualties either way." }
+  ],
+
   "formation_matrix": {
-    "LINE_vs_LINE": {"att_col_shift": 0, "def_col_shift": 0},
-    "ATTACK_COLUMN_vs_LINE": {"att_col_shift": 1, "def_col_shift": 0},
-    "LINE_vs_ATTACK_COLUMN": {"att_col_shift": 0, "def_col_shift": 1},
-    "SQUARE_vs_CAVALRY": {"att_col_shift": -2, "def_col_shift": 0},
-    "SKIRMISH_vs_LINE": {"att_col_shift": 0, "def_col_shift": -1}
+    "_doc": "Keys are 'ATTACKER_vs_DEFENDER'. Values shift the attacker's column index in the results table. Negative shifts hurt the attacker; positive shifts help. Bounded to [-2, +2].",
+    "LINE_vs_LINE":          { "att_col_shift":  0, "def_morale_shift":  0 },
+    "LINE_vs_COLUMN":        { "att_col_shift": 1, "def_morale_shift":  0 },
+    "LINE_vs_SQUARE":        { "att_col_shift": 1, "def_morale_shift":  0 },
+    "LINE_vs_DEFENSIVE":     { "att_col_shift": -1, "def_morale_shift":  0 },
+    "LINE_vs_ECHELON":       { "att_col_shift":  0, "def_morale_shift":  0 },
+    "LINE_vs_SKIRMISH":      { "att_col_shift": 1, "def_morale_shift":  0 },
+
+    "COLUMN_vs_LINE":        { "att_col_shift": -1, "def_morale_shift": -1 },
+    "COLUMN_vs_COLUMN":      { "att_col_shift":  0, "def_morale_shift":  0 },
+    "COLUMN_vs_SQUARE":      { "att_col_shift": -1, "def_morale_shift":  0 },
+    "COLUMN_vs_DEFENSIVE":   { "att_col_shift": -2, "def_morale_shift":  0 },
+    "COLUMN_vs_ECHELON":     { "att_col_shift": 1, "def_morale_shift": -1 },
+    "COLUMN_vs_SKIRMISH":    { "att_col_shift": 2, "def_morale_shift": -1 },
+
+    "SQUARE_vs_LINE":        { "att_col_shift": -1, "def_morale_shift":  0 },
+    "SQUARE_vs_COLUMN":      { "att_col_shift": 1, "def_morale_shift":  0 },
+    "SQUARE_vs_SQUARE":      { "att_col_shift":  0, "def_morale_shift":  0 },
+    "SQUARE_vs_DEFENSIVE":   { "att_col_shift": -2, "def_morale_shift":  0 },
+    "SQUARE_vs_ECHELON":     { "att_col_shift": -1, "def_morale_shift":  0 },
+    "SQUARE_vs_SKIRMISH":    { "att_col_shift":  0, "def_morale_shift":  0 },
+
+    "DEFENSIVE_vs_LINE":     { "att_col_shift": 1, "def_morale_shift":  0 },
+    "DEFENSIVE_vs_COLUMN":   { "att_col_shift": 2, "def_morale_shift":  0 },
+    "DEFENSIVE_vs_SQUARE":   { "att_col_shift": 2, "def_morale_shift":  0 },
+    "DEFENSIVE_vs_DEFENSIVE":{ "att_col_shift":  0, "def_morale_shift":  0 },
+    "DEFENSIVE_vs_ECHELON":  { "att_col_shift": 1, "def_morale_shift":  0 },
+    "DEFENSIVE_vs_SKIRMISH": { "att_col_shift":  0, "def_morale_shift":  0 },
+
+    "ECHELON_vs_LINE":       { "att_col_shift":  0, "def_morale_shift": -1 },
+    "ECHELON_vs_COLUMN":     { "att_col_shift": -1, "def_morale_shift":  0 },
+    "ECHELON_vs_SQUARE":     { "att_col_shift": 1, "def_morale_shift":  0 },
+    "ECHELON_vs_DEFENSIVE":  { "att_col_shift": -1, "def_morale_shift":  0 },
+    "ECHELON_vs_ECHELON":    { "att_col_shift":  0, "def_morale_shift":  0 },
+    "ECHELON_vs_SKIRMISH":   { "att_col_shift": 1, "def_morale_shift":  0 },
+
+    "SKIRMISH_vs_LINE":      { "att_col_shift": -2, "def_morale_shift":  0 },
+    "SKIRMISH_vs_COLUMN":    { "att_col_shift": -2, "def_morale_shift":  0 },
+    "SKIRMISH_vs_SQUARE":    { "att_col_shift":  0, "def_morale_shift":  0 },
+    "SKIRMISH_vs_DEFENSIVE": { "att_col_shift": -2, "def_morale_shift":  0 },
+    "SKIRMISH_vs_ECHELON":   { "att_col_shift": -1, "def_morale_shift":  0 },
+    "SKIRMISH_vs_SKIRMISH":  { "att_col_shift":  0, "def_morale_shift":  0 }
   },
+
   "terrain_modifiers": {
-    "OPEN": {"att_col_shift": 0},
-    "FOREST": {"att_col_shift": -1},
-    "MOUNTAIN": {"att_col_shift": -2},
-    "MARSH": {"att_col_shift": -1},
-    "URBAN": {"att_col_shift": -1}
+    "_doc": "Applied AFTER formation shifts. att_col_shift modifies the column index (clamped to table bounds). All shifts are integers.",
+    "OPEN":     { "att_col_shift":  0, "extra_def_morale":  0 },
+    "FOREST":   { "att_col_shift": -1, "extra_def_morale":  0 },
+    "MOUNTAIN": { "att_col_shift": -2, "extra_def_morale": 1 },
+    "MARSH":    { "att_col_shift": -1, "extra_def_morale":  0 },
+    "URBAN":    { "att_col_shift": -1, "extra_def_morale": 1 },
+    "RIVER_CROSSING": { "att_col_shift": -2, "extra_def_morale":  0 },
+    "DESERT":   { "att_col_shift": -1, "extra_def_morale":  0 },
+    "FORTRESS_LVL_1": { "att_col_shift": -1, "extra_def_morale": 1 },
+    "FORTRESS_LVL_2": { "att_col_shift": -2, "extra_def_morale": 1 },
+    "FORTRESS_LVL_3": { "att_col_shift": -3, "extra_def_morale": 2 }
   },
-  "results": {
-    "1:3": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}],
-    "1:2": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}],
-    "1:1": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}],
-    "3:2": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}],
-    "2:1": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}],
-    "3:1": [{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true},{"_placeholder":true}]
-  }
+
+  "leader_modifiers": {
+    "_doc": "Effect of the highest-tactical-rated leader on each side. Ratings 0..5. Net difference (attacker - defender) generates a column shift. Values are inclusive thresholds: a delta of 2 gives shift +1.",
+    "delta_to_shift": [
+      { "min_delta": -99, "max_delta": -3, "att_col_shift": -2 },
+      { "min_delta":  -2, "max_delta": -1, "att_col_shift": -1 },
+      { "min_delta":   0, "max_delta":  1, "att_col_shift":  0 },
+      { "min_delta":   2, "max_delta":  3, "att_col_shift": 1 },
+      { "min_delta":   4, "max_delta": 99, "att_col_shift": 2 }
+    ],
+    "army_command_bonus": {
+      "_doc": "Additional shift if the leader is army-rated AND commanding 4+ corps.",
+      "att_col_shift_if_active": 1
+    }
+  },
+
+  "morale_modifiers": {
+    "_doc": "Effective morale of a side is the average across its corps (fixed-point: morale stored as int from 0 to 10000, where 10000 = fresh). Net difference creates a column shift.",
+    "_morale_scale_max": 10000,
+    "delta_to_shift": [
+      { "min_delta_pct": -100, "max_delta_pct": -30, "att_col_shift": -2 },
+      { "min_delta_pct":  -30, "max_delta_pct": -10, "att_col_shift": -1 },
+      { "min_delta_pct":  -10, "max_delta_pct":  10, "att_col_shift":  0 },
+      { "min_delta_pct":   10, "max_delta_pct":  30, "att_col_shift": 1 },
+      { "min_delta_pct":   30, "max_delta_pct": 100, "att_col_shift": 2 }
+    ]
+  },
+
+  "composition_modifiers": {
+    "_doc": "Applied based on SP composition of the engaged force. cavalry_pct = cav_sp * 100 / total_sp. Cavalry helps in OPEN terrain, hurts in FOREST/URBAN. Artillery helps generally except in MARSH. All shifts capped at +/-1 each.",
+    "cavalry_advantage": {
+      "_doc": "Triggered when one side has cavalry_pct >= threshold AND the other has cavalry_pct < threshold/2.",
+      "threshold_pct": 20,
+      "shift_in_open_terrain": 1,
+      "shift_in_dense_terrain": -1,
+      "dense_terrain_ids": ["FOREST", "MARSH", "URBAN", "MOUNTAIN"]
+    },
+    "artillery_advantage": {
+      "_doc": "Triggered when one side has artillery_pct >= threshold AND the other has artillery_pct < threshold/2.",
+      "threshold_pct": 10,
+      "shift_general": 1,
+      "shift_in_marsh": 0,
+      "shift_against_fortress": 1
+    }
+  },
+
+  "results_table": {
+    "_doc": [
+      "Outer key: ratio bucket id.",
+      "Inner array: indexed 0..5 corresponding to die rolls 1..6.",
+      "Each cell is { att_sp_loss, def_sp_loss, att_morale_delta, def_morale_delta, def_retreat_steps, att_advances }.",
+      "Morale deltas are in the 0..10000 fixed-point scale (negative = morale loss).",
+      "def_retreat_steps: 0 = hold ground; 1 = retreat 1 area; 2 = retreat 2 areas; 99 = ROUT (disperse).",
+      "att_advances: true if the attacker gains the area on a successful result.",
+      "If att_sp_loss > def_sp_loss substantially AND att_morale_delta worse than def's, the attacker loses (interpreted by combat resolver)."
+    ],
+
+    "R_1_4": [
+      { "att_sp_loss": 4, "def_sp_loss": 0, "att_morale_delta": -2000, "def_morale_delta":     0, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 4, "def_sp_loss": 0, "att_morale_delta": -1500, "def_morale_delta":     0, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1500, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false }
+    ],
+    "R_1_3": [
+      { "att_sp_loss": 4, "def_sp_loss": 0, "att_morale_delta": -2000, "def_morale_delta":     0, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1500, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 2, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  }
+    ],
+    "R_1_2": [
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1500, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -750, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 2, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  }
+    ],
+    "R_2_3": [
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1250, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -750, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  }
+    ],
+    "R_1_1": [
+      { "att_sp_loss": 3, "def_sp_loss": 1, "att_morale_delta": -1000, "def_morale_delta":  -250, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -750, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 1, "att_advances": true  }
+    ],
+    "R_3_2": [
+      { "att_sp_loss": 2, "def_sp_loss": 1, "att_morale_delta":  -750, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 3, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 2, "att_advances": true  }
+    ],
+    "R_2_1": [
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -500, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 5, "att_morale_delta":     0, "def_morale_delta": -1500, "def_retreat_steps": 2, "att_advances": true  }
+    ],
+    "R_3_1": [
+      { "att_sp_loss": 2, "def_sp_loss": 2, "att_morale_delta":  -500, "def_morale_delta":  -750, "def_retreat_steps": 0, "att_advances": false },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 5, "att_morale_delta":     0, "def_morale_delta": -1500, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 6, "att_morale_delta":     0, "def_morale_delta": -2000, "def_retreat_steps": 2, "att_advances": true  }
+    ],
+    "R_4_1": [
+      { "att_sp_loss": 1, "def_sp_loss": 3, "att_morale_delta":  -250, "def_morale_delta":  -750, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 5, "att_morale_delta":     0, "def_morale_delta": -1500, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 6, "att_morale_delta":     0, "def_morale_delta": -1750, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 7, "att_morale_delta":     0, "def_morale_delta": -2500, "def_retreat_steps":99, "att_advances": true  }
+    ],
+    "R_5_1": [
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1000, "def_retreat_steps": 1, "att_advances": true  },
+      { "att_sp_loss": 1, "def_sp_loss": 4, "att_morale_delta":  -250, "def_morale_delta": -1250, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 5, "att_morale_delta":     0, "def_morale_delta": -1500, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 6, "att_morale_delta":     0, "def_morale_delta": -1750, "def_retreat_steps": 2, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 7, "att_morale_delta":     0, "def_morale_delta": -2250, "def_retreat_steps":99, "att_advances": true  },
+      { "att_sp_loss": 0, "def_sp_loss": 8, "att_morale_delta":     0, "def_morale_delta": -3000, "def_retreat_steps":99, "att_advances": true  }
+    ]
+  },
+
+  "morale_outcomes": {
+    "_doc": "After morale_delta is applied, check current morale against thresholds. Triggered actions are independent.",
+    "rout_threshold":      1500,
+    "retreat_threshold":   3000,
+    "shaken_threshold":    5000,
+    "_thresholds_note": "Below threshold => action triggers. Rout: corps disperses; surviving SPs become manpower returns over 3 turns. Retreat: corps must retreat regardless of result line. Shaken: -1 column shift in next combat."
+  },
+
+  "pursuit": {
+    "_doc": "Triggered when defender retreats AND attacker has cavalry_pct >= 15 AND defender's cavalry_pct < attacker's. Pursuit inflicts additional SP loss on the defender per the table below, indexed by the attacker's cavalry advantage.",
+    "cavalry_advantage_brackets": [
+      { "min_pct_diff":  0, "max_pct_diff": 10, "extra_def_sp_loss": 0, "extra_def_morale_delta":     0 },
+      { "min_pct_diff": 10, "max_pct_diff": 20, "extra_def_sp_loss": 1, "extra_def_morale_delta":  -250 },
+      { "min_pct_diff": 20, "max_pct_diff": 30, "extra_def_sp_loss": 2, "extra_def_morale_delta":  -500 },
+      { "min_pct_diff": 30, "max_pct_diff": 99, "extra_def_sp_loss": 3, "extra_def_morale_delta": -1000 }
+    ],
+    "max_pursuit_areas": 1,
+    "pursuit_blocked_in_terrain": ["MOUNTAIN", "MARSH", "URBAN", "FOREST"]
+  },
+
+  "leader_casualty_rolls": {
+    "_doc": "Per-leader per-battle. Rolled on a d100 modified by battle intensity. Intensity = (combined SP loss) clamped to [0, 60].",
+    "die_max": 100,
+    "outcomes": [
+      { "min_d100":  1, "max_d100": 80, "result": "UNHURT" },
+      { "min_d100": 81, "max_d100": 92, "result": "WOUNDED_LIGHT", "inactive_turns": 1 },
+      { "min_d100": 93, "max_d100": 97, "result": "WOUNDED_SERIOUS", "inactive_turns": 4 },
+      { "min_d100": 98, "max_d100": 99, "result": "CAPTURED" },
+      { "min_d100":100, "max_d100":100, "result": "KILLED" }
+    ],
+    "intensity_modifier": {
+      "_doc": "Adds to d100 roll (pushing toward worse outcomes).",
+      "formula": "+ floor(intensity * 30 / 60)",
+      "max_modifier": 30
+    },
+    "battle_loser_modifier": "+5",
+    "fortress_storm_modifier": "+5"
+  },
+
+  "victor_pp_award": {
+    "_doc": "Political point delta from a battle. Positive to victor, negative to loser. Magnitude scales with the loser's SP loss.",
+    "victor_pp_per_def_sp_lost": 1,
+    "loser_pp_per_self_sp_lost": -1,
+    "victor_minimum": 1,
+    "loser_minimum": -1,
+    "leader_killed_bonus_to_victor": 2,
+    "leader_killed_penalty_to_loser": -3,
+    "rout_bonus_to_victor": 2,
+    "rout_penalty_to_loser": -2
+  },
+
+  "_invariants_for_validator": [
+    "For every ratio bucket id, results_table[id] has exactly die_faces entries.",
+    "For every formation pair, formation_matrix has an entry; att_col_shift in [-2, +2].",
+    "For every terrain id used in map data, terrain_modifiers has an entry.",
+    "All sp_loss values are non-negative integers.",
+    "All morale_delta values are integers in [-10000, +10000].",
+    "Probability distributions in leader_casualty_rolls outcomes cover the full [1, 100] range without overlap."
+  ],
+
+  "_tuning_notes": [
+    "Average expected outcomes (1d6, equal formations, equal leaders, equal morale, OPEN terrain):",
+    "  1:1 -> attacker loses 1.83 SP avg, defender loses 2.33 SP avg, 33% chance defender retreats.",
+    "  2:1 -> attacker loses 1.17 SP avg, defender loses 3.17 SP avg, 67% chance defender retreats, 33% rout.",
+    "  3:1 -> attacker loses 0.83 SP avg, defender loses 3.83 SP avg, 83% retreat, near-certain advance.",
+    "These distributions favor defender slightly at parity, decisively reward concentration, and produce playable",
+    "sub-1-minute battles with meaningful losses on both sides. Adjust to taste during playtest.",
+    "",
+    "Compare-and-tune procedure: run the rules_cases/combat/ test suite, then run 1000 AI-vs-AI seeded games,",
+    "then visualize win rate by ratio bucket and SP loss distribution. Adjust results_table cells in 0.25-SP",
+    "increments and morale deltas in 250-unit increments. Re-test."
+  ]
 }

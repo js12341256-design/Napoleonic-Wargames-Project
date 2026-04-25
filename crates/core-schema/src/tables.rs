@@ -9,6 +9,7 @@
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use serde_json::Value as JsonValue;
 use std::collections::BTreeMap;
 
 /// Either a designer-authored value of type `T`, or an explicit
@@ -66,35 +67,63 @@ impl<T> Default for Maybe<T> {
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct CombatTable {
     pub schema_version: u32,
-    pub ratio_buckets: Vec<String>,
+    pub rules_version: Option<String>,
     pub die_faces: u8,
-    pub formations: Vec<String>,
-    pub formation_matrix: BTreeMap<String, FormationEntry>,
-    pub terrain_modifiers: BTreeMap<String, TerrainModifier>,
+    pub die_count: Option<u8>,
+    pub ratio_buckets: Vec<RatioBucket>,
+    pub formations: Vec<Formation>,
+    pub formation_matrix: DocumentedMap<FormationEntry>,
+    pub terrain_modifiers: DocumentedMap<TerrainModifier>,
     /// Keyed by `ratio_bucket`; each entry has one `CombatResult` per
     /// die face (length must equal `die_faces`).
-    pub results: BTreeMap<String, Vec<Maybe<CombatResult>>>,
+    #[serde(alias = "results")]
+    pub results_table: DocumentedMap<Vec<CombatResult>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RatioBucket {
+    pub id: String,
+    pub min_ratio_pct: i32,
+    pub max_ratio_pct: i32,
+    pub label: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct Formation {
+    pub id: String,
+    pub label: String,
+    pub description: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct DocumentedMap<T> {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub _doc: Option<JsonValue>,
+    #[serde(flatten)]
+    pub entries: BTreeMap<String, T>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct FormationEntry {
     pub att_col_shift: i8,
-    pub def_col_shift: i8,
+    pub def_morale_shift: i8,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct TerrainModifier {
     pub att_col_shift: i8,
+    pub extra_def_morale: i8,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct CombatResult {
-    pub attacker_sp_loss: i32,
-    pub defender_sp_loss: i32,
+    pub att_sp_loss: i32,
+    pub def_sp_loss: i32,
     /// Morale delta in fixed-point quarter-thousandths (`/10000`).
-    pub attacker_morale_q4: i32,
-    pub defender_morale_q4: i32,
-    pub retreat_hexes: i32,
+    pub att_morale_delta: i32,
+    pub def_morale_delta: i32,
+    pub def_retreat_steps: i32,
+    pub att_advances: bool,
 }
 
 // ─── Attrition ─────────────────────────────────────────────────────────

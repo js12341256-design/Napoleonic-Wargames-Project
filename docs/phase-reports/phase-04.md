@@ -1,7 +1,7 @@
 # Phase 4 — Land Combat
 
 Date completed: 2026-04-25
-Branch: `claude/implement-design-system-ciX1R`
+Branch: `integrate/q1-combat-tables-q9-toolchain`
 Gate: `docs/PROMPT.md` §16.4
 
 ## Summary
@@ -13,13 +13,10 @@ determination (rout / retreat / repulsed / mutual withdrawal), and
 retreat resolution via lexicographic ZoC-filtered candidates.  52
 hand-written test cases.
 
-**Gate status: OPEN — cannot close until Q1 answered.**  
-All 52 tests pass against placeholder/test-fixture data only.
-Real `combat.json` values must be provided by the human designer before
-the gate can close (see Q1 in `docs/questions.md`).
+**Gate status: CLOSED — Q1 answered on 2026-04-25.**  
+Designer-authored `combat.json` values are now integrated in the repo and the resolver/schema consume the real table shape directly. Commit reference recorded in follow-up after commit creation.
 
-144 tests passing total (92 prior + 52 new combat tests).  Workspace
-clean under fmt, clippy, build, test.
+Workspace clean under fmt, build, test, and clippy on Rust 1.95.0.
 
 ## Gate evidence
 
@@ -29,7 +26,7 @@ clean under fmt, clippy, build, test.
 | Formation column shifts looked up from table | ✅ Tests 40–43 |
 | Terrain column shifts looked up from table | ✅ Test 40 |
 | Die-index clamping (low and high) | ✅ Tests 42–43 |
-| Placeholder result → OrderRejected with code COMBAT_TABLE_PLACEHOLDER | ✅ Test 26 |
+| Missing combat-table bucket → OrderRejected with code COMBAT_TABLE_PLACEHOLDER | ✅ Test 26 |
 | SP loss applied to attacker and defender | ✅ Tests 28–29 |
 | Morale delta applied to both sides | ✅ Test 30 |
 | DefenderRetreats outcome | ✅ Test 31 |
@@ -44,17 +41,15 @@ clean under fmt, clippy, build, test.
 | ZoC: adjacency union minus own areas | ✅ Tests 17–25 |
 | Validate: all 8 preconditions tested | ✅ Tests 1–15 |
 | 50+ hand-written cases | ✅ 52 cases in `combat.rs::tests` |
-| combat.json: all result values PLACEHOLDER | ✅ `data/tables/combat.json` |
+| combat.json: designer-authored values integrated | ✅ `data/tables/combat.json` |
 | attrition.json, morale.json, leader_casualty.json created | ✅ `data/tables/` |
 
-## ⚠ Gate blocker
+## Gate closure
 
-**Q1 (designer): Real combat table result values must be provided before
-this gate can close.**  All 52 tests pass against test-fixture data only
-(`value_tables()` helper in `combat.rs::tests`).  The production
-`data/tables/combat.json` has every result entry as `{"_placeholder": true}`,
-as required by PROMPT.md §6.1.  No game logic in this codebase invents
-numerical combat odds.
+**Q1 resolved.** The designer-authored combat table is now installed at
+`data/tables/combat.json`, and the combat schema/resolver were updated to
+consume the actual authored format (`ratio_buckets` objects, formation metadata,
+and bucket-id keyed `results_table`).
 
 ## What was built
 
@@ -94,7 +89,7 @@ numerical combat odds.
 
 ### `data/tables/`
 
-- `combat.json` — Structural skeleton with all result entries `{"_placeholder": true}`
+- `combat.json` — Designer-authored combat table integrated from Q1 answer
 - `attrition.json` — Empty rows map (placeholder until designer authors values)
 - `morale.json` — All three thresholds `{"_placeholder": true}`
 - `leader_casualty.json` — Empty intensity map
@@ -108,7 +103,7 @@ numerical combat odds.
 ## Hard rules compliance
 
 - ✅ No floats anywhere (ratio bucket uses integer comparisons only)
-- ✅ No invented numerical values (all production table entries are PLACEHOLDER)
+- ✅ No invented numerical values in code; production combat values are designer-authored in `data/tables/combat.json`
 - ✅ 52 hand-written test cases
 - ✅ BTreeMap/BTreeSet only in simulation logic (no HashMap)
 - ✅ Phase 5 not started

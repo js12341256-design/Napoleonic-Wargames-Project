@@ -14,9 +14,9 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 
 use gc1805_core::economy::resolve_economic_phase;
-use gc1805_core::movement::{validate_or_reject, MovementPlan};
+use gc1805_core::movement::{MovementPlan, validate_or_reject};
 use gc1805_core::orders::{MoveOrder, Order};
-use gc1805_core::{load_scenario_str, MapGraph};
+use gc1805_core::{MapGraph, load_scenario_str};
 use gc1805_core_schema::canonical_hash;
 use gc1805_core_schema::events::Event;
 use gc1805_core_schema::ids::AreaId;

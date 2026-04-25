@@ -1,9 +1,12 @@
-# Per PROMPT.md §3.6 the toolchain should be pinned to a specific
-# minor version, updated quarterly with an ADR.  We are tracking
-# `stable` until the project picks an explicit pin in ADR 0002.
-# See docs/questions.md Q9.
 [toolchain]
-channel = "stable"
-components = ["rustfmt", "clippy"]
-targets = ["wasm32-unknown-unknown"]
+channel = "1.95.0"
+components = ["rustfmt", "clippy", "rust-src", "rust-analyzer"]
+targets = [
+  "x86_64-unknown-linux-gnu",
+  "aarch64-unknown-linux-gnu",
+  "x86_64-apple-darwin",
+  "aarch64-apple-darwin",
+  "x86_64-pc-windows-msvc",
+  "wasm32-unknown-unknown"
+]
 profile = "minimal"

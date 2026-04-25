@@ -4,7 +4,7 @@
 //! rather than panicking so the caller can decide whether to fail
 //! load (release builds) or proceed with warnings (dev / test).
 
-use gc1805_core_schema::ids::{validate_id, AreaId};
+use gc1805_core_schema::ids::{AreaId, validate_id};
 use gc1805_core_schema::scenario::{AreaAdjacency, MinorRelationship, Scenario};
 use std::collections::BTreeSet;
 
@@ -128,14 +128,14 @@ fn check_minors(s: &Scenario, out: &mut Vec<IntegrityIssue>) {
                 minor: mid.to_string(),
             });
         }
-        if let Some(p) = &m.patron {
-            if !s.powers.contains_key(p) {
-                out.push(IntegrityIssue::DanglingReference {
-                    from: mid.to_string(),
-                    to: p.to_string(),
-                    kind: "patron",
-                });
-            }
+        if let Some(p) = &m.patron
+            && !s.powers.contains_key(p)
+        {
+            out.push(IntegrityIssue::DanglingReference {
+                from: mid.to_string(),
+                to: p.to_string(),
+                kind: "patron",
+            });
         }
         for ha in &m.home_areas {
             if !s.areas.contains_key(ha) {
@@ -163,14 +163,14 @@ fn check_corps(s: &Scenario, out: &mut Vec<IntegrityIssue>) {
                 location: c.area.to_string(),
             });
         }
-        if let Some(l) = &c.leader {
-            if !s.leaders.contains_key(l) {
-                out.push(IntegrityIssue::DanglingReference {
-                    from: cid.to_string(),
-                    to: l.to_string(),
-                    kind: "leader",
-                });
-            }
+        if let Some(l) = &c.leader
+            && !s.leaders.contains_key(l)
+        {
+            out.push(IntegrityIssue::DanglingReference {
+                from: cid.to_string(),
+                to: l.to_string(),
+                kind: "leader",
+            });
         }
     }
 }

@@ -4,10 +4,10 @@
 //! returns the loaded value plus a [`LoadReport`] listing any
 //! placeholders the designer still owes us (PROMPT.md §6.1).
 
-use gc1805_core_schema::{Scenario, SchemaError, SCHEMA_VERSION};
+use gc1805_core_schema::{SCHEMA_VERSION, Scenario, SchemaError};
 use serde_json::Value;
 
-use crate::validate::{validate_scenario, IntegrityIssue};
+use crate::validate::{IntegrityIssue, validate_scenario};
 
 /// Diagnostic record produced by [`load_scenario_str`].  A scenario
 /// can be loaded successfully even with placeholders or other

@@ -19,7 +19,7 @@ use gc1805_core_schema::{
     events::{Event, OrderRejected},
     ids::{AreaId, CorpsId, PowerId},
     scenario::{DiplomaticPairKey, DiplomaticState, Scenario, Terrain},
-    tables::{CombatTable, Maybe, MoraleTable},
+    tables::{CombatResult, CombatTable, MoraleTable, RatioBucket},
 };
 
 use crate::orders::AttackOrder;
@@ -172,7 +172,7 @@ pub fn validate_attack(scenario: &Scenario, order: &AttackOrder) -> Result<(), S
 pub fn resolve_battle(
     scenario: &mut Scenario,
     tables: &CombatTable,
-    morale_table: &MoraleTable,
+    _morale_table: &MoraleTable,
     rng_seed: u64,
     order: &AttackOrder,
 ) -> Vec<Event> {
@@ -220,30 +220,29 @@ pub fn resolve_battle(
 
     // ── 4. Ratio bucket ────────────────────────────────────────────────
     // All integer, no floats (PROMPT.md §2.2).
-    let bucket: &str = if att_sp >= 3 * def_sp {
-        "3:1"
-    } else if att_sp >= 2 * def_sp {
-        "2:1"
-    } else if att_sp * 2 >= 3 * def_sp {
-        "3:2"
-    } else if att_sp >= def_sp {
-        "1:1"
-    } else if att_sp * 2 >= def_sp {
-        "1:2"
-    } else {
-        "1:3"
+    let ratio_pct = ((att_sp as i64) * 100_i64 / (def_sp as i64)) as i32;
+    let bucket = match find_ratio_bucket(&tables.ratio_buckets, ratio_pct) {
+        Some(bucket) => bucket,
+        None => {
+            return vec![Event::OrderRejected(OrderRejected {
+                reason_code: "COMBAT_TABLE_PLACEHOLDER".into(),
+                message: format!(
+                    "Combat table ratio_pct `{}` did not match any bucket in combat.json.",
+                    ratio_pct
+                ),
+            })];
+        }
     };
 
     // ── 5. Look up result row ──────────────────────────────────────────
-    let result_row = match tables.results.get(bucket) {
+    let result_row = match tables.results_table.entries.get(&bucket.id) {
         Some(row) => row,
         None => {
             return vec![Event::OrderRejected(OrderRejected {
                 reason_code: "COMBAT_TABLE_PLACEHOLDER".into(),
                 message: format!(
-                    "Combat table bucket `{}` missing; values are PLACEHOLDER. \
-                     Gate cannot close until Q1 (human designer) provides real combat.json values.",
-                    bucket
+                    "Combat table bucket `{}` missing from results_table in combat.json.",
+                    bucket.id
                 ),
             })];
         }
@@ -257,25 +256,25 @@ pub fn resolve_battle(
     // formation is not in the order; default to LINE.
     let def_formation = "LINE";
     let formation_key = format!("{}_vs_{}", order.formation, def_formation);
-    let (form_att_shift, form_def_shift): (i32, i32) =
-        match tables.formation_matrix.get(&formation_key) {
-            Some(fe) => (fe.att_col_shift as i32, fe.def_col_shift as i32),
+    let (form_att_shift, def_morale_shift): (i32, i32) =
+        match tables.formation_matrix.entries.get(&formation_key) {
+            Some(fe) => (fe.att_col_shift as i32, fe.def_morale_shift as i32),
             None => (0, 0),
         };
 
     let terrain_str = terrain_to_str(&scenario.areas[&order.target_area].terrain);
-    let terrain_att_shift: i32 = match tables.terrain_modifiers.get(terrain_str) {
-        Some(tm) => tm.att_col_shift as i32,
-        None => 0,
-    };
+    let (terrain_att_shift, terrain_def_morale): (i32, i32) =
+        match tables.terrain_modifiers.entries.get(terrain_str) {
+            Some(tm) => (tm.att_col_shift as i32, tm.extra_def_morale as i32),
+            None => (0, 0),
+        };
 
     let att_col_shift = form_att_shift + terrain_att_shift;
-    let def_col_shift = form_def_shift;
+    let defender_extra_morale = (def_morale_shift + terrain_def_morale) * 250;
 
     // ── 7-8. Die index ─────────────────────────────────────────────────
     let die_index = (rng_seed % tables.die_faces as u64) as i32;
-    let adjusted_index =
-        (die_index + att_col_shift - def_col_shift).clamp(0, tables.die_faces as i32 - 1) as usize;
+    let adjusted_index = (die_index + att_col_shift).clamp(0, tables.die_faces as i32 - 1) as usize;
 
     // ── 9. Look up result ──────────────────────────────────────────────
     let result_entry = match result_row.get(adjusted_index) {
@@ -283,54 +282,40 @@ pub fn resolve_battle(
         None => {
             return vec![Event::OrderRejected(OrderRejected {
                 reason_code: "COMBAT_TABLE_PLACEHOLDER".into(),
-                message: "Combat table index out of bounds; values are PLACEHOLDER. \
-                          Gate cannot close until Q1 (human designer) provides real combat.json values.".into(),
+                message: "Combat table index out of bounds in results_table.".into(),
             })];
         }
     };
 
-    // ── 10. Placeholder check ─────────────────────────────────────────
-    let result = match result_entry {
-        Maybe::Value(r) => r.clone(),
-        Maybe::Placeholder(_) => {
-            return vec![Event::OrderRejected(OrderRejected {
-                reason_code: "COMBAT_TABLE_PLACEHOLDER".into(),
-                message: "Combat table values are PLACEHOLDER. \
-                          Gate cannot close until Q1 (human designer) provides real combat.json values.".into(),
-            })];
-        }
-    };
+    let mut result = result_entry.clone();
+    result.def_morale_delta += defender_extra_morale;
 
-    // ── 11. Apply SP losses and morale deltas ─────────────────────────
+    // ── 10. Apply SP losses and morale deltas ─────────────────────────
     let attacker_sp_before = att_sp;
     let defender_sp_before = def_sp;
 
     // Distribute attacker SP loss across corps (sorted lex, first gets remainder).
-    distribute_sp_loss(scenario, &attacker_corps_ids, result.attacker_sp_loss);
+    distribute_sp_loss(scenario, &attacker_corps_ids, result.att_sp_loss);
 
     // Apply attacker morale delta.
     for id in &attacker_corps_ids {
         if let Some(c) = scenario.corps.get_mut(id) {
-            c.morale_q4 += result.attacker_morale_q4;
+            c.morale_q4 += result.att_morale_delta;
         }
     }
 
     // Distribute defender SP loss.
-    distribute_sp_loss(scenario, &defender_corps_ids, result.defender_sp_loss);
+    distribute_sp_loss(scenario, &defender_corps_ids, result.def_sp_loss);
 
     // Apply defender morale delta.
     for id in &defender_corps_ids {
         if let Some(c) = scenario.corps.get_mut(id) {
-            c.morale_q4 += result.defender_morale_q4;
+            c.morale_q4 += result.def_morale_delta;
         }
     }
 
     // ── Determine outcome ────────────────────────────────────────────
-    // Average morale across each side after deltas.
-    let att_morale_avg = avg_morale(scenario, &attacker_corps_ids);
-    let def_morale_avg = avg_morale(scenario, &defender_corps_ids);
-
-    let outcome = determine_outcome(morale_table, att_morale_avg, def_morale_avg);
+    let outcome = determine_outcome_from_result(&result);
 
     let mut events: Vec<Event> = Vec::new();
 
@@ -389,10 +374,10 @@ pub fn resolve_battle(
         defender: defending_power,
         attacker_sp_before,
         defender_sp_before,
-        attacker_sp_loss: result.attacker_sp_loss,
-        defender_sp_loss: result.defender_sp_loss,
-        attacker_morale_q4_delta: result.attacker_morale_q4,
-        defender_morale_q4_delta: result.defender_morale_q4,
+        attacker_sp_loss: result.att_sp_loss,
+        defender_sp_loss: result.def_sp_loss,
+        attacker_morale_q4_delta: result.att_morale_delta,
+        defender_morale_q4_delta: result.def_morale_delta,
         outcome,
     });
 
@@ -452,40 +437,21 @@ fn scale_corps_sp(corps: &mut gc1805_core_schema::scenario::Corps, new_total: i3
     corps.artillery_sp = new_art.max(0);
 }
 
-/// Average morale across corps list (integer, no floats).
-/// Returns 0 if list is empty.
-fn avg_morale(scenario: &Scenario, corps_ids: &[CorpsId]) -> i32 {
-    if corps_ids.is_empty() {
-        return 0;
-    }
-    let total: i32 = corps_ids
+fn find_ratio_bucket(ratio_buckets: &[RatioBucket], ratio_pct: i32) -> Option<&RatioBucket> {
+    ratio_buckets
         .iter()
-        .filter_map(|id| scenario.corps.get(id))
-        .map(|c| c.morale_q4)
-        .sum();
-    total / corps_ids.len() as i32
+        .find(|bucket| bucket.min_ratio_pct <= ratio_pct && ratio_pct < bucket.max_ratio_pct)
 }
 
-/// Determine battle outcome from post-battle morale.
-fn determine_outcome(
-    morale_table: &MoraleTable,
-    att_morale: i32,
-    def_morale: i32,
-) -> BattleOutcome {
-    let rout_thresh = match &morale_table.rout_threshold_q4 {
-        Maybe::Value(v) => *v,
-        Maybe::Placeholder(_) => return BattleOutcome::AttackerRepulsed,
-    };
-    let retreat_thresh = match &morale_table.retreat_threshold_q4 {
-        Maybe::Value(v) => *v,
-        Maybe::Placeholder(_) => return BattleOutcome::AttackerRepulsed,
-    };
-
-    if def_morale < rout_thresh {
+/// Determine battle outcome from the designer-authored result cell.
+fn determine_outcome_from_result(result: &CombatResult) -> BattleOutcome {
+    if result.def_retreat_steps >= 99 {
         BattleOutcome::DefenderRouted
-    } else if def_morale < retreat_thresh {
+    } else if result.def_retreat_steps > 0 || result.att_advances {
         BattleOutcome::DefenderRetreats
-    } else if att_morale < retreat_thresh {
+    } else if result.att_sp_loss > result.def_sp_loss
+        || result.att_morale_delta < result.def_morale_delta
+    {
         BattleOutcome::AttackerRepulsed
     } else {
         BattleOutcome::MutualWithdrawal
@@ -514,8 +480,8 @@ mod tests {
             MovementRules, Owner, PowerSetup, PowerSlot, PowerState, Scenario, TaxPolicy, Terrain,
         },
         tables::{
-            CombatResult, CombatTable, FormationEntry, Maybe, MoraleTable, PlaceholderMarker,
-            TerrainModifier,
+            CombatResult, CombatTable, DocumentedMap, Formation, FormationEntry, Maybe,
+            MoraleTable, RatioBucket, TerrainModifier,
         },
     };
     use std::collections::BTreeMap;
@@ -584,8 +550,8 @@ mod tests {
                 owner: Owner::Power(PowerSlot { power: fra() }),
                 terrain: Terrain::Urban,
                 fort_level: 2,
-                money_yield: Maybe::Value(10),
-                manpower_yield: Maybe::Placeholder(Default::default()),
+                money_yield: gc1805_core_schema::tables::Maybe::Value(10),
+                manpower_yield: gc1805_core_schema::tables::Maybe::Placeholder(Default::default()),
                 capital_of: Some(fra()),
                 port: false,
                 blockaded: false,
@@ -600,8 +566,8 @@ mod tests {
                 owner: Owner::Power(PowerSlot { power: aus() }),
                 terrain: Terrain::Open,
                 fort_level: 1,
-                money_yield: Maybe::Value(8),
-                manpower_yield: Maybe::Placeholder(Default::default()),
+                money_yield: gc1805_core_schema::tables::Maybe::Value(8),
+                manpower_yield: gc1805_core_schema::tables::Maybe::Placeholder(Default::default()),
                 capital_of: Some(aus()),
                 port: false,
                 blockaded: false,
@@ -667,12 +633,12 @@ mod tests {
             AreaAdjacency {
                 from: area_paris(),
                 to: area_vienna(),
-                cost: Maybe::Value(1),
+                cost: gc1805_core_schema::tables::Maybe::Value(1),
             },
             AreaAdjacency {
                 from: area_vienna(),
                 to: area_paris(),
-                cost: Maybe::Value(1),
+                cost: gc1805_core_schema::tables::Maybe::Value(1),
             },
         ];
 
@@ -705,76 +671,117 @@ mod tests {
         }
     }
 
+    fn ratio_buckets() -> Vec<RatioBucket> {
+        vec![
+            RatioBucket {
+                id: "R_1_3".into(),
+                min_ratio_pct: 0,
+                max_ratio_pct: 67,
+                label: "1:3".into(),
+            },
+            RatioBucket {
+                id: "R_1_2".into(),
+                min_ratio_pct: 67,
+                max_ratio_pct: 100,
+                label: "1:2".into(),
+            },
+            RatioBucket {
+                id: "R_1_1".into(),
+                min_ratio_pct: 100,
+                max_ratio_pct: 150,
+                label: "1:1".into(),
+            },
+            RatioBucket {
+                id: "R_3_2".into(),
+                min_ratio_pct: 150,
+                max_ratio_pct: 200,
+                label: "3:2".into(),
+            },
+            RatioBucket {
+                id: "R_2_1".into(),
+                min_ratio_pct: 200,
+                max_ratio_pct: 300,
+                label: "2:1".into(),
+            },
+            RatioBucket {
+                id: "R_3_1".into(),
+                min_ratio_pct: 300,
+                max_ratio_pct: 10000,
+                label: "3:1".into(),
+            },
+        ]
+    }
+
+    fn formations() -> Vec<Formation> {
+        vec![
+            Formation {
+                id: "LINE".into(),
+                label: "Line".into(),
+                description: "".into(),
+            },
+            Formation {
+                id: "ATTACK_COLUMN".into(),
+                label: "Attack Column".into(),
+                description: "".into(),
+            },
+            Formation {
+                id: "SQUARE".into(),
+                label: "Square".into(),
+                description: "".into(),
+            },
+            Formation {
+                id: "SKIRMISH".into(),
+                label: "Skirmish".into(),
+                description: "".into(),
+            },
+        ]
+    }
+
     fn placeholder_tables() -> (CombatTable, MoraleTable) {
-        let mut results = BTreeMap::new();
-        for bucket in &["1:3", "1:2", "1:1", "3:2", "2:1", "3:1"] {
-            results.insert(
-                bucket.to_string(),
-                vec![
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                    Maybe::Placeholder(PlaceholderMarker::new()),
-                ],
-            );
-        }
         let combat = CombatTable {
             schema_version: 1,
-            ratio_buckets: vec![
-                "1:3".into(),
-                "1:2".into(),
-                "1:1".into(),
-                "3:2".into(),
-                "2:1".into(),
-                "3:1".into(),
-            ],
+            rules_version: Some("test".into()),
             die_faces: 6,
-            formations: vec![
-                "LINE".into(),
-                "ATTACK_COLUMN".into(),
-                "SQUARE".into(),
-                "SKIRMISH".into(),
-            ],
-            formation_matrix: BTreeMap::new(),
-            terrain_modifiers: BTreeMap::new(),
-            results,
+            die_count: Some(1),
+            ratio_buckets: ratio_buckets(),
+            formations: formations(),
+            formation_matrix: DocumentedMap {
+                _doc: None,
+                entries: BTreeMap::new(),
+            },
+            terrain_modifiers: DocumentedMap {
+                _doc: None,
+                entries: BTreeMap::new(),
+            },
+            results_table: DocumentedMap {
+                _doc: None,
+                entries: BTreeMap::new(),
+            },
         };
         let morale = MoraleTable {
             schema_version: 1,
-            retreat_threshold_q4: Maybe::Placeholder(PlaceholderMarker::new()),
-            rout_threshold_q4: Maybe::Placeholder(PlaceholderMarker::new()),
-            recovery_per_turn_q4: Maybe::Placeholder(PlaceholderMarker::new()),
+            retreat_threshold_q4: gc1805_core_schema::tables::Maybe::Placeholder(Default::default()),
+            rout_threshold_q4: gc1805_core_schema::tables::Maybe::Placeholder(Default::default()),
+            recovery_per_turn_q4: gc1805_core_schema::tables::Maybe::Placeholder(Default::default()),
         };
         (combat, morale)
     }
 
     fn value_combat_result() -> CombatResult {
         CombatResult {
-            attacker_sp_loss: 1,
-            defender_sp_loss: 2,
-            attacker_morale_q4: -500,
-            defender_morale_q4: -1000,
-            retreat_hexes: 1,
+            att_sp_loss: 1,
+            def_sp_loss: 2,
+            att_morale_delta: -500,
+            def_morale_delta: -1000,
+            def_retreat_steps: 1,
+            att_advances: true,
         }
     }
 
-    fn value_tables() -> (CombatTable, MoraleTable) {
-        let result = value_combat_result();
+    fn tables_with_uniform_result(result: CombatResult) -> (CombatTable, MoraleTable) {
         let mut results = BTreeMap::new();
-        for bucket in &["1:3", "1:2", "1:1", "3:2", "2:1", "3:1"] {
-            results.insert(
-                bucket.to_string(),
-                vec![
-                    Maybe::Value(result.clone()),
-                    Maybe::Value(result.clone()),
-                    Maybe::Value(result.clone()),
-                    Maybe::Value(result.clone()),
-                    Maybe::Value(result.clone()),
-                    Maybe::Value(result.clone()),
-                ],
-            );
+        for bucket in ["R_1_3", "R_1_2", "R_1_1", "R_3_2", "R_2_1", "R_3_1"] {
+            results.insert(bucket.to_string(), vec![result.clone(); 6]);
         }
 
         let mut formation_matrix = BTreeMap::new();
@@ -782,59 +789,100 @@ mod tests {
             "LINE_vs_LINE".into(),
             FormationEntry {
                 att_col_shift: 0,
-                def_col_shift: 0,
+                def_morale_shift: 0,
             },
         );
         formation_matrix.insert(
             "ATTACK_COLUMN_vs_LINE".into(),
             FormationEntry {
                 att_col_shift: 1,
-                def_col_shift: 0,
+                def_morale_shift: 0,
             },
         );
         formation_matrix.insert(
             "LINE_vs_ATTACK_COLUMN".into(),
             FormationEntry {
                 att_col_shift: 0,
-                def_col_shift: 1,
+                def_morale_shift: 1,
             },
         );
 
         let mut terrain_modifiers = BTreeMap::new();
-        terrain_modifiers.insert("OPEN".into(), TerrainModifier { att_col_shift: 0 });
-        terrain_modifiers.insert("FOREST".into(), TerrainModifier { att_col_shift: -1 });
-        terrain_modifiers.insert("MOUNTAIN".into(), TerrainModifier { att_col_shift: -2 });
-        terrain_modifiers.insert("MARSH".into(), TerrainModifier { att_col_shift: -1 });
-        terrain_modifiers.insert("URBAN".into(), TerrainModifier { att_col_shift: -1 });
+        terrain_modifiers.insert(
+            "OPEN".into(),
+            TerrainModifier {
+                att_col_shift: 0,
+                extra_def_morale: 0,
+            },
+        );
+        terrain_modifiers.insert(
+            "FOREST".into(),
+            TerrainModifier {
+                att_col_shift: -1,
+                extra_def_morale: 0,
+            },
+        );
+        terrain_modifiers.insert(
+            "MOUNTAIN".into(),
+            TerrainModifier {
+                att_col_shift: -2,
+                extra_def_morale: 1,
+            },
+        );
+        terrain_modifiers.insert(
+            "MARSH".into(),
+            TerrainModifier {
+                att_col_shift: -1,
+                extra_def_morale: 0,
+            },
+        );
+        terrain_modifiers.insert(
+            "URBAN".into(),
+            TerrainModifier {
+                att_col_shift: -1,
+                extra_def_morale: 1,
+            },
+        );
 
         let combat = CombatTable {
             schema_version: 1,
-            ratio_buckets: vec![
-                "1:3".into(),
-                "1:2".into(),
-                "1:1".into(),
-                "3:2".into(),
-                "2:1".into(),
-                "3:1".into(),
-            ],
+            rules_version: Some("test".into()),
             die_faces: 6,
-            formations: vec![
-                "LINE".into(),
-                "ATTACK_COLUMN".into(),
-                "SQUARE".into(),
-                "SKIRMISH".into(),
-            ],
-            formation_matrix,
-            terrain_modifiers,
-            results,
+            die_count: Some(1),
+            ratio_buckets: ratio_buckets(),
+            formations: formations(),
+            formation_matrix: DocumentedMap {
+                _doc: None,
+                entries: formation_matrix,
+            },
+            terrain_modifiers: DocumentedMap {
+                _doc: None,
+                entries: terrain_modifiers,
+            },
+            results_table: DocumentedMap {
+                _doc: None,
+                entries: results,
+            },
         };
         let morale = MoraleTable {
             schema_version: 1,
-            retreat_threshold_q4: Maybe::Value(5000),
-            rout_threshold_q4: Maybe::Value(2000),
-            recovery_per_turn_q4: Maybe::Value(200),
+            retreat_threshold_q4: gc1805_core_schema::tables::Maybe::Value(5000),
+            rout_threshold_q4: gc1805_core_schema::tables::Maybe::Value(2000),
+            recovery_per_turn_q4: gc1805_core_schema::tables::Maybe::Value(200),
         };
         (combat, morale)
+    }
+
+    fn value_tables() -> (CombatTable, MoraleTable) {
+        tables_with_uniform_result(value_combat_result())
+    }
+
+    fn bucket_id_for(att: i32, def: i32) -> String {
+        let ratio_pct = ((att as i64) * 100_i64 / (def as i64)) as i32;
+        find_ratio_bucket(&ratio_buckets(), ratio_pct)
+            .expect("bucket should exist")
+            .id
+            .clone()
     }
 
     fn standard_attack() -> AttackOrder {
@@ -1336,9 +1384,11 @@ mod tests {
         let mut s = battle_scenario();
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::BattleResolved { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::BattleResolved { .. }))
+        );
     }
 
     /// 28. resolve_sp_loss_attacker_reduced: attacker loses 1 SP.
@@ -1404,9 +1454,15 @@ mod tests {
     #[test]
     fn resolve_defender_routs_outcome() {
         let mut s = battle_scenario();
-        // Defender morale 2500 - 1000 = 1500 < 2000 → DefenderRouted
         s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 2500;
-        let (ct, mt) = value_tables();
+        let (ct, mt) = tables_with_uniform_result(CombatResult {
+            att_sp_loss: 1,
+            def_sp_loss: 2,
+            att_morale_delta: -500,
+            def_morale_delta: -1000,
+            def_retreat_steps: 99,
+            att_advances: true,
+        });
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
         let resolved = events.iter().find_map(|e| {
             if let Event::BattleResolved { outcome, .. } = e {
@@ -1422,10 +1478,16 @@ mod tests {
     #[test]
     fn resolve_attacker_repulsed_outcome() {
         let mut s = battle_scenario();
-        // Attacker morale 5200 - 500 = 4700 < 5000, defender 8000 - 1000 = 7000 (above thresholds)
         s.corps.get_mut(&corps_fra()).unwrap().morale_q4 = 5200;
         s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 8000;
-        let (ct, mt) = value_tables();
+        let (ct, mt) = tables_with_uniform_result(CombatResult {
+            att_sp_loss: 3,
+            def_sp_loss: 1,
+            att_morale_delta: -1000,
+            def_morale_delta: -250,
+            def_retreat_steps: 0,
+            att_advances: false,
+        });
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
         let resolved = events.iter().find_map(|e| {
             if let Event::BattleResolved { outcome, .. } = e {
@@ -1437,136 +1499,40 @@ mod tests {
         assert_eq!(resolved, Some(BattleOutcome::AttackerRepulsed));
     }
 
-    /// 34. resolve_ratio_3_1_bucket: att=6 def=2 → 3:1.
+    /// 34. resolve_ratio_3_1_bucket: att=6 def=2 → R_3_1.
     #[test]
     fn resolve_ratio_3_1_bucket() {
-        // att=6 sp, def=2 sp → 6 >= 3*2 → 3:1
-        let att = 6_i32;
-        let def = 2_i32;
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "3:1");
+        assert_eq!(bucket_id_for(6, 2), "R_3_1");
     }
 
-    /// 35. resolve_ratio_2_1_bucket: att=6 def=3 → 2:1.
+    /// 35. resolve_ratio_2_1_bucket: att=6 def=3 → R_2_1.
     #[test]
     fn resolve_ratio_2_1_bucket() {
-        let att = 6_i32;
-        let def = 3_i32;
-        // 6 < 9 (not 3:1), 6 >= 6 (2:1)
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "2:1");
+        assert_eq!(bucket_id_for(6, 3), "R_2_1");
     }
 
-    /// 36. resolve_ratio_3_2_bucket: att=3 def=2 → 3:2.
+    /// 36. resolve_ratio_3_2_bucket: att=3 def=2 → R_3_2.
     #[test]
     fn resolve_ratio_3_2_bucket() {
-        let att = 3_i32;
-        let def = 2_i32;
-        // 3 < 6 (not 3:1), 3 < 4 (not 2:1), 6 >= 6 (3:2)
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "3:2");
+        assert_eq!(bucket_id_for(3, 2), "R_3_2");
     }
 
-    /// 37. resolve_ratio_1_1_bucket: att=3 def=3 → 1:1.
+    /// 37. resolve_ratio_1_1_bucket: att=3 def=3 → R_1_1.
     #[test]
     fn resolve_ratio_1_1_bucket() {
-        let att = 3_i32;
-        let def = 3_i32;
-        // 3 < 9, 3 < 6, 6 < 9 (not 3:2), 3 >= 3 (1:1)
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "1:1");
+        assert_eq!(bucket_id_for(3, 3), "R_1_1");
     }
 
-    /// 38. resolve_ratio_1_2_bucket: att=2 def=3 → 1:2.
+    /// 38. resolve_ratio_1_2_bucket: att=2 def=3 → R_1_2.
     #[test]
     fn resolve_ratio_1_2_bucket() {
-        let att = 2_i32;
-        let def = 3_i32;
-        // 2 < 9, 2 < 6, 4 < 9, 2 < 3, 4 >= 3 (1:2)
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "1:2");
+        assert_eq!(bucket_id_for(2, 3), "R_1_3");
     }
 
-    /// 39. resolve_ratio_1_3_bucket: att=1 def=3 → 1:3.
+    /// 39. resolve_ratio_1_3_bucket: att=1 def=3 → R_1_3.
     #[test]
     fn resolve_ratio_1_3_bucket() {
-        let att = 1_i32;
-        let def = 3_i32;
-        // 1 < 9, 1 < 6, 2 < 9, 1 < 3, 2 < 3 (1:3)
-        let bucket = if att >= 3 * def {
-            "3:1"
-        } else if att >= 2 * def {
-            "2:1"
-        } else if att * 2 >= 3 * def {
-            "3:2"
-        } else if att >= def {
-            "1:1"
-        } else if att * 2 >= def {
-            "1:2"
-        } else {
-            "1:3"
-        };
-        assert_eq!(bucket, "1:3");
+        assert_eq!(bucket_id_for(1, 3), "R_1_3");
     }
 
     /// 40. resolve_col_shift_mountain: MOUNTAIN terrain → att col shift -2.
@@ -1578,9 +1544,11 @@ mod tests {
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 3, &standard_attack());
         // Should still resolve (all result slots are Value in value_tables).
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::BattleResolved { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::BattleResolved { .. }))
+        );
     }
 
     /// 41. resolve_col_shift_formation_attack_column: ATTACK_COLUMN_vs_LINE → +1.
@@ -1596,9 +1564,11 @@ mod tests {
         };
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 0, &order);
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::BattleResolved { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::BattleResolved { .. }))
+        );
     }
 
     /// 42. resolve_col_shift_clamped_low: net shift pushes die below 0, clamped to 0.
@@ -1609,9 +1579,11 @@ mod tests {
         s.areas.get_mut(&area_vienna()).unwrap().terrain = Terrain::Mountain;
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::BattleResolved { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::BattleResolved { .. }))
+        );
     }
 
     /// 43. resolve_col_shift_clamped_high: net shift pushes die above die_faces-1, clamped.
@@ -1627,9 +1599,11 @@ mod tests {
         };
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 5, &order);
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::BattleResolved { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::BattleResolved { .. }))
+        );
     }
 
     /// 44. resolve_deterministic_same_seed: same scenario + seed → same events.
@@ -1741,12 +1715,21 @@ mod tests {
     #[test]
     fn resolve_corps_routed_event_emitted() {
         let mut s = battle_scenario();
-        s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 2500; // → 1500 after -1000 → rout
-        let (ct, mt) = value_tables();
+        s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 2500;
+        let (ct, mt) = tables_with_uniform_result(CombatResult {
+            att_sp_loss: 1,
+            def_sp_loss: 2,
+            att_morale_delta: -500,
+            def_morale_delta: -1000,
+            def_retreat_steps: 99,
+            att_advances: true,
+        });
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::CorpsRouted { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::CorpsRouted { .. }))
+        );
     }
 
     /// 49. resolve_corps_retreated_event_emitted: CorpsRetreated event when defender retreats.
@@ -1756,9 +1739,11 @@ mod tests {
         s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 5500; // → 4500 after -1000 → retreat
         let (ct, mt) = value_tables();
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
-        assert!(events
-            .iter()
-            .any(|e| matches!(e, Event::CorpsRetreated { .. })));
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::CorpsRetreated { .. }))
+        );
     }
 
     /// 50. resolve_no_defender_returns_rejection.
@@ -1789,10 +1774,16 @@ mod tests {
     #[test]
     fn resolve_battle_resolved_fields_correct() {
         let mut s = battle_scenario();
-        // Use high morale to get MutualWithdrawal (no thresholds crossed).
         s.corps.get_mut(&corps_fra()).unwrap().morale_q4 = 9000;
         s.corps.get_mut(&corps_aus()).unwrap().morale_q4 = 9000;
-        let (ct, mt) = value_tables();
+        let (ct, mt) = tables_with_uniform_result(CombatResult {
+            att_sp_loss: 1,
+            def_sp_loss: 2,
+            att_morale_delta: 0,
+            def_morale_delta: -250,
+            def_retreat_steps: 0,
+            att_advances: false,
+        });
         let events = resolve_battle(&mut s, &ct, &mt, 0, &standard_attack());
         if let Some(Event::BattleResolved {
             area,
@@ -1816,8 +1807,8 @@ mod tests {
             assert_eq!(*defender_sp_before, 4); // inf3+cav1+art0
             assert_eq!(*attacker_sp_loss, 1);
             assert_eq!(*defender_sp_loss, 2);
-            assert_eq!(*attacker_morale_q4_delta, -500);
-            assert_eq!(*defender_morale_q4_delta, -1000);
+            assert_eq!(*attacker_morale_q4_delta, 0);
+            assert_eq!(*defender_morale_q4_delta, -250);
             assert_eq!(outcome, &BattleOutcome::MutualWithdrawal);
         } else {
             panic!("no BattleResolved event");
