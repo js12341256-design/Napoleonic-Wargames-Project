@@ -86,6 +86,12 @@ Sections that may appear per release:
   `TurnOutput`, `run_turn`, new lifecycle events (`TurnStarted`,
   `PhaseCompleted`, `TurnCompleted`), 24 hand-written tests, and turn-loop
   rules documentation.  See `docs/phase-reports/phase-10.md`.
+- Phase 12 — server scaffold: axum HTTP + WebSocket server, in-memory
+  `GameSession` storage keyed by `game_id`, order submission routing,
+  reconnect replay via `GET /games/{id}/events?since=N` and WebSocket
+  `last_event_index`, player-specific `ProjectedScenario` responses,
+  `docs/rules/server.md`, and 15+ server tests.  See
+  `docs/phase-reports/phase-12.md`.
 
 ### Rules
 
