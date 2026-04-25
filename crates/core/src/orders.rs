@@ -43,6 +43,14 @@ pub enum Order {
     Bombard(BombardOrder),
     /// Establish a depot in a friendly area.
     EstablishDepot(EstablishDepotOrder),
+    /// Open war against another major power during the diplomatic phase.
+    DeclareWar(DeclareWarOrder),
+    /// Propose peace terms to a current enemy.
+    ProposePeace(ProposePeaceOrder),
+    /// Form an alliance with another power.
+    FormAlliance(FormAllianceOrder),
+    /// End an existing alliance.
+    BreakAlliance(BreakAllianceOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -113,6 +121,31 @@ pub struct BombardOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct DeclareWarOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct ProposePeaceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+    pub terms: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct FormAllianceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct BreakAllianceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -137,6 +170,10 @@ impl Order {
             Order::Attack(o) => &o.submitter,
             Order::Bombard(o) => &o.submitter,
             Order::EstablishDepot(o) => &o.submitter,
+            Order::DeclareWar(o) => &o.submitter,
+            Order::ProposePeace(o) => &o.submitter,
+            Order::FormAlliance(o) => &o.submitter,
+            Order::BreakAlliance(o) => &o.submitter,
         }
     }
 
@@ -154,7 +191,11 @@ impl Order {
             | Order::Subsidize(_)
             | Order::Attack(_)
             | Order::Bombard(_)
-            | Order::EstablishDepot(_) => None,
+            | Order::EstablishDepot(_)
+            | Order::DeclareWar(_)
+            | Order::ProposePeace(_)
+            | Order::FormAlliance(_)
+            | Order::BreakAlliance(_) => None,
         }
     }
 

@@ -55,6 +55,10 @@ Sections that may appear per release:
   `attrition.json`, canonical `docs/rules/supply.md`, and 36 hand-
   written supply tests.  128 tests passing total.  See
   `docs/phase-reports/phase-05.md`.
+- Phase 6 — diplomacy validator/resolver, diplomacy order vocabulary
+  (`DeclareWar`, `ProposePeace`, `FormAlliance`, `BreakAlliance`),
+  diplomacy event vocabulary, alliance cascade handling, and 30
+  hand-written tests.  See `docs/phase-reports/phase-06.md`.
 
 ### Rules
 
