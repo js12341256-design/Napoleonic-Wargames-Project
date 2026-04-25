@@ -10,7 +10,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use gc1805_core_schema::ids::{AreaId, CorpsId, PowerId};
+use gc1805_core_schema::ids::{AreaId, CorpsId, FleetId, PowerId, SeaZoneId};
 use gc1805_core_schema::scenario::{CorpsComposition, TaxPolicy};
 
 /// Top-level order submitted by a player or the AI.
@@ -51,6 +51,14 @@ pub enum Order {
     FormAlliance(FormAllianceOrder),
     /// End an existing alliance.
     BreakAlliance(BreakAllianceOrder),
+    /// Move a fleet through connected sea zones.
+    MoveFleet(MoveFleetOrder),
+    /// Attack enemy fleets in a target sea zone.
+    NavalAttack(NavalAttackOrder),
+    /// Embark a corps onto a fleet at a coastal port.
+    Embark(EmbarkOrder),
+    /// Disembark a corps from a fleet into a coastal port.
+    Disembark(DisembarkOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -146,6 +154,35 @@ pub struct BreakAllianceOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct MoveFleetOrder {
+    pub submitter: PowerId,
+    pub fleet: FleetId,
+    pub destination: SeaZoneId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct NavalAttackOrder {
+    pub submitter: PowerId,
+    pub fleet: FleetId,
+    pub target_zone: SeaZoneId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct EmbarkOrder {
+    pub submitter: PowerId,
+    pub corps: CorpsId,
+    pub fleet: FleetId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct DisembarkOrder {
+    pub submitter: PowerId,
+    pub corps: CorpsId,
+    pub fleet: FleetId,
+    pub target_area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -174,6 +211,10 @@ impl Order {
             Order::ProposePeace(o) => &o.submitter,
             Order::FormAlliance(o) => &o.submitter,
             Order::BreakAlliance(o) => &o.submitter,
+            Order::MoveFleet(o) => &o.submitter,
+            Order::NavalAttack(o) => &o.submitter,
+            Order::Embark(o) => &o.submitter,
+            Order::Disembark(o) => &o.submitter,
         }
     }
 
@@ -195,7 +236,11 @@ impl Order {
             | Order::DeclareWar(_)
             | Order::ProposePeace(_)
             | Order::FormAlliance(_)
-            | Order::BreakAlliance(_) => None,
+            | Order::BreakAlliance(_)
+            | Order::MoveFleet(_)
+            | Order::NavalAttack(_)
+            | Order::Embark(_)
+            | Order::Disembark(_) => None,
         }
     }
 

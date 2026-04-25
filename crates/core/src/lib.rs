@@ -15,6 +15,7 @@ pub mod loader;
 pub mod map;
 pub mod minors;
 pub mod movement;
+pub mod naval;
 pub mod orders;
 pub mod political;
 pub mod projection;

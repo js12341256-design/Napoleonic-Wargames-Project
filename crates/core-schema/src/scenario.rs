@@ -353,6 +353,8 @@ pub struct Fleet {
     pub morale_q4: i32,
     #[serde(default)]
     pub admiral: Option<LeaderId>,
+    #[serde(default)]
+    pub embarked_corps: Vec<CorpsId>,
 }
 
 // ─── Diplomacy ─────────────────────────────────────────────────────────

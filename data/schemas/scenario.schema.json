@@ -456,6 +456,13 @@
         "display_name": {
           "type": "string"
         },
+        "embarked_corps": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "frigates": {
           "type": "integer",
           "format": "int32"

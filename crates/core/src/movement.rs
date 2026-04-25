@@ -107,7 +107,11 @@ pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, Movem
         | Order::DeclareWar(_)
         | Order::ProposePeace(_)
         | Order::FormAlliance(_)
-        | Order::BreakAlliance(_) => {
+        | Order::BreakAlliance(_)
+        | Order::MoveFleet(_)
+        | Order::NavalAttack(_)
+        | Order::Embark(_)
+        | Order::Disembark(_) => {
             // Non-movement orders go through their own resolvers.
             Err(MovementRejection::NotMovementOrder(format!("{order:?}")))
         }
