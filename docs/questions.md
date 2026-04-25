@@ -80,3 +80,20 @@ French, German, Spanish, Russian, Polish, and Italian.
 ADR 0001 picked a target spec but Claude Code has no machine of that spec
 for benchmarking. Either the user runs the criterion benches on matching
 hardware, or a CI runner of that spec is provisioned.
+
+## Q9 — Rust toolchain version pin
+
+**Blocks:** PROMPT.md §3.6 compliance (pinned minor version, updated
+quarterly).
+
+The first Phase 0 commit pinned `channel = "1.94.1"` based on the
+agent's local sandbox toolchain.  That version does not exist on real
+GitHub runners (the sandbox simulates a 2026 calendar); the pin made
+every CI run fail before any job started.
+
+Current state: `rust-toolchain.toml` uses `channel = "stable"` and CI
+uses `toolchain: stable`.  This keeps local and CI in sync but
+violates §3.6's pinned-version requirement.
+
+Needed: the user picks a real, current stable version (e.g. the
+latest 1.x at the time of decision) and we ADR-record the pin.
