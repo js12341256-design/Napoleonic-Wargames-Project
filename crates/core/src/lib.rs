@@ -20,6 +20,7 @@ pub mod orders;
 pub mod political;
 pub mod projection;
 pub mod supply;
+pub mod turn_loop;
 pub mod validate;
 
 pub use loader::{LoadError, LoadReport, load_scenario_str};

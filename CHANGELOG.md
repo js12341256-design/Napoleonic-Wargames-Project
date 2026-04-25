@@ -79,6 +79,10 @@ Sections that may appear per release:
   tables, `docs/rules/naval.md`, and 37 naval tests in
   `crates/core/src/naval.rs`.  Gate OPEN pending designer-authored
   naval combat and weather values.  See `docs/phase-reports/phase-09.md`.
+- Phase 10 — full turn orchestration: `turn_loop.rs`, `AllTables`, `TurnInput`,
+  `TurnOutput`, `run_turn`, new lifecycle events (`TurnStarted`,
+  `PhaseCompleted`, `TurnCompleted`), 24 hand-written tests, and turn-loop
+  rules documentation.  See `docs/phase-reports/phase-10.md`.
 
 ### Rules
 
