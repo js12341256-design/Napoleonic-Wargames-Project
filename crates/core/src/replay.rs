@@ -75,7 +75,7 @@ pub fn seek_to_turn(replay: &ReplayFile, target_turn: u32) -> Result<Scenario, S
     let mut scenario = replay.initial_scenario.clone();
     for event in &replay.events {
         apply_event(&mut scenario, event)?;
-        if matches!(event, Event::TurnCompleted { turn } if *turn + 1 == target_turn) {
+        if matches!(event, Event::TurnCompleted { turn, .. } if *turn + 1 == target_turn) {
             return Ok(scenario);
         }
     }
@@ -142,12 +142,14 @@ fn apply_event(scenario: &mut Scenario, event: &Event) -> Result<(), String> {
                 .ok_or_else(|| format!("missing corps {}", corps.as_str()))?;
             corps_state.area = to.clone();
         }
-        Event::TurnCompleted { turn } => {
+        Event::TurnCompleted { turn, .. } => {
             scenario.current_turn = turn + 1;
         }
         Event::ForcedMarchResolved(_)
         | Event::InterceptionQueued(_)
         | Event::OrderRejected(_)
+        | Event::PhaseCompleted { .. }
+        | Event::TurnStarted { .. }
         | Event::ReplacementsArrived { .. }
         | Event::UnitProduced { .. }
         | Event::SubsidyTransferred { .. }
@@ -155,7 +157,29 @@ fn apply_event(scenario: &mut Scenario, event: &Event) -> Result<(), String> {
         | Event::BattleResolved { .. }
         | Event::CorpsRetreated { .. }
         | Event::CorpsRouted { .. }
-        | Event::LeaderCasualty { .. } => {}
+        | Event::LeaderCasualty { .. }
+        | Event::SupplyTraced { .. }
+        | Event::AttritionApplied { .. }
+        | Event::WarDeclared { .. }
+        | Event::PeaceProposed { .. }
+        | Event::PeaceAccepted { .. }
+        | Event::AllianceFormed { .. }
+        | Event::AllianceBroken { .. }
+        | Event::PrestigeChanged { .. }
+        | Event::AllianceCascade { .. }
+        | Event::PrestigeAwarded { .. }
+        | Event::RevoltTriggered { .. }
+        | Event::PeaceConferenceOpened { .. }
+        | Event::AbdicationForced { .. }
+        | Event::MinorActivated { .. }
+        | Event::MinorRevolt { .. }
+        | Event::FleetMoved { .. }
+        | Event::FleetEnteredPort { .. }
+        | Event::FleetLeftPort { .. }
+        | Event::NavalBattleResolved { .. }
+        | Event::BlockadeEstablished { .. }
+        | Event::CorpsEmbarked { .. }
+        | Event::CorpsDisembarked { .. } => {}
     }
 
     Ok(())
