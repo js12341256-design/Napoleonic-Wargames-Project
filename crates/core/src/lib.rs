@@ -15,6 +15,7 @@ pub mod map;
 pub mod movement;
 pub mod orders;
 pub mod projection;
+pub mod turn_loop;
 pub mod validate;
 
 pub use loader::{load_scenario_str, LoadError, LoadReport};

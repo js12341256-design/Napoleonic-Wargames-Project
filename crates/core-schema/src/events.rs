@@ -34,6 +34,12 @@ pub enum Event {
     InterceptionQueued(InterceptionQueued),
     /// An order was rejected at validation.
     OrderRejected(OrderRejected),
+    /// A full campaign turn has started.
+    TurnStarted { turn: u32 },
+    /// One named phase inside a turn completed.
+    PhaseCompleted { turn: u32, phase_name: String },
+    /// A full campaign turn completed with the resulting canonical state hash.
+    TurnCompleted { turn: u32, state_hash: String },
 
     // ─── Economy (Phase 3) ───────────────────────────────────────────────
     /// Income collected at the start of the economic phase.

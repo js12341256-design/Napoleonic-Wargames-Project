@@ -50,6 +50,10 @@ Sections that may appear per release:
   table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
   provide real combat.json values).  144 tests passing.
   See `docs/phase-reports/phase-04.md`.
+- Phase 10 — full turn orchestration: `turn_loop.rs`, `AllTables`, `TurnInput`,
+  `TurnOutput`, `run_turn`, new lifecycle events (`TurnStarted`,
+  `PhaseCompleted`, `TurnCompleted`), 24 hand-written tests, and turn-loop
+  rules documentation.  See `docs/phase-reports/phase-10.md`.
 
 ### Rules
 
