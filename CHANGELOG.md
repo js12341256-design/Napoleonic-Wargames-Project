@@ -20,6 +20,10 @@ Sections that may appear per release:
 
 ### Added
 
+- Phase 13 — PBEM: Ed25519-signed `OrderEnvelope` support,
+  `PbemHost` collection state, signature verification, host-side turn/game/
+  duplicate submission checks, PBEM rules documentation, and 17 tests.  See
+  `docs/phase-reports/phase-13.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design
