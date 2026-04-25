@@ -15,7 +15,7 @@ use std::process::ExitCode;
 
 use gc1805_core::economy::resolve_economic_phase;
 use gc1805_core::movement::{validate_or_reject, MovementPlan};
-use gc1805_core::orders::{MoveOrder, Order};
+use gc1805_core::orders::{HoldOrder, MoveOrder, Order};
 use gc1805_core::{load_scenario_str, MapGraph};
 use gc1805_core_schema::canonical_hash;
 use gc1805_core_schema::events::Event;
@@ -51,6 +51,7 @@ fn main() -> ExitCode {
                 None => usage_err(),
             }
         }
+        "smoke-test" => cmd_smoke_test(),
         "" | "help" | "--help" | "-h" => {
             print_help();
             ExitCode::SUCCESS
@@ -75,6 +76,7 @@ SUBCOMMANDS:\n\
     move-all-to-capital <scenario.json>   Try to march every corps home.\n\
     economic-phase <scenario.json>        Run one economic phase turn.\n\
              [--tables <economy.json>]\n\
+    smoke-test                            Run integration smoke test on 1805 scenario.\n\
     help                                  Show this message."
     );
 }
@@ -207,6 +209,70 @@ fn cmd_move_all_to_capital(path: &std::path::Path) -> ExitCode {
     println!("---");
     println!("events  = {}", events.len());
     println!("hash    = {hash}");
+    ExitCode::SUCCESS
+}
+
+fn cmd_smoke_test() -> ExitCode {
+    let scenario_path = PathBuf::from("data/scenarios/1805_standard/scenario.json");
+    let json = match std::fs::read_to_string(&scenario_path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("read {}: {e}", scenario_path.display());
+            return ExitCode::from(1);
+        }
+    };
+
+    let (mut scenario, report) = match load_scenario_str(&json) {
+        Ok(x) => x,
+        Err(e) => {
+            eprintln!("load failed: {e}");
+            return ExitCode::from(1);
+        }
+    };
+
+    println!("Smoke test scenario: {}", scenario.scenario_id);
+    println!("placeholders found: {}", report.placeholder_paths.len());
+    for path in &report.placeholder_paths {
+        println!("  PLACEHOLDER {path}");
+    }
+    println!("integrity findings: {}", report.integrity.len());
+    for issue in &report.integrity {
+        println!("  INTEGRITY {issue:?}");
+    }
+
+    let econ_events = resolve_economic_phase(&mut scenario, &EconomyTable::default());
+    println!("economic phase events: {}", econ_events.len());
+    for event in &econ_events {
+        if let Event::OrderRejected(rejection) = event {
+            println!(
+                "  ECONOMIC ERROR [{}] {}",
+                rejection.reason_code, rejection.message
+            );
+        }
+    }
+
+    let Some((corps_id, corps)) = scenario.corps.iter().next() else {
+        eprintln!("smoke test failed: scenario has no corps to validate");
+        return ExitCode::from(1);
+    };
+    let hold = Order::Hold(HoldOrder {
+        submitter: corps.owner.clone(),
+        corps: corps_id.clone(),
+    });
+    match gc1805_core_validate::validate(&scenario, &hold) {
+        Ok(_) => {
+            println!(
+                "movement validation: HOLD ok for {} in {}",
+                corps_id, corps.area
+            );
+        }
+        Err(err) => {
+            eprintln!("movement validation failed for {corps_id}: {err}");
+            return ExitCode::from(1);
+        }
+    }
+
+    println!("SMOKE TEST PASSED");
     ExitCode::SUCCESS
 }
 

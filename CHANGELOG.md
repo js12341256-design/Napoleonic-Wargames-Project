@@ -1,16 +1,12 @@
 # Changelog
 
-All notable changes to this project are recorded here.  This file follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and semantic
-versioning as applied to the game rules (see `docs/PROMPT.md` §11.2).
+All notable changes to this project are recorded here. This file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and semantic versioning as applied to the game rules (see `docs/PROMPT.md` §11.2).
 
 Sections that may appear per release:
 
 - **Added** — new features or scenarios.
 - **Changed** — non-rules behavior changes.
-- **Rules** — changes to `data/tables/*.json` or rules code that alter
-  deterministic outcomes.  Each such release regenerates the determinism
-  golden (see `docs/PROMPT.md` §2.6).
+- **Rules** — changes to `data/tables/*.json` or rules code that alter deterministic outcomes.
 - **Fixed** — bug fixes.
 - **Removed** — removed features.
 
@@ -20,42 +16,38 @@ Sections that may appear per release:
 
 ### Added
 
-- Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
-  `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
-- `reference/prototype/` archived from the *Dusk of the Old World* design
-  bundle as a visual-style reference only (see its `README.md`).
-- ADR 0001 recording §23 answers and the prototype-vs-master-prompt
-  contradiction resolution.
-- Phase 1 — data model, canonical-JSON pipeline, scenario loader,
-  fog-of-war projection, integrity validator, 1805 scenario placeholder,
-  and `xtask dump-schemas`.  39 tests passing.  See
-  `docs/phase-reports/phase-01.md`.
-- Phase 2 — strategic-map graph, BFS hop pathfinder, Dijkstra cost
-  pathfinder (placeholder-edge tolerant), `Order`/`Event` types,
-  movement validator + resolver, `gc1805 move-all-to-capital` CLI
-  subcommand.  70 tests passing (30 movement-related, 40 prior).  See
-  `docs/phase-reports/phase-02.md`.
-- Adjudication 0001 (`docs/adjudications.md`) — interception scope at
-  Phase 2 reduced to "typed and queueable" pending impulse model.
-- Phase 3 — economic phase resolver (income, maintenance, replacement
-  queue, production queue, subsidies), economy order vocabulary
-  (`SetTaxPolicy`, `BuildCorps`, `BuildFleet`, `Subsidize`), 22
-  hand-written test cases, `gc1805 economic-phase` CLI subcommand.
-  92 tests passing.  See `docs/phase-reports/phase-03.md`.
-- Phase 4 — land combat: `BattleOutcome`/`LeaderCasualtyKind` types,
-  `BattleResolved`/`CorpsRetreated`/`CorpsRouted`/`LeaderCasualty` event
-  variants, `AttackOrder`/`BombardOrder` order types, `zones_of_control`,
-  `validate_attack`, `resolve_battle` resolver skeleton (placeholder-tolerant),
-  52 hand-written test cases, combat/attrition/morale/leader_casualty data
-  table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
-  provide real combat.json values).  144 tests passing.
-  See `docs/phase-reports/phase-04.md`.
+- **2026-04-24 — Phase 0 scaffolding:** workspace, 13 crates, directory layout, CI workflow, baseline docs, prototype archive, and repository bootstrap.
+- **2026-04-25 — Phase 1 data model + loader:** canonical JSON, stable IDs, scenario loader, fog-of-war projection, integrity validator, 1805 placeholder scenario, JSON schema dumping.
+- **2026-04-25 — Phase 2 map + movement:** strategic graph, deterministic pathfinding, movement orders/events, validator + resolver, `gc1805 move-all-to-capital` CLI subcommand.
+- **2026-04-25 — Phase 3 economy:** economic phase resolver, economic order vocabulary, replacement/production/subsidy handling, `gc1805 economic-phase` CLI subcommand.
+- **2026-04-25 — Phase 4 land combat:** battle outcome types, combat events, ZoC helpers, attack/bombard orders, resolver skeleton, combat table stubs, combat rules doc.
+- **2026-04-25 — Phase 5 supply:** supply tracing, attrition integration, and supporting tests on branch `phase5-supply`.
+- **2026-04-25 — Phase 6 diplomacy:** diplomacy orders, resolver work, and supporting tests on branch `phase6-diplomacy`.
+- **2026-04-25 — Phase 7 political:** political points, revolts, abdication/state-change logic, and supporting tests on branch `phase7-political`.
+- **2026-04-25 — Phase 8 minors:** tracked as a roadmap phase; release gate remains open pending the definitive minor-country list (Q6).
+- **2026-04-25 — Phase 9 naval:** sea graph, fleet movement, naval combat, and transport support on branch `phase9-naval`.
+- **2026-04-25 — Phase 10 full turn loop:** orchestrator/all-tables integration and determinism-focused tests on branch `phase10-turn-loop`.
+- **2026-04-25 — Phase 11 AI:** roadmap phase reserved for deterministic, non-cheating AI integration; release readiness still depends on integration verification.
+- **2026-04-25 — Phase 12 server:** axum HTTP/WebSocket server, game sessions, order submission, reconnect handling on branch `phase12-server`.
+- **2026-04-25 — Phase 13 PBEM:** signed PBEM envelopes and host collection flow on branch `phase13-pbem`.
+- **2026-04-25 — Phase 14 desktop UI:** Bevy app skeleton, UI state machine, and area-node work on branch `phase14-desktop-ui`.
+- **2026-04-25 — Phase 15 web UI:** WASM bridge and React/web skeleton on branch `phase15-web-ui`.
+- **2026-04-25 — Phase 16 localization:** English source locale, pseudo-locale, placeholder non-English locale set, locale loader on branch `phase16-localization`.
+- **2026-04-25 — Phase 17 modding:** mod loader, override-resolution plumbing, and example mod support on branch `phase17-modding`.
+- **2026-04-25 — Phase 18 replay:** event-log fold, seek-to-turn, replay integrity checks on branch `phase18-replay`.
+- **2026-04-25 — Phase 19 polish / closed-beta prep:** CLI smoke test, release checklist, architecture doc, README cleanup, changelog normalization, and phase report.
+
+### Changed
+
+- Project documentation now explicitly distinguishes **structural phase completion** from **public-release readiness**.
+- README now documents current build, test, lint, and CLI usage for the workspace.
+- Phase 19 adds a `gc1805 smoke-test` command for quick integration validation against the standard scenario.
 
 ### Rules
 
-- Schema version 1 introduced (`Scenario.schema_version = 1`).  No
-  rules tables are filled yet; the 1805 scenario remains
-  `unplayable_in_release: true` per PROMPT.md §6.1.
-- `Scenario.movement_rules` added with four placeholder-friendly
-  numerics: `max_corps_per_area`, `movement_hops_per_turn`,
-  `forced_march_extra_hops`, `forced_march_morale_loss_q4`.
+- Schema version 1 remains in effect.
+- Designer-authored table values may still be `PLACEHOLDER`; the scenario therefore remains `unplayable_in_release: true` until the open design questions are resolved.
+
+### Fixed
+
+- Repository-level release-prep docs now call out public-release blockers directly: rules tables, minors list, translators, hardware/perf sign-off, license, WASM verification, CI matrix verification, and toolchain pinning.
