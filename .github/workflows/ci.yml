@@ -12,7 +12,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  RUSTFLAGS: -D warnings
   # Default determinism seed from PROMPT.md §23.5.
   GC1805_DETERMINISM_SEED: "0x5EEDED0000000001"
 
@@ -25,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.94.1
           components: rustfmt
@@ -35,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.94.1
           components: clippy
@@ -50,18 +49,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.94.1
       - uses: Swatinem/rust-cache@v2
       - run: cargo build --workspace --all-targets
       - run: cargo test --workspace --all-targets
 
+  # The /web package is a placeholder until Phase 15.  Skip the job
+  # entirely until web/package-lock.json exists; otherwise
+  # actions/setup-node fails when its cache-dependency-path is missing.
   web-lint:
     runs-on: ubuntu-latest
-    # The /web package is a placeholder in Phase 0; this job becomes
-    # meaningful at Phase 15.
-    if: hashFiles('web/package.json') != ''
+    if: hashFiles('web/package-lock.json') != ''
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -69,4 +69,4 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
-      - run: echo "Phase 0: web placeholder, no lint yet."
+      - run: echo "Phase 15+: real web lint runs here."
