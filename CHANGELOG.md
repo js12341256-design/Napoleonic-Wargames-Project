@@ -96,6 +96,9 @@ Sections that may appear per release:
   `last_event_index`, player-specific `ProjectedScenario` responses,
   `docs/rules/server.md`, and 15+ server tests.  See
   `docs/phase-reports/phase-12.md`.
+- Phase 14 — desktop UI Bevy skeleton: desktop client dependencies,
+  main-menu and game-board placeholder screens, app-state helper module,
+  `docs/rules/ui_desktop.md`, and `docs/phase-reports/phase-14.md`.
 
 ### Rules
 
