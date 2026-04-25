@@ -293,15 +293,15 @@ pub fn apply_economic_order(
 
         Order::BuildCorps(o) => {
             // Deduct costs if values are known.
-            if let Maybe::Value(cost_money) = &tables.corps_build_cost_money {
-                if let Some(ps) = scenario.power_state.get_mut(&o.submitter) {
-                    ps.treasury -= *cost_money as i64;
-                }
+            if let Maybe::Value(cost_money) = &tables.corps_build_cost_money
+                && let Some(ps) = scenario.power_state.get_mut(&o.submitter)
+            {
+                ps.treasury -= *cost_money as i64;
             }
-            if let Maybe::Value(cost_mp) = &tables.corps_build_cost_manpower {
-                if let Some(ps) = scenario.power_state.get_mut(&o.submitter) {
-                    ps.manpower -= *cost_mp;
-                }
+            if let Maybe::Value(cost_mp) = &tables.corps_build_cost_manpower
+                && let Some(ps) = scenario.power_state.get_mut(&o.submitter)
+            {
+                ps.manpower -= *cost_mp;
             }
             let eta = scenario.current_turn
                 + match &tables.corps_production_lag_turns {
@@ -325,10 +325,10 @@ pub fn apply_economic_order(
         }
 
         Order::BuildFleet(o) => {
-            if let Maybe::Value(cost_money) = &tables.fleet_build_cost_money {
-                if let Some(ps) = scenario.power_state.get_mut(&o.submitter) {
-                    ps.treasury -= *cost_money as i64;
-                }
+            if let Maybe::Value(cost_money) = &tables.fleet_build_cost_money
+                && let Some(ps) = scenario.power_state.get_mut(&o.submitter)
+            {
+                ps.treasury -= *cost_money as i64;
             }
             let eta = scenario.current_turn
                 + match &tables.fleet_production_lag_turns {
@@ -693,7 +693,7 @@ mod tests {
         let t = standard_tables();
         let events = resolve_economic_phase(&mut s, &t);
         assert_eq!(s.power_state[&fra()].treasury, 110 - 12); // income 10, maintenance 6sp*2=12 → 98
-                                                              // But let's check the IncomePaid event specifically
+        // But let's check the IncomePaid event specifically
         let income_ev = events
             .iter()
             .find(|e| matches!(e, Event::IncomePaid { .. }));

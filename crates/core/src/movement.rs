@@ -136,7 +136,7 @@ fn plan_move(
     let budget = match &s.movement_rules.movement_hops_per_turn {
         Maybe::Value(v) => *v,
         Maybe::Placeholder(_) => {
-            return Err(MovementRejection::PlaceholderRule("movement_hops_per_turn"))
+            return Err(MovementRejection::PlaceholderRule("movement_hops_per_turn"));
         }
     } + extra_hops;
     if hops > budget {
@@ -250,7 +250,7 @@ mod tests {
     use gc1805_core_schema::ids::{AreaId, CorpsId, LeaderId, PowerId};
     use gc1805_core_schema::scenario::{
         Area, AreaAdjacency, Corps, Features, GameDate, Leader, MovementRules, Owner, PowerSetup,
-        PowerSlot, Scenario, Terrain, SCHEMA_VERSION,
+        PowerSlot, SCHEMA_VERSION, Scenario, Terrain,
     };
     use std::collections::BTreeMap;
 

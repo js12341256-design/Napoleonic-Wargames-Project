@@ -8,7 +8,7 @@
 //! Phase 0 was empty; Phase 2 adds movement orders.
 #![forbid(unsafe_code)]
 
-use gc1805_core::movement::{validate_order, MovementPlan, MovementRejection};
+use gc1805_core::movement::{MovementPlan, MovementRejection, validate_order};
 use gc1805_core::orders::Order;
 use gc1805_core_schema::scenario::Scenario;
 

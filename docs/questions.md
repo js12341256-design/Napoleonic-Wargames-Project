@@ -8,15 +8,12 @@ editing this file and referencing the commit that acts on the answer.
 
 ## Q1 — Who authors the rules tables?
 
+**Status:** CLOSED — 2026-04-25. Designer-authored `data/tables/combat.json` integrated on branch `integrate/q1-combat-tables-q9-toolchain` (commit `eab2577`).
+
 **Blocks:** Phase 1 gate (scenario completeness), Phase 4 and onward (every
 rules subsystem).
 
-PROMPT.md §6 requires human-authored values in every file under
-`/data/tables/`. Claude Code will not invent them. Until a designer is named
-and a cadence agreed, every table will ship with `PLACEHOLDER` entries and
-the scenario will carry `unplayable_in_release: true`.
-
-Needed: a name, a start date, and a cadence (proposed: weekly sync).
+Resolved for land combat: the human designer supplied the authored combat table at `/tmp/q_answers/Q1_combat.json`, and the Rust combat schema/resolver were updated to consume that real structure directly.
 
 ## Q2 — `docs/SPEC.md` location and contents
 
@@ -83,17 +80,9 @@ hardware, or a CI runner of that spec is provisioned.
 
 ## Q9 — Rust toolchain version pin
 
+**Status:** CLOSED — 2026-04-25. ADR accepted and implemented: Rust pinned to `1.95.0` in `rust-toolchain.toml`, workspace `Cargo.toml`, and CI (commit `eab2577`).
+
 **Blocks:** PROMPT.md §3.6 compliance (pinned minor version, updated
 quarterly).
 
-The first Phase 0 commit pinned `channel = "1.94.1"` based on the
-agent's local sandbox toolchain.  That version does not exist on real
-GitHub runners (the sandbox simulates a 2026 calendar); the pin made
-every CI run fail before any job started.
-
-Current state: `rust-toolchain.toml` uses `channel = "stable"` and CI
-uses `toolchain: stable`.  This keeps local and CI in sync but
-violates §3.6's pinned-version requirement.
-
-Needed: the user picks a real, current stable version (e.g. the
-latest 1.x at the time of decision) and we ADR-record the pin.
+Resolved via ADR 0001 (`/tmp/q_answers/Q9_ADR_0001_rust_toolchain.md`) and implementation in this branch. CI now verifies the active compiler matches the pinned toolchain exactly.

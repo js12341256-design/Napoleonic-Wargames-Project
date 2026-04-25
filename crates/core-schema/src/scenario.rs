@@ -365,11 +365,7 @@ pub struct DiplomaticPairKey(pub PowerId, pub PowerId);
 
 impl DiplomaticPairKey {
     pub fn new(a: PowerId, b: PowerId) -> Self {
-        if a <= b {
-            Self(a, b)
-        } else {
-            Self(b, a)
-        }
+        if a <= b { Self(a, b) } else { Self(b, a) }
     }
 }
 

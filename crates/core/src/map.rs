@@ -160,10 +160,10 @@ impl MapGraph {
 
         while let Some(Frontier { neg_cost, area }) = heap.pop() {
             let cost_here = -neg_cost as i32;
-            if let Some(d) = dist.get(&area) {
-                if cost_here > *d {
-                    continue;
-                }
+            if let Some(d) = dist.get(&area)
+                && cost_here > *d
+            {
+                continue;
             }
             if &area == to {
                 let path = reconstruct(&prev, from, to);
@@ -220,8 +220,8 @@ mod tests {
     use super::*;
     use gc1805_core_schema::ids::AreaId;
     use gc1805_core_schema::scenario::{
-        Area, AreaAdjacency, Features, GameDate, MovementRules, Owner, PowerSlot, Scenario,
-        Terrain, SCHEMA_VERSION,
+        Area, AreaAdjacency, Features, GameDate, MovementRules, Owner, PowerSlot, SCHEMA_VERSION,
+        Scenario, Terrain,
     };
     use gc1805_core_schema::tables::Maybe;
     use std::collections::BTreeMap;

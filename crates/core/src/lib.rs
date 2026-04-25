@@ -17,14 +17,14 @@ pub mod orders;
 pub mod projection;
 pub mod validate;
 
-pub use loader::{load_scenario_str, LoadError, LoadReport};
+pub use loader::{LoadError, LoadReport, load_scenario_str};
 pub use map::MapGraph;
 pub use movement::{
-    resolve_order, validate_or_reject, validate_order, MovementPlan, MovementRejection,
+    MovementPlan, MovementRejection, resolve_order, validate_or_reject, validate_order,
 };
 pub use orders::Order;
-pub use projection::{project, ProjectedScenario};
-pub use validate::{validate_scenario, IntegrityIssue};
+pub use projection::{ProjectedScenario, project};
+pub use validate::{IntegrityIssue, validate_scenario};
 
 pub use economy::{apply_economic_order, resolve_economic_phase, validate_economic_order};
 pub use gc1805_core_schema as schema;
