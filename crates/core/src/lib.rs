@@ -9,10 +9,18 @@
 #![deny(clippy::float_arithmetic)]
 
 pub mod loader;
+pub mod map;
+pub mod movement;
+pub mod orders;
 pub mod projection;
 pub mod validate;
 
 pub use loader::{load_scenario_str, LoadError, LoadReport};
+pub use map::MapGraph;
+pub use movement::{
+    resolve_order, validate_or_reject, validate_order, MovementPlan, MovementRejection,
+};
+pub use orders::Order;
 pub use projection::{project, ProjectedScenario};
 pub use validate::{validate_scenario, IntegrityIssue};
 

@@ -88,6 +88,12 @@ version = "0.0.0"
 [[package]]
 name = "gc1805-cli"
 version = "0.0.0"
+dependencies = [
+ "gc1805-core",
+ "gc1805-core-schema",
+ "gc1805-core-validate",
+ "serde_json",
+]
 
 [[package]]
 name = "gc1805-client-desktop"
@@ -108,6 +114,7 @@ dependencies = [
  "blake3",
  "gc1805-core-schema",
  "indexmap",
+ "schemars",
  "serde",
  "serde_json",
  "thiserror",
@@ -132,6 +139,11 @@ dependencies = [
 [[package]]
 name = "gc1805-core-validate"
 version = "0.0.0"
+dependencies = [
+ "gc1805-core",
+ "gc1805-core-schema",
+ "thiserror",
+]
 
 [[package]]
 name = "gc1805-netcode"

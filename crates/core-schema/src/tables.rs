@@ -55,6 +55,12 @@ impl<T> Maybe<T> {
     }
 }
 
+impl<T> Default for Maybe<T> {
+    fn default() -> Self {
+        Self::placeholder()
+    }
+}
+
 // ─── Combat (PROMPT.md §6.2) ───────────────────────────────────────────
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]

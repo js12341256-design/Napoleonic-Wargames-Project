@@ -249,7 +249,9 @@ fn check_adjacency(s: &Scenario, out: &mut Vec<IntegrityIssue>) {
 mod tests {
     use super::*;
     use gc1805_core_schema::ids::PowerId;
-    use gc1805_core_schema::scenario::{Features, GameDate, PowerSetup, SCHEMA_VERSION};
+    use gc1805_core_schema::scenario::{
+        Features, GameDate, MovementRules, PowerSetup, SCHEMA_VERSION,
+    };
     use std::collections::BTreeMap;
 
     fn empty() -> Scenario {
@@ -262,6 +264,7 @@ mod tests {
             end: GameDate::new(1815, 12),
             unplayable_in_release: true,
             features: Features::default(),
+            movement_rules: MovementRules::default(),
             powers: BTreeMap::new(),
             minors: BTreeMap::new(),
             leaders: BTreeMap::new(),

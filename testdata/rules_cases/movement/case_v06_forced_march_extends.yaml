@@ -1,0 +1,21 @@
+name: case_v06_forced_march_extends_budget_by_one
+kind: validation
+given:
+  areas: [AREA_A, AREA_B, AREA_C, AREA_D]
+  edges:
+    - { from: AREA_A, to: AREA_B, cost: 1 }
+    - { from: AREA_B, to: AREA_C, cost: 1 }
+    - { from: AREA_C, to: AREA_D, cost: 1 }
+  corps:
+    - { id: CORPS_FRA_001, owner: FRA, area: AREA_A }
+  movement_rules:
+    max_corps_per_area:           2
+    movement_hops_per_turn:       2
+    forced_march_extra_hops:      1
+    forced_march_morale_loss_q4:  500
+when:
+  order: { kind: FORCED_MARCH, submitter: FRA, corps: CORPS_FRA_001, to: AREA_D }
+then:
+  plan:
+    kind: FORCED_MARCH
+    hops: 3

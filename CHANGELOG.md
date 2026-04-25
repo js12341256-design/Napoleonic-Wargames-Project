@@ -30,9 +30,19 @@ Sections that may appear per release:
   fog-of-war projection, integrity validator, 1805 scenario placeholder,
   and `xtask dump-schemas`.  39 tests passing.  See
   `docs/phase-reports/phase-01.md`.
+- Phase 2 — strategic-map graph, BFS hop pathfinder, Dijkstra cost
+  pathfinder (placeholder-edge tolerant), `Order`/`Event` types,
+  movement validator + resolver, `gc1805 move-all-to-capital` CLI
+  subcommand.  70 tests passing (30 movement-related, 40 prior).  See
+  `docs/phase-reports/phase-02.md`.
+- Adjudication 0001 (`docs/adjudications.md`) — interception scope at
+  Phase 2 reduced to "typed and queueable" pending impulse model.
 
 ### Rules
 
 - Schema version 1 introduced (`Scenario.schema_version = 1`).  No
   rules tables are filled yet; the 1805 scenario remains
   `unplayable_in_release: true` per PROMPT.md §6.1.
+- `Scenario.movement_rules` added with four placeholder-friendly
+  numerics: `max_corps_per_area`, `movement_hops_per_turn`,
+  `forced_march_extra_hops`, `forced_march_morale_loss_q4`.

@@ -40,6 +40,10 @@ pub struct Scenario {
     /// Toggleable rules.  All optional rules default to `false`.
     #[serde(default)]
     pub features: Features,
+    /// Movement rules.  Mostly designer-authored numerics; placeholders
+    /// permitted per PROMPT.md §6.1.
+    #[serde(default)]
+    pub movement_rules: MovementRules,
     /// Major powers, keyed by stable ID.  `BTreeMap` for deterministic
     /// iteration (§2.2).
     pub powers: BTreeMap<PowerId, PowerSetup>,
@@ -92,6 +96,22 @@ pub struct Features {
     /// Named-events system (§7.8).  In for v1.0 per ADR 0001.
     #[serde(default)]
     pub named_events: bool,
+}
+
+/// Movement rules (Phase 2).  Every numeric is `Maybe<i32>` to permit
+/// PLACEHOLDER values until a designer authors them.  Defaults are
+/// chosen so tests can run with explicit `Maybe::Value(_)` overrides.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
+pub struct MovementRules {
+    /// Maximum corps simultaneously in one area.  Designer-authored.
+    pub max_corps_per_area: Maybe<i32>,
+    /// Standard per-turn movement budget in hop count.  Designer-authored.
+    pub movement_hops_per_turn: Maybe<i32>,
+    /// Forced-march extra-hop allowance (typically `1`).
+    pub forced_march_extra_hops: Maybe<i32>,
+    /// Q4 morale loss applied on every forced march, regardless of die
+    /// outcome.  PROMPT.md §6.2 morale.json.
+    pub forced_march_morale_loss_q4: Maybe<i32>,
 }
 
 // ─── Powers ────────────────────────────────────────────────────────────
@@ -337,6 +357,7 @@ mod tests {
             end: GameDate::new(1815, 12),
             unplayable_in_release: true,
             features: Features::default(),
+            movement_rules: MovementRules::default(),
             powers: BTreeMap::new(),
             minors: BTreeMap::new(),
             leaders: BTreeMap::new(),

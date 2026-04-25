@@ -100,8 +100,8 @@ mod tests {
     use super::*;
     use gc1805_core_schema::ids::{AreaId, CorpsId, LeaderId, PowerId};
     use gc1805_core_schema::scenario::{
-        Area, Corps, DiplomaticPairKey, DiplomaticState, Features, Fleet, GameDate, Leader, Owner,
-        PowerSetup, PowerSlot, Scenario, Terrain, SCHEMA_VERSION,
+        Area, Corps, DiplomaticPairKey, DiplomaticState, Features, Fleet, GameDate, Leader,
+        MovementRules, Owner, PowerSetup, PowerSlot, Scenario, Terrain, SCHEMA_VERSION,
     };
     use std::collections::BTreeMap;
 
@@ -117,6 +117,7 @@ mod tests {
             end: GameDate::new(1805, 12),
             unplayable_in_release: true,
             features: Features::default(),
+            movement_rules: MovementRules::default(),
             powers: BTreeMap::new(),
             minors: BTreeMap::new(),
             leaders: BTreeMap::new(),
