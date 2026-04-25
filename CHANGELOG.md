@@ -34,6 +34,12 @@ Sections that may appear per release:
   duplicate submission checks, PBEM rules documentation, and 17 tests.  See
   `docs/phase-reports/phase-13.md`.
 - Phase 15 — Web UI: `gc1805-client-web` Rust/WASM bridge, `WasmGame` JSON interface, React/Vite shell in `web/`, `docs/rules/ui_web.md`, and 12 client-web tests. See `docs/phase-reports/phase-15.md`.
+- Phase 16 — localization scaffolding: canonical `locales/en.yaml`,
+  pseudo-locale `locales/zz.yaml`, placeholder `fr/de/es/ru/pl/it`
+  locale files pending human translation (Q7),
+  `gc1805-client-shared::locale::Locale` manual YAML loader backed by
+  `BTreeMap`, fallback key lookup, and 19 unit tests.  See
+  `docs/phase-reports/phase-16.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design
