@@ -50,6 +50,9 @@ Sections that may appear per release:
   table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
   provide real combat.json values).  144 tests passing.
   See `docs/phase-reports/phase-04.md`.
+- Phase 14 — desktop UI Bevy skeleton: desktop client dependencies,
+  main-menu and game-board placeholder screens, app-state helper module,
+  `docs/rules/ui_desktop.md`, and `docs/phase-reports/phase-14.md`.
 
 ### Rules
 
