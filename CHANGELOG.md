@@ -20,6 +20,12 @@ Sections that may appear per release:
 
 ### Added
 
+- Phase 8 — minors: integrated the full Q6 minor-country roster into the
+  1805 scenario, added deterministic placeholder activation data in
+  `data/tables/minors.json`, introduced `gc1805-core::minors`
+  (`MinorStatus`, `activate_minor`, `validate_minor_control`), added
+  `MinorActivated` / `MinorRevolt` events, authored `docs/rules/minors.md`,
+  and closed Q6 in `docs/questions.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design

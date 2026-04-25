@@ -13,6 +13,7 @@ pub mod diplomacy;
 pub mod economy;
 pub mod loader;
 pub mod map;
+pub mod minors;
 pub mod movement;
 pub mod orders;
 pub mod political;

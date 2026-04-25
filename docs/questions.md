@@ -54,13 +54,14 @@ PROMPT.md §12 specifies a 2-player, 3-turn tutorial but leaves the scripted
 outcomes to design. Needed: the scenario file, the coach overlay text, and
 the highlight targets.
 
-## Q6 — Minor-country list for 1805
+## Q6 — Minor-country list for 1805 — CLOSED (2026-04-25)
 
-**Blocks:** Phase 1 gate, Phase 8 gate.
+**Blocks:** formerly Phase 1 gate, Phase 8 gate.
 
-PROMPT.md cites "approximately fifty minor countries." The definitive list
-for the 1805 scenario is a design decision (which Imperial states are
-distinct entities vs. bundled, how the Holy Roman Empire is modeled, etc.).
+Closed by the designer-provided `Q6_minors.json` data pack integrated in
+Phase 8. The 1805 scenario now carries the full authored minors roster,
+and the richer source payload is preserved in `data/tables/minors.json` for
+future tuning and formed-minor work.
 
 ## Q7 — Locale translators
 
