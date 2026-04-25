@@ -44,6 +44,25 @@ pub struct Scenario {
     /// permitted per PROMPT.md §6.1.
     #[serde(default)]
     pub movement_rules: MovementRules,
+    /// Logical turn index since `start` (turn 0 is the start month).
+    /// PROMPT.md §2.2 forbids wall-clock; this is the only time that
+    /// matters in the simulation.
+    #[serde(default)]
+    pub current_turn: u32,
+    /// Live economic and political state per power.  Initialized from
+    /// `PowerSetup.starting_*` at load time when absent (`#[serde(default)]`
+    /// makes the JSON omit-compatible).
+    #[serde(default)]
+    pub power_state: BTreeMap<PowerId, PowerState>,
+    /// Pending production deliveries.
+    #[serde(default)]
+    pub production_queue: Vec<ProductionItem>,
+    /// Pending manpower returns from past combat losses (§7.9).
+    #[serde(default)]
+    pub replacement_queue: Vec<ReplacementItem>,
+    /// Pending subsidy transfers, queued by `SubsidyOrder`.
+    #[serde(default)]
+    pub subsidy_queue: Vec<PendingSubsidy>,
     /// Major powers, keyed by stable ID.  `BTreeMap` for deterministic
     /// iteration (§2.2).
     pub powers: BTreeMap<PowerId, PowerSetup>,
@@ -96,6 +115,70 @@ pub struct Features {
     /// Named-events system (§7.8).  In for v1.0 per ADR 0001.
     #[serde(default)]
     pub named_events: bool,
+}
+
+/// Per-power live state (Phase 3).  The `starting_*` fields on
+/// `PowerSetup` are immutable scenario authoring; this struct holds
+/// the values that mutate during play.
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PowerState {
+    pub treasury: i64,
+    pub manpower: i32,
+    pub prestige: i32,
+    pub tax_policy: TaxPolicy,
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum TaxPolicy {
+    Low,
+    #[default]
+    Standard,
+    Heavy,
+}
+
+/// Pending unit production, materializes at `eta_turn`.
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ProductionItem {
+    pub owner: PowerId,
+    pub area: AreaId,
+    pub kind: ProductionKind,
+    pub eta_turn: u32,
+    /// Pre-paid composition for a corps; ignored for other kinds.
+    #[serde(default)]
+    pub corps_composition: Option<CorpsComposition>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ProductionKind {
+    Corps,
+    Fleet,
+    Depot,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct CorpsComposition {
+    pub infantry_sp: i32,
+    pub cavalry_sp: i32,
+    pub artillery_sp: i32,
+}
+
+/// Pending manpower replacements (§7.9), queued from prior combat
+/// losses and arriving `eta_turn` later.
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ReplacementItem {
+    pub owner: PowerId,
+    pub sp_amount: i32,
+    pub eta_turn: u32,
+}
+
+/// Pending subsidy transfer awaiting the next economic phase.
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PendingSubsidy {
+    pub from: PowerId,
+    pub to: PowerId,
+    pub amount: i64,
 }
 
 /// Movement rules (Phase 2).  Every numeric is `Maybe<i32>` to permit
@@ -358,6 +441,11 @@ mod tests {
             unplayable_in_release: true,
             features: Features::default(),
             movement_rules: MovementRules::default(),
+            current_turn: 0,
+            power_state: BTreeMap::new(),
+            production_queue: Vec::new(),
+            replacement_queue: Vec::new(),
+            subsidy_queue: Vec::new(),
             powers: BTreeMap::new(),
             minors: BTreeMap::new(),
             leaders: BTreeMap::new(),

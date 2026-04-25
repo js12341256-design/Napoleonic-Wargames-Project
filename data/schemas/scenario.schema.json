@@ -52,6 +52,13 @@
         "$ref": "#/definitions/Corps"
       }
     },
+    "current_turn": {
+      "description": "Logical turn index since `start` (turn 0 is the start month). PROMPT.md §2.2 forbids wall-clock; this is the only time that matters in the simulation.",
+      "default": 0,
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
     "diplomacy": {
       "description": "Starting diplomatic relations.  Keyed by the lexicographically smaller power; pair semantics are symmetric.",
       "type": "object",
@@ -100,15 +107,61 @@
         "$ref": "#/definitions/MinorSetup"
       }
     },
+    "movement_rules": {
+      "description": "Movement rules.  Mostly designer-authored numerics; placeholders permitted per PROMPT.md §6.1.",
+      "default": {
+        "max_corps_per_area": {
+          "_placeholder": true
+        },
+        "movement_hops_per_turn": {
+          "_placeholder": true
+        },
+        "forced_march_extra_hops": {
+          "_placeholder": true
+        },
+        "forced_march_morale_loss_q4": {
+          "_placeholder": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MovementRules"
+        }
+      ]
+    },
     "name": {
       "description": "Display name (English source; localization handles other locales).",
       "type": "string"
+    },
+    "power_state": {
+      "description": "Live economic and political state per power.  Initialized from `PowerSetup.starting_*` at load time when absent (`#[serde(default)]` makes the JSON omit-compatible).",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/PowerState"
+      }
     },
     "powers": {
       "description": "Major powers, keyed by stable ID.  `BTreeMap` for deterministic iteration (§2.2).",
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/PowerSetup"
+      }
+    },
+    "production_queue": {
+      "description": "Pending production deliveries.",
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ProductionItem"
+      }
+    },
+    "replacement_queue": {
+      "description": "Pending manpower returns from past combat losses (§7.9).",
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ReplacementItem"
       }
     },
     "rules_version": {
@@ -147,6 +200,14 @@
           "$ref": "#/definitions/GameDate"
         }
       ]
+    },
+    "subsidy_queue": {
+      "description": "Pending subsidy transfers, queued by `SubsidyOrder`.",
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PendingSubsidy"
+      }
     },
     "unplayable_in_release": {
       "description": "Hard release-blocker flag.  Set `true` while any PLACEHOLDER values remain (PROMPT.md §6.1).",
@@ -307,6 +368,28 @@
         },
         "supplied": {
           "type": "boolean"
+        }
+      }
+    },
+    "CorpsComposition": {
+      "type": "object",
+      "required": [
+        "artillery_sp",
+        "cavalry_sp",
+        "infantry_sp"
+      ],
+      "properties": {
+        "artillery_sp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cavalry_sp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "infantry_sp": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -509,6 +592,50 @@
         }
       }
     },
+    "MovementRules": {
+      "description": "Movement rules (Phase 2).  Every numeric is `Maybe<i32>` to permit PLACEHOLDER values until a designer authors them.  Defaults are chosen so tests can run with explicit `Maybe::Value(_)` overrides.",
+      "type": "object",
+      "required": [
+        "forced_march_extra_hops",
+        "forced_march_morale_loss_q4",
+        "max_corps_per_area",
+        "movement_hops_per_turn"
+      ],
+      "properties": {
+        "forced_march_extra_hops": {
+          "description": "Forced-march extra-hop allowance (typically `1`).",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "forced_march_morale_loss_q4": {
+          "description": "Q4 morale loss applied on every forced march, regardless of die outcome.  PROMPT.md §6.2 morale.json.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "max_corps_per_area": {
+          "description": "Maximum corps simultaneously in one area.  Designer-authored.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "movement_hops_per_turn": {
+          "description": "Standard per-turn movement budget in hop count.  Designer-authored.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        }
+      }
+    },
     "Owner": {
       "description": "Owner of an area or unit — either a major, a minor, or unowned.",
       "oneOf": [
@@ -563,6 +690,27 @@
           }
         }
       ]
+    },
+    "PendingSubsidy": {
+      "description": "Pending subsidy transfer awaiting the next economic phase.",
+      "type": "object",
+      "required": [
+        "amount",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
     },
     "PlaceholderMarker": {
       "description": "A literal `{\"_placeholder\": true}` JSON object.",
@@ -639,6 +787,102 @@
         }
       }
     },
+    "PowerState": {
+      "description": "Per-power live state (Phase 3).  The `starting_*` fields on `PowerSetup` are immutable scenario authoring; this struct holds the values that mutate during play.",
+      "type": "object",
+      "required": [
+        "manpower",
+        "prestige",
+        "tax_policy",
+        "treasury"
+      ],
+      "properties": {
+        "manpower": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "prestige": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tax_policy": {
+          "$ref": "#/definitions/TaxPolicy"
+        },
+        "treasury": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ProductionItem": {
+      "description": "Pending unit production, materializes at `eta_turn`.",
+      "type": "object",
+      "required": [
+        "area",
+        "eta_turn",
+        "kind",
+        "owner"
+      ],
+      "properties": {
+        "area": {
+          "type": "string"
+        },
+        "corps_composition": {
+          "description": "Pre-paid composition for a corps; ignored for other kinds.",
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CorpsComposition"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "eta_turn": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "kind": {
+          "$ref": "#/definitions/ProductionKind"
+        },
+        "owner": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductionKind": {
+      "type": "string",
+      "enum": [
+        "CORPS",
+        "FLEET",
+        "DEPOT"
+      ]
+    },
+    "ReplacementItem": {
+      "description": "Pending manpower replacements (§7.9), queued from prior combat losses and arriving `eta_turn` later.",
+      "type": "object",
+      "required": [
+        "eta_turn",
+        "owner",
+        "sp_amount"
+      ],
+      "properties": {
+        "eta_turn": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "owner": {
+          "type": "string"
+        },
+        "sp_amount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "SeaAdjacency": {
       "type": "object",
       "required": [
@@ -675,6 +919,14 @@
           "format": "int32"
         }
       }
+    },
+    "TaxPolicy": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "STANDARD",
+        "HEAVY"
+      ]
     },
     "Terrain": {
       "type": "string",

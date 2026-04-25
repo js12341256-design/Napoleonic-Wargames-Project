@@ -1,31 +1,90 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "EconomyTable",
+  "description": "Designer-authored economy values (`data/tables/economy.json`). Every numeric is `Maybe<i32>`; loading with placeholders leaves the scenario `unplayable_in_release`.",
   "type": "object",
   "required": [
+    "corps_build_cost_manpower",
+    "corps_build_cost_money",
     "corps_maintenance_per_sp",
+    "corps_minimum_sp",
+    "corps_production_lag_turns",
     "depot_build_cost",
+    "fleet_build_cost_money",
     "fleet_maintenance_per_ship",
-    "manpower_recovery_per_month_q12",
-    "schema_version"
+    "fleet_production_lag_turns",
+    "manpower_recovery_lag_turns",
+    "manpower_recovery_q12",
+    "max_depots_default",
+    "new_corps_morale_q4",
+    "schema_version",
+    "tax_policy_multiplier_heavy_q4",
+    "tax_policy_multiplier_low_q4",
+    "tax_policy_multiplier_standard_q4"
   ],
   "properties": {
+    "corps_build_cost_manpower": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "corps_build_cost_money": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
     "corps_maintenance_per_sp": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "corps_minimum_sp": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "corps_production_lag_turns": {
       "$ref": "#/definitions/Maybe_for_int32"
     },
     "depot_build_cost": {
       "$ref": "#/definitions/Maybe_for_int32"
     },
+    "fleet_build_cost_money": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
     "fleet_maintenance_per_ship": {
       "$ref": "#/definitions/Maybe_for_int32"
     },
-    "manpower_recovery_per_month_q12": {
+    "fleet_production_lag_turns": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "manpower_recovery_lag_turns": {
+      "description": "How many turns after a loss a replacement arrives.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Maybe_for_int32"
+        }
+      ]
+    },
+    "manpower_recovery_q12": {
+      "description": "Q12 fraction of last turn's combat losses returned per turn.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Maybe_for_int32"
+        }
+      ]
+    },
+    "max_depots_default": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "new_corps_morale_q4": {
       "$ref": "#/definitions/Maybe_for_int32"
     },
     "schema_version": {
       "type": "integer",
       "format": "uint32",
       "minimum": 0.0
+    },
+    "tax_policy_multiplier_heavy_q4": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "tax_policy_multiplier_low_q4": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "tax_policy_multiplier_standard_q4": {
+      "$ref": "#/definitions/Maybe_for_int32"
     }
   },
   "definitions": {

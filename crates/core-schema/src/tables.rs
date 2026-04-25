@@ -182,13 +182,42 @@ pub struct NavalResult {
 
 // ─── Economy ───────────────────────────────────────────────────────────
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+/// Designer-authored economy values (`data/tables/economy.json`).
+/// Every numeric is `Maybe<i32>`; loading with placeholders leaves
+/// the scenario `unplayable_in_release`.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema)]
 pub struct EconomyTable {
     pub schema_version: u32,
+
+    // Maintenance (Phase 3) ─────────────────────────────────────────
     pub corps_maintenance_per_sp: Maybe<i32>,
     pub fleet_maintenance_per_ship: Maybe<i32>,
+
+    // Tax-policy multipliers, Q4 (denom 10000).  Keyed lexicographically
+    // for deterministic iteration; values are `Maybe<i32>`.
+    pub tax_policy_multiplier_low_q4: Maybe<i32>,
+    pub tax_policy_multiplier_standard_q4: Maybe<i32>,
+    pub tax_policy_multiplier_heavy_q4: Maybe<i32>,
+
+    // Production (§7.2) ─────────────────────────────────────────────
+    pub corps_build_cost_money: Maybe<i32>,
+    pub corps_build_cost_manpower: Maybe<i32>,
+    pub corps_production_lag_turns: Maybe<i32>,
+    pub corps_minimum_sp: Maybe<i32>,
+    pub new_corps_morale_q4: Maybe<i32>,
+
+    pub fleet_build_cost_money: Maybe<i32>,
+    pub fleet_production_lag_turns: Maybe<i32>,
+
+    // Depots (§7.3 — Phase 5 wires this in).
     pub depot_build_cost: Maybe<i32>,
-    pub manpower_recovery_per_month_q12: Maybe<i32>,
+    pub max_depots_default: Maybe<i32>,
+
+    // Replacement queue (§7.9) ──────────────────────────────────────
+    /// Q12 fraction of last turn's combat losses returned per turn.
+    pub manpower_recovery_q12: Maybe<i32>,
+    /// How many turns after a loss a replacement arrives.
+    pub manpower_recovery_lag_turns: Maybe<i32>,
 }
 
 #[cfg(test)]
