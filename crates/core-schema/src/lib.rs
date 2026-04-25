@@ -21,12 +21,14 @@
 #![forbid(unsafe_code)]
 
 pub mod canonical;
+pub mod combat_types;
 pub mod events;
 pub mod ids;
 pub mod scenario;
 pub mod tables;
 
 pub use canonical::{canonical_hash, to_canonical_string, CanonicalJsonError};
+pub use combat_types::{BattleOutcome, LeaderCasualtyKind};
 pub use events::Event;
 pub use ids::{AreaId, CorpsId, FleetId, LeaderId, MinorId, PowerId, SeaZoneId};
 pub use scenario::{Scenario, SCHEMA_VERSION};

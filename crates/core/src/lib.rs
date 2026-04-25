@@ -8,6 +8,7 @@
 #![forbid(unsafe_code)]
 #![deny(clippy::float_arithmetic)]
 
+pub mod combat;
 pub mod economy;
 pub mod loader;
 pub mod map;

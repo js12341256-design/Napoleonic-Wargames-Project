@@ -15,7 +15,8 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::ids::{AreaId, CorpsId, PowerId};
+use crate::combat_types::{BattleOutcome, LeaderCasualtyKind};
+use crate::ids::{AreaId, CorpsId, LeaderId, PowerId};
 use crate::scenario::{ProductionKind, TaxPolicy};
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
@@ -74,6 +75,34 @@ pub enum Event {
     TaxPolicySet {
         power: PowerId,
         new_policy: TaxPolicy,
+    },
+
+    // ─── Combat (Phase 4) ────────────────────────────────────────────────
+    /// A land battle was fully resolved (PROMPT.md §16.4).
+    BattleResolved {
+        area: AreaId,
+        attacker: PowerId,
+        defender: PowerId,
+        attacker_sp_before: i32,
+        defender_sp_before: i32,
+        attacker_sp_loss: i32,
+        defender_sp_loss: i32,
+        attacker_morale_q4_delta: i32,
+        defender_morale_q4_delta: i32,
+        outcome: BattleOutcome,
+    },
+    /// A defending corps fell back to an adjacent area.
+    CorpsRetreated {
+        corps: CorpsId,
+        from: AreaId,
+        to: AreaId,
+    },
+    /// A defending corps was routed (morale below rout threshold).
+    CorpsRouted { corps: CorpsId, area: AreaId },
+    /// A leader suffered a casualty after battle.
+    LeaderCasualty {
+        leader: LeaderId,
+        casualty_kind: LeaderCasualtyKind,
     },
 }
 

@@ -42,6 +42,14 @@ Sections that may appear per release:
   (`SetTaxPolicy`, `BuildCorps`, `BuildFleet`, `Subsidize`), 22
   hand-written test cases, `gc1805 economic-phase` CLI subcommand.
   92 tests passing.  See `docs/phase-reports/phase-03.md`.
+- Phase 4 — land combat: `BattleOutcome`/`LeaderCasualtyKind` types,
+  `BattleResolved`/`CorpsRetreated`/`CorpsRouted`/`LeaderCasualty` event
+  variants, `AttackOrder`/`BombardOrder` order types, `zones_of_control`,
+  `validate_attack`, `resolve_battle` resolver skeleton (placeholder-tolerant),
+  52 hand-written test cases, combat/attrition/morale/leader_casualty data
+  table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
+  provide real combat.json values).  144 tests passing.
+  See `docs/phase-reports/phase-04.md`.
 
 ### Rules
 

@@ -37,6 +37,10 @@ pub enum Order {
     BuildFleet(BuildFleetOrder),
     /// Send money to another power; applied at the next economic phase.
     Subsidize(SubsidyOrder),
+    /// Attack an enemy-held area with one or more corps.
+    Attack(AttackOrder),
+    /// Bombard an adjacent enemy area (artillery-only action).
+    Bombard(BombardOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -86,6 +90,21 @@ pub struct SubsidyOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct AttackOrder {
+    pub submitter: PowerId,
+    pub attacking_corps: Vec<CorpsId>,
+    pub target_area: AreaId,
+    pub formation: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct BombardOrder {
+    pub submitter: PowerId,
+    pub corps: CorpsId,
+    pub target_area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -107,6 +126,8 @@ impl Order {
             Order::BuildCorps(o) => &o.submitter,
             Order::BuildFleet(o) => &o.submitter,
             Order::Subsidize(o) => &o.submitter,
+            Order::Attack(o) => &o.submitter,
+            Order::Bombard(o) => &o.submitter,
         }
     }
 
@@ -121,7 +142,9 @@ impl Order {
             Order::SetTaxPolicy(_)
             | Order::BuildCorps(_)
             | Order::BuildFleet(_)
-            | Order::Subsidize(_) => None,
+            | Order::Subsidize(_)
+            | Order::Attack(_)
+            | Order::Bombard(_) => None,
         }
     }
 
