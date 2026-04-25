@@ -20,6 +20,9 @@ Sections that may appear per release:
 
 ### Added
 
+- Phase 11 — deterministic AI heuristics in `gc1805-ai`, default personality
+  config, projection-only order generation, `DeclareWar` order support, and
+  25 hand-written tests.  See `docs/phase-reports/phase-11.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design

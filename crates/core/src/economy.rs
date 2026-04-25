@@ -538,6 +538,7 @@ fn order_kind_name(order: &Order) -> &'static str {
         Order::Subsidize(_) => "Subsidize",
         Order::Attack(_) => "Attack",
         Order::Bombard(_) => "Bombard",
+        Order::DeclareWar(_) => "DeclareWar",
     }
 }
 

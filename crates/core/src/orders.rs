@@ -41,6 +41,8 @@ pub enum Order {
     Attack(AttackOrder),
     /// Bombard an adjacent enemy area (artillery-only action).
     Bombard(BombardOrder),
+    /// Declare war on another major power.
+    DeclareWar(DeclareWarOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -105,6 +107,12 @@ pub struct BombardOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct DeclareWarOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -128,6 +136,7 @@ impl Order {
             Order::Subsidize(o) => &o.submitter,
             Order::Attack(o) => &o.submitter,
             Order::Bombard(o) => &o.submitter,
+            Order::DeclareWar(o) => &o.submitter,
         }
     }
 
@@ -144,7 +153,8 @@ impl Order {
             | Order::BuildFleet(_)
             | Order::Subsidize(_)
             | Order::Attack(_)
-            | Order::Bombard(_) => None,
+            | Order::Bombard(_)
+            | Order::DeclareWar(_) => None,
         }
     }
 
