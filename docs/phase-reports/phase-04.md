@@ -14,7 +14,7 @@ retreat resolution via lexicographic ZoC-filtered candidates.  52
 hand-written test cases.
 
 **Gate status: CLOSED — Q1 answered on 2026-04-25.**  
-Designer-authored `combat.json` values are now integrated in the repo and the resolver/schema consume the real table shape directly. Commit reference recorded in follow-up after commit creation.
+Designer-authored `combat.json` values are now integrated in the repo and the resolver/schema consume the real table shape directly. Integrated by commit `eab2577`.
 
 Workspace clean under fmt, build, test, and clippy on Rust 1.95.0.
 

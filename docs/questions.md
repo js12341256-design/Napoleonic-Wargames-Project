@@ -8,7 +8,7 @@ editing this file and referencing the commit that acts on the answer.
 
 ## Q1 — Who authors the rules tables?
 
-**Status:** CLOSED — 2026-04-25. Designer-authored `data/tables/combat.json` integrated on branch `integrate/q1-combat-tables-q9-toolchain` (commit ref recorded in follow-up after commit).
+**Status:** CLOSED — 2026-04-25. Designer-authored `data/tables/combat.json` integrated on branch `integrate/q1-combat-tables-q9-toolchain` (commit `eab2577`).
 
 **Blocks:** Phase 1 gate (scenario completeness), Phase 4 and onward (every
 rules subsystem).
@@ -80,7 +80,7 @@ hardware, or a CI runner of that spec is provisioned.
 
 ## Q9 — Rust toolchain version pin
 
-**Status:** CLOSED — 2026-04-25. ADR accepted and implemented: Rust pinned to `1.95.0` in `rust-toolchain.toml`, workspace `Cargo.toml`, and CI (commit ref recorded in follow-up after commit).
+**Status:** CLOSED — 2026-04-25. ADR accepted and implemented: Rust pinned to `1.95.0` in `rust-toolchain.toml`, workspace `Cargo.toml`, and CI (commit `eab2577`).
 
 **Blocks:** PROMPT.md §3.6 compliance (pinned minor version, updated
 quarterly).

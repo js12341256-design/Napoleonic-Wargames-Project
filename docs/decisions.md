@@ -71,5 +71,5 @@ require a human answer before they can be closed.
 
 ## 2026-04-25 — Q1 and Q9 resolved
 
-- **Q1 (combat tables):** Closed. The designer-authored `combat.json` from `/tmp/q_answers/Q1_combat.json` replaced the placeholder table, and `gc1805-core-schema` / `gc1805-core` were updated to consume the real ratio-bucket / formation / results-table structure directly instead of the temporary Phase 4 placeholder schema.
-- **Q9 (Rust toolchain):** Closed. ADR 0001 accepted Rust `1.95.0` as the pinned stable toolchain. The pin now lives in `rust-toolchain.toml`, `workspace.package.rust-version`, and CI, with an explicit verification step to fail on toolchain drift.
+- **Q1 (combat tables):** Closed. The designer-authored `combat.json` from `/tmp/q_answers/Q1_combat.json` replaced the placeholder table, and `gc1805-core-schema` / `gc1805-core` were updated to consume the real ratio-bucket / formation / results-table structure directly instead of the temporary Phase 4 placeholder schema (commit `eab2577`).
+- **Q9 (Rust toolchain):** Closed. ADR 0001 accepted Rust `1.95.0` as the pinned stable toolchain. The pin now lives in `rust-toolchain.toml`, `workspace.package.rust-version`, and CI, with an explicit verification step to fail on toolchain drift (commit `eab2577`).
