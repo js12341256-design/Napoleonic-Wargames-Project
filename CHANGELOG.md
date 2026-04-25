@@ -59,6 +59,14 @@ Sections that may appear per release:
   (`DeclareWar`, `ProposePeace`, `FormAlliance`, `BreakAlliance`),
   diplomacy event vocabulary, alliance cascade handling, and 30
   hand-written tests.  See `docs/phase-reports/phase-06.md`.
+- Phase 7 — political phase: PP tracking in `power_state.prestige`,
+  `apply_pp_delta` with `PpModifiersTable` lookup (all Placeholder),
+  revolt triggers (`check_revolts`), abdication condition
+  (`check_abdication`), `resolve_political_phase` entry point.
+  `PrestigeAwarded`, `RevoltTriggered`, `PeaceConferenceOpened`,
+  `AbdicationForced` event variants.  30 hand-written test cases,
+  `docs/rules/political.md`.  All thresholds are structural placeholders.
+  See `docs/phase-reports/phase-07.md`.
 
 ### Rules
 

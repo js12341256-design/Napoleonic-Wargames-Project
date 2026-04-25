@@ -15,6 +15,7 @@ pub mod loader;
 pub mod map;
 pub mod movement;
 pub mod orders;
+pub mod political;
 pub mod projection;
 pub mod supply;
 pub mod validate;
