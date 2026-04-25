@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "corps_maintenance_per_sp": {"_placeholder": true},
+  "fleet_maintenance_per_ship": {"_placeholder": true},
+  "tax_policy_multiplier_low_q4": {"_placeholder": true},
+  "tax_policy_multiplier_standard_q4": {"_placeholder": true},
+  "tax_policy_multiplier_heavy_q4": {"_placeholder": true},
+  "corps_build_cost_money": {"_placeholder": true},
+  "corps_build_cost_manpower": {"_placeholder": true},
+  "corps_production_lag_turns": {"_placeholder": true},
+  "corps_minimum_sp": {"_placeholder": true},
+  "new_corps_morale_q4": {"_placeholder": true},
+  "fleet_build_cost_money": {"_placeholder": true},
+  "fleet_production_lag_turns": {"_placeholder": true},
+  "depot_build_cost": {"_placeholder": true},
+  "max_depots_default": {"_placeholder": true},
+  "manpower_recovery_q12": {"_placeholder": true},
+  "manpower_recovery_lag_turns": {"_placeholder": true}
+}

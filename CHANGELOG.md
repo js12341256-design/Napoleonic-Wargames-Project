@@ -20,6 +20,10 @@ Sections that may appear per release:
 
 ### Added
 
+- Phase 17 — modding: deterministic `ModLoader`, `mod.json` manifest
+  parsing, alphabetical mod discovery, last-wins override resolution,
+  `docs/rules/modding.md`, `mods/example_mod/`, and 16
+  filesystem-driven tests. See `docs/phase-reports/phase-17.md`.
 - Phase 0 scaffolding: workspace, 13 stub crates, directory layout per
   `docs/PROMPT.md` §4, CI workflow, toolchain pins, baseline documentation.
 - `reference/prototype/` archived from the *Dusk of the Old World* design
