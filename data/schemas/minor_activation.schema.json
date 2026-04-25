@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MinorActivationTable",
+  "type": "object",
+  "required": [
+    "rows",
+    "schema_version"
+  ],
+  "properties": {
+    "rows": {
+      "description": "Keyed by minor ID → trigger key → outcome distribution.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Maybe_for_MinorActivationRow"
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "Maybe_for_MinorActivationRow": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/MinorActivationRow"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "MinorActivationRow": {
+      "type": "object",
+      "required": [
+        "outcomes",
+        "trigger"
+      ],
+      "properties": {
+        "outcomes": {
+          "description": "outcome key → Q12 probability.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "trigger": {
+          "type": "string"
+        }
+      }
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

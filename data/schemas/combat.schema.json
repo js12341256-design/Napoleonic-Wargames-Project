@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CombatTable",
+  "type": "object",
+  "required": [
+    "die_faces",
+    "formation_matrix",
+    "formations",
+    "ratio_buckets",
+    "results",
+    "schema_version",
+    "terrain_modifiers"
+  ],
+  "properties": {
+    "die_faces": {
+      "type": "integer",
+      "format": "uint8",
+      "minimum": 0.0
+    },
+    "formation_matrix": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/FormationEntry"
+      }
+    },
+    "formations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ratio_buckets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "results": {
+      "description": "Keyed by `ratio_bucket`; each entry has one `CombatResult` per die face (length must equal `die_faces`).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Maybe_for_CombatResult"
+        }
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "terrain_modifiers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/TerrainModifier"
+      }
+    }
+  },
+  "definitions": {
+    "CombatResult": {
+      "type": "object",
+      "required": [
+        "attacker_morale_q4",
+        "attacker_sp_loss",
+        "defender_morale_q4",
+        "defender_sp_loss",
+        "retreat_hexes"
+      ],
+      "properties": {
+        "attacker_morale_q4": {
+          "description": "Morale delta in fixed-point quarter-thousandths (`/10000`).",
+          "type": "integer",
+          "format": "int32"
+        },
+        "attacker_sp_loss": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "defender_morale_q4": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "defender_sp_loss": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "retreat_hexes": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "FormationEntry": {
+      "type": "object",
+      "required": [
+        "att_col_shift",
+        "def_col_shift"
+      ],
+      "properties": {
+        "att_col_shift": {
+          "type": "integer",
+          "format": "int8"
+        },
+        "def_col_shift": {
+          "type": "integer",
+          "format": "int8"
+        }
+      }
+    },
+    "Maybe_for_CombatResult": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/CombatResult"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TerrainModifier": {
+      "type": "object",
+      "required": [
+        "att_col_shift"
+      ],
+      "properties": {
+        "att_col_shift": {
+          "type": "integer",
+          "format": "int8"
+        }
+      }
+    }
+  }
+}

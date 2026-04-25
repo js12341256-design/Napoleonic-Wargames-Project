@@ -1,0 +1,690 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scenario",
+  "description": "A complete scenario — the immutable starting state of a campaign.\n\nThis type is the root of `data/scenarios/<id>/scenario.json`. Per §5.3, every persisted root carries `schema_version`.",
+  "type": "object",
+  "required": [
+    "adjacency",
+    "areas",
+    "coast_links",
+    "corps",
+    "diplomacy",
+    "end",
+    "fleets",
+    "leaders",
+    "minors",
+    "name",
+    "powers",
+    "rules_version",
+    "scenario_id",
+    "schema_version",
+    "sea_adjacency",
+    "sea_zones",
+    "start",
+    "unplayable_in_release"
+  ],
+  "properties": {
+    "adjacency": {
+      "description": "Adjacency between land areas (undirected; both directions stored for query simplicity, validated symmetric at load).",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AreaAdjacency"
+      }
+    },
+    "areas": {
+      "description": "Land areas on the strategic map.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Area"
+      }
+    },
+    "coast_links": {
+      "description": "Adjacency between land areas and sea zones (for ports).",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CoastLink"
+      }
+    },
+    "corps": {
+      "description": "Starting corps.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Corps"
+      }
+    },
+    "diplomacy": {
+      "description": "Starting diplomatic relations.  Keyed by the lexicographically smaller power; pair semantics are symmetric.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/DiplomaticState"
+      }
+    },
+    "end": {
+      "description": "Inclusive ending (year, month).",
+      "allOf": [
+        {
+          "$ref": "#/definitions/GameDate"
+        }
+      ]
+    },
+    "features": {
+      "description": "Toggleable rules.  All optional rules default to `false`.",
+      "default": {
+        "continental_system": false,
+        "named_events": false
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Features"
+        }
+      ]
+    },
+    "fleets": {
+      "description": "Starting fleets.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Fleet"
+      }
+    },
+    "leaders": {
+      "description": "Leaders, keyed by ID; lookups use the same map regardless of whether the leader is currently in play.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Leader"
+      }
+    },
+    "minors": {
+      "description": "Minor countries.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/MinorSetup"
+      }
+    },
+    "name": {
+      "description": "Display name (English source; localization handles other locales).",
+      "type": "string"
+    },
+    "powers": {
+      "description": "Major powers, keyed by stable ID.  `BTreeMap` for deterministic iteration (§2.2).",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/PowerSetup"
+      }
+    },
+    "rules_version": {
+      "description": "Bumped whenever a tables file changes semantics (PROMPT.md §6.4).",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "scenario_id": {
+      "description": "Stable identifier for this scenario, lowercase snake-case.",
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "sea_adjacency": {
+      "description": "Sea-zone adjacency (undirected).",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SeaAdjacency"
+      }
+    },
+    "sea_zones": {
+      "description": "Sea zones for naval movement.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/SeaZone"
+      }
+    },
+    "start": {
+      "description": "Inclusive starting (year, month).  `month` is 1..=12.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/GameDate"
+        }
+      ]
+    },
+    "unplayable_in_release": {
+      "description": "Hard release-blocker flag.  Set `true` while any PLACEHOLDER values remain (PROMPT.md §6.1).",
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "Area": {
+      "type": "object",
+      "required": [
+        "display_name",
+        "fort_level",
+        "manpower_yield",
+        "map_x",
+        "map_y",
+        "money_yield",
+        "owner",
+        "terrain"
+      ],
+      "properties": {
+        "capital_of": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "fort_level": {
+          "description": "Fortress level 0..=5; 0 = no fortifications.",
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "manpower_yield": {
+          "description": "Monthly manpower yield (SP / 12, integer).  Designer-authored.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "map_x": {
+          "description": "Strategic map coords (1400×900 viewBox), UI only.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "map_y": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "money_yield": {
+          "description": "Monthly economic yield (francs).  Designer-authored; may be a PLACEHOLDER per §6.1 until filled.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "port": {
+          "default": false,
+          "type": "boolean"
+        },
+        "terrain": {
+          "$ref": "#/definitions/Terrain"
+        }
+      }
+    },
+    "AreaAdjacency": {
+      "type": "object",
+      "required": [
+        "cost",
+        "from",
+        "to"
+      ],
+      "properties": {
+        "cost": {
+          "description": "Land-link cost.  Designer-authored per movement table.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Maybe_for_int32"
+            }
+          ]
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
+    },
+    "CoastLink": {
+      "type": "object",
+      "required": [
+        "area",
+        "sea"
+      ],
+      "properties": {
+        "area": {
+          "type": "string"
+        },
+        "sea": {
+          "type": "string"
+        }
+      }
+    },
+    "Corps": {
+      "type": "object",
+      "required": [
+        "area",
+        "artillery_sp",
+        "cavalry_sp",
+        "display_name",
+        "infantry_sp",
+        "morale_q4",
+        "owner",
+        "supplied"
+      ],
+      "properties": {
+        "area": {
+          "type": "string"
+        },
+        "artillery_sp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cavalry_sp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "infantry_sp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "leader": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "morale_q4": {
+          "description": "Morale 0..=10000 (fixed-point, denominator 10000).",
+          "type": "integer",
+          "format": "int32"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "supplied": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DiplomaticState": {
+      "type": "string",
+      "enum": [
+        "WAR",
+        "UNFRIENDLY",
+        "NEUTRAL",
+        "FRIENDLY",
+        "ALLIED"
+      ]
+    },
+    "Features": {
+      "description": "Optional rules toggleable per scenario.  Per PROMPT.md §23.7 the Continental System is out of v1.0; the flag exists so the eventual data pack has a place to land.",
+      "type": "object",
+      "properties": {
+        "continental_system": {
+          "default": false,
+          "type": "boolean"
+        },
+        "named_events": {
+          "description": "Named-events system (§7.8).  In for v1.0 per ADR 0001.",
+          "default": false,
+          "type": "boolean"
+        }
+      }
+    },
+    "Fleet": {
+      "type": "object",
+      "required": [
+        "display_name",
+        "frigates",
+        "morale_q4",
+        "owner",
+        "ships_of_the_line",
+        "transports"
+      ],
+      "properties": {
+        "admiral": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "at_port": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "at_sea": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "frigates": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "morale_q4": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "ships_of_the_line": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "transports": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "GameDate": {
+      "description": "`(year, month)` pair — month is 1..=12.  No wall-clock time enters the simulation core, only this logical date.",
+      "type": "object",
+      "required": [
+        "month",
+        "year"
+      ],
+      "properties": {
+        "month": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Leader": {
+      "type": "object",
+      "required": [
+        "born",
+        "display_name",
+        "initiative",
+        "strategic",
+        "tactical"
+      ],
+      "properties": {
+        "army_commander": {
+          "description": "`true` if this leader can command an entire army (multi-corps); `false` for corps commanders only.",
+          "default": false,
+          "type": "boolean"
+        },
+        "born": {
+          "description": "Birth (year, month).  Used for age-of-death rolls (§7.10).",
+          "allOf": [
+            {
+              "$ref": "#/definitions/GameDate"
+            }
+          ]
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "initiative": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "strategic": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "tactical": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      }
+    },
+    "Maybe_for_int32": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "MinorRelationship": {
+      "description": "State machine for a minor's relationship with the powers (§7.1).",
+      "type": "string",
+      "enum": [
+        "INDEPENDENT_FREE",
+        "ALLIED_FREE",
+        "FEUDAL",
+        "CONQUERED",
+        "IN_REVOLT"
+      ]
+    },
+    "MinorSetup": {
+      "description": "Initial setup for a minor country.",
+      "type": "object",
+      "required": [
+        "display_name",
+        "home_areas",
+        "initial_relationship",
+        "starting_force_level"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "home_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "initial_relationship": {
+          "$ref": "#/definitions/MinorRelationship"
+        },
+        "patron": {
+          "description": "If `Allied` / `Feudal` / `Conquered`, the major they are tied to.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "starting_force_level": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Owner": {
+      "description": "Owner of an area or unit — either a major, a minor, or unowned.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "power"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "POWER"
+              ]
+            },
+            "power": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "minor"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "MINOR"
+              ]
+            },
+            "minor": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "UNOWNED"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PowerSetup": {
+      "description": "Initial setup for a major power.\n\n`starting_treasury` and `income` are integers in \"francs\" (the scenario's accounting unit; one unit per `Money` step).",
+      "type": "object",
+      "required": [
+        "capital",
+        "color_hex",
+        "display_name",
+        "house",
+        "max_corps",
+        "max_depots",
+        "mobilization_areas",
+        "ruler",
+        "starting_manpower",
+        "starting_pp",
+        "starting_treasury"
+      ],
+      "properties": {
+        "capital": {
+          "type": "string"
+        },
+        "color_hex": {
+          "description": "Heraldic display color (sRGB hex, e.g. `#2a3a6a`); UI only.",
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "house": {
+          "type": "string"
+        },
+        "max_corps": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "max_depots": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "mobilization_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ruler": {
+          "type": "string"
+        },
+        "starting_manpower": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_pp": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_treasury": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SeaAdjacency": {
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
+    },
+    "SeaZone": {
+      "type": "object",
+      "required": [
+        "display_name",
+        "map_x",
+        "map_y"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "map_x": {
+          "description": "Optional bounding-box centroid for UI.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "map_y": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Terrain": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "FOREST",
+        "MOUNTAIN",
+        "MARSH",
+        "URBAN"
+      ]
+    }
+  }
+}

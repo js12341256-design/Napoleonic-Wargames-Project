@@ -1,9 +1,19 @@
 //! Grand Campaign 1805 — simulation core.
 //!
-//! This crate is the pure, deterministic simulation library.
-//! It is forbidden from touching I/O, wall-clock time, async runtimes,
-//! or hash-ordered iteration.  See `docs/PROMPT.md` §2 and §3.1.
+//! Pure, deterministic library.  No I/O outside the explicit
+//! [`loader`] module entry points; no wall-clock; no async; no
+//! hash-ordered iteration.  See `docs/PROMPT.md` §2 and §3.1.
 //!
-//! Phase 0 status: scaffolding only.
+//! Phase 1 status: scenario loader, projection, integrity checks.
 #![forbid(unsafe_code)]
 #![deny(clippy::float_arithmetic)]
+
+pub mod loader;
+pub mod projection;
+pub mod validate;
+
+pub use loader::{load_scenario_str, LoadError, LoadReport};
+pub use projection::{project, ProjectedScenario};
+pub use validate::{validate_scenario, IntegrityIssue};
+
+pub use gc1805_core_schema as schema;

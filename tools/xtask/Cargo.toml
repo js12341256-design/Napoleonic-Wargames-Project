@@ -11,5 +11,11 @@ description = "Build automation (asset pipeline drivers, release helpers)."
 name = "xtask"
 path = "src/main.rs"
 
+[dependencies]
+gc1805-core-schema = { path = "../../crates/core-schema" }
+schemars   = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+
 [lints]
 workspace = true

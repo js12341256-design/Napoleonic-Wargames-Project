@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "rules_version": 0,
+  "scenario_id": "1805_standard",
+  "name": "1805 — Third Coalition (placeholder)",
+  "start": { "year": 1805, "month": 4 },
+  "end":   { "year": 1815, "month": 12 },
+  "unplayable_in_release": true,
+  "features": {
+    "continental_system": false,
+    "named_events": true
+  },
+
+  "leaders": {
+    "LEADER_NAPOLEON": {
+      "display_name": "Napoleon I",
+      "strategic": 5, "tactical": 5, "initiative": 9,
+      "army_commander": true,
+      "born": { "year": 1769, "month": 8 }
+    },
+    "LEADER_DAVOUT": {
+      "display_name": "Davout",
+      "strategic": 4, "tactical": 5, "initiative": 7,
+      "army_commander": true,
+      "born": { "year": 1770, "month": 5 }
+    },
+    "LEADER_SOULT": {
+      "display_name": "Soult",
+      "strategic": 3, "tactical": 4, "initiative": 6,
+      "born": { "year": 1769, "month": 3 }
+    },
+    "LEADER_NEY": {
+      "display_name": "Ney",
+      "strategic": 2, "tactical": 5, "initiative": 7,
+      "born": { "year": 1769, "month": 1 }
+    },
+    "LEADER_BERNADOTTE": {
+      "display_name": "Bernadotte",
+      "strategic": 3, "tactical": 3, "initiative": 5,
+      "born": { "year": 1763, "month": 1 }
+    },
+    "LEADER_MASSENA": {
+      "display_name": "Masséna",
+      "strategic": 4, "tactical": 4, "initiative": 6,
+      "born": { "year": 1758, "month": 5 }
+    },
+    "LEADER_GEORGE_III": {
+      "display_name": "George III",
+      "strategic": 1, "tactical": 1, "initiative": 1,
+      "born": { "year": 1738, "month": 6 }
+    },
+    "LEADER_WELLESLEY": {
+      "display_name": "Wellesley",
+      "strategic": 4, "tactical": 4, "initiative": 6,
+      "army_commander": true,
+      "born": { "year": 1769, "month": 5 }
+    },
+    "LEADER_FRANZ_II": {
+      "display_name": "Franz II",
+      "strategic": 2, "tactical": 1, "initiative": 2,
+      "born": { "year": 1768, "month": 2 }
+    },
+    "LEADER_CHARLES": {
+      "display_name": "Archduke Charles",
+      "strategic": 4, "tactical": 3, "initiative": 5,
+      "army_commander": true,
+      "born": { "year": 1771, "month": 9 }
+    },
+    "LEADER_FW_III": {
+      "display_name": "Friedrich Wilhelm III",
+      "strategic": 1, "tactical": 1, "initiative": 1,
+      "born": { "year": 1770, "month": 8 }
+    },
+    "LEADER_BLUCHER": {
+      "display_name": "Blücher",
+      "strategic": 3, "tactical": 3, "initiative": 5,
+      "army_commander": true,
+      "born": { "year": 1742, "month": 12 }
+    },
+    "LEADER_ALEXANDER_I": {
+      "display_name": "Alexander I",
+      "strategic": 2, "tactical": 1, "initiative": 2,
+      "born": { "year": 1777, "month": 12 }
+    },
+    "LEADER_KUTUZOV": {
+      "display_name": "Kutuzov",
+      "strategic": 4, "tactical": 3, "initiative": 5,
+      "army_commander": true,
+      "born": { "year": 1745, "month": 9 }
+    },
+    "LEADER_BAGRATION": {
+      "display_name": "Bagration",
+      "strategic": 3, "tactical": 4, "initiative": 6,
+      "born": { "year": 1765, "month": 7 }
+    },
+    "LEADER_CARLOS_IV": {
+      "display_name": "Carlos IV",
+      "strategic": 1, "tactical": 1, "initiative": 1,
+      "born": { "year": 1748, "month": 11 }
+    },
+    "LEADER_SELIM_III": {
+      "display_name": "Selim III",
+      "strategic": 1, "tactical": 1, "initiative": 1,
+      "born": { "year": 1761, "month": 12 }
+    }
+  },
+
+  "areas": {
+    "AREA_PARIS":      { "display_name": "Paris",      "owner": { "kind": "POWER", "power": "FRA" }, "terrain": "URBAN",    "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "FRA", "map_x": 410, "map_y": 360 },
+    "AREA_LYON":       { "display_name": "Lyon",       "owner": { "kind": "POWER", "power": "FRA" }, "terrain": "OPEN",     "fort_level": 1, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "map_x": 465, "map_y": 430 },
+    "AREA_MARSEILLE":  { "display_name": "Marseille",  "owner": { "kind": "POWER", "power": "FRA" }, "terrain": "OPEN",     "fort_level": 1, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "port": true, "map_x": 475, "map_y": 510 },
+    "AREA_BREST":      { "display_name": "Brest",      "owner": { "kind": "POWER", "power": "FRA" }, "terrain": "OPEN",     "fort_level": 2, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "port": true, "map_x": 320, "map_y": 345 },
+    "AREA_STRASBOURG": { "display_name": "Strasbourg", "owner": { "kind": "POWER", "power": "FRA" }, "terrain": "OPEN",     "fort_level": 2, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "map_x": 540, "map_y": 345 },
+
+    "AREA_LONDON":     { "display_name": "London",     "owner": { "kind": "POWER", "power": "GBR" }, "terrain": "URBAN",    "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "GBR", "port": true, "map_x": 370, "map_y": 230 },
+
+    "AREA_VIENNA":     { "display_name": "Vienna",     "owner": { "kind": "POWER", "power": "AUS" }, "terrain": "OPEN",     "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "AUS", "map_x": 735, "map_y": 380 },
+    "AREA_PRAGUE":     { "display_name": "Prague",     "owner": { "kind": "POWER", "power": "AUS" }, "terrain": "OPEN",     "fort_level": 2, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "map_x": 685, "map_y": 355 },
+
+    "AREA_BERLIN":     { "display_name": "Berlin",     "owner": { "kind": "POWER", "power": "PRU" }, "terrain": "OPEN",     "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "PRU", "map_x": 685, "map_y": 260 },
+
+    "AREA_STPETE":     { "display_name": "St. Petersburg", "owner": { "kind": "POWER", "power": "RUS" }, "terrain": "MARSH", "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "RUS", "port": true, "map_x": 870, "map_y": 165 },
+    "AREA_MOSCOW":     { "display_name": "Moscow",     "owner": { "kind": "POWER", "power": "RUS" }, "terrain": "OPEN",     "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "map_x": 1010, "map_y": 220 },
+
+    "AREA_MADRID":     { "display_name": "Madrid",     "owner": { "kind": "POWER", "power": "SPA" }, "terrain": "OPEN",     "fort_level": 2, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "SPA", "map_x": 255, "map_y": 505 },
+
+    "AREA_ISTANBUL":   { "display_name": "Istanbul",   "owner": { "kind": "POWER", "power": "OTT" }, "terrain": "URBAN",    "fort_level": 3, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "capital_of": "OTT", "port": true, "map_x": 895, "map_y": 550 },
+
+    "AREA_MUNICH":     { "display_name": "Munich",     "owner": { "kind": "MINOR", "minor": "MINOR_BAVARIA" }, "terrain": "OPEN", "fort_level": 1, "money_yield": { "_placeholder": true }, "manpower_yield": { "_placeholder": true }, "map_x": 625, "map_y": 375 }
+  },
+
+  "sea_zones": {
+    "SEA_ENGLISH_CHANNEL": { "display_name": "English Channel", "map_x": 360, "map_y": 270 },
+    "SEA_NORTH_SEA":       { "display_name": "North Sea",       "map_x": 480, "map_y": 200 },
+    "SEA_BALTIC":          { "display_name": "Baltic",          "map_x": 700, "map_y": 180 },
+    "SEA_WESTERN_MED":     { "display_name": "Western Mediterranean", "map_x": 450, "map_y": 560 }
+  },
+
+  "powers": {
+    "AUS": { "display_name": "Austria", "house": "Habsburg",     "ruler": "LEADER_FRANZ_II",   "capital": "AREA_VIENNA",   "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 8,  "max_depots": 6, "mobilization_areas": ["AREA_VIENNA", "AREA_PRAGUE"], "color_hex": "#b8a878" },
+    "FRA": { "display_name": "France",  "house": "Bonaparte",    "ruler": "LEADER_NAPOLEON",   "capital": "AREA_PARIS",    "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 12, "max_depots": 8, "mobilization_areas": ["AREA_PARIS", "AREA_STRASBOURG"], "color_hex": "#2a3a6a" },
+    "GBR": { "display_name": "Great Britain", "house": "Hanover", "ruler": "LEADER_GEORGE_III", "capital": "AREA_LONDON",   "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 4,  "max_depots": 4, "mobilization_areas": ["AREA_LONDON"], "color_hex": "#8c2a1a" },
+    "OTT": { "display_name": "Ottoman Porte", "house": "Osman",  "ruler": "LEADER_SELIM_III",  "capital": "AREA_ISTANBUL", "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 6,  "max_depots": 5, "mobilization_areas": ["AREA_ISTANBUL"], "color_hex": "#6a3a7a" },
+    "PRU": { "display_name": "Prussia", "house": "Hohenzollern", "ruler": "LEADER_FW_III",     "capital": "AREA_BERLIN",   "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 6,  "max_depots": 5, "mobilization_areas": ["AREA_BERLIN"], "color_hex": "#2b2b2b" },
+    "RUS": { "display_name": "Russia",  "house": "Romanov",      "ruler": "LEADER_ALEXANDER_I","capital": "AREA_STPETE",   "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 8,  "max_depots": 6, "mobilization_areas": ["AREA_STPETE", "AREA_MOSCOW"], "color_hex": "#3a5a3a" },
+    "SPA": { "display_name": "Spain",   "house": "Bourbon",      "ruler": "LEADER_CARLOS_IV",  "capital": "AREA_MADRID",   "starting_treasury": 0, "starting_manpower": 0, "starting_pp": 0, "max_corps": 6,  "max_depots": 4, "mobilization_areas": ["AREA_MADRID"], "color_hex": "#c4951f" }
+  },
+
+  "minors": {
+    "MINOR_BAVARIA": {
+      "display_name": "Bavaria",
+      "home_areas": ["AREA_MUNICH"],
+      "initial_relationship": "ALLIED_FREE",
+      "patron": "FRA",
+      "starting_force_level": 0
+    }
+  },
+
+  "corps": {
+    "CORPS_FRA_001": {
+      "display_name": "I. Garde Impériale",
+      "owner": "FRA", "area": "AREA_PARIS",
+      "infantry_sp": 22, "cavalry_sp": 4, "artillery_sp": 6,
+      "morale_q4": 9500, "supplied": true,
+      "leader": "LEADER_NAPOLEON"
+    },
+    "CORPS_FRA_002": {
+      "display_name": "III. Corps",
+      "owner": "FRA", "area": "AREA_STRASBOURG",
+      "infantry_sp": 16, "cavalry_sp": 3, "artillery_sp": 4,
+      "morale_q4": 9000, "supplied": true,
+      "leader": "LEADER_DAVOUT"
+    },
+    "CORPS_AUS_001": {
+      "display_name": "Erzherzog Karl",
+      "owner": "AUS", "area": "AREA_VIENNA",
+      "infantry_sp": 17, "cavalry_sp": 3, "artillery_sp": 4,
+      "morale_q4": 8000, "supplied": true,
+      "leader": "LEADER_CHARLES"
+    },
+    "CORPS_RUS_001": {
+      "display_name": "1st Western Army",
+      "owner": "RUS", "area": "AREA_MOSCOW",
+      "infantry_sp": 18, "cavalry_sp": 4, "artillery_sp": 4,
+      "morale_q4": 8500, "supplied": true,
+      "leader": "LEADER_KUTUZOV"
+    },
+    "CORPS_PRU_001": {
+      "display_name": "Prussian Main",
+      "owner": "PRU", "area": "AREA_BERLIN",
+      "infantry_sp": 16, "cavalry_sp": 3, "artillery_sp": 4,
+      "morale_q4": 8500, "supplied": true,
+      "leader": "LEADER_BLUCHER"
+    },
+    "CORPS_GBR_001": {
+      "display_name": "Expeditionary",
+      "owner": "GBR", "area": "AREA_LONDON",
+      "infantry_sp": 10, "cavalry_sp": 1, "artillery_sp": 2,
+      "morale_q4": 9000, "supplied": true,
+      "leader": "LEADER_WELLESLEY"
+    }
+  },
+
+  "fleets": {
+    "FLEET_GBR_001": {
+      "display_name": "Channel Fleet",
+      "owner": "GBR",
+      "at_port": "AREA_LONDON",
+      "ships_of_the_line": 22, "frigates": 14, "transports": 8,
+      "morale_q4": 9000
+    },
+    "FLEET_FRA_001": {
+      "display_name": "Flotte de Brest",
+      "owner": "FRA",
+      "at_port": "AREA_BREST",
+      "ships_of_the_line": 18, "frigates": 8, "transports": 4,
+      "morale_q4": 7500
+    }
+  },
+
+  "diplomacy": {
+    "FRA:GBR": "WAR",
+    "FRA:RUS": "UNFRIENDLY",
+    "FRA:AUS": "NEUTRAL",
+    "FRA:PRU": "NEUTRAL",
+    "FRA:SPA": "ALLIED",
+    "FRA:OTT": "NEUTRAL",
+    "AUS:GBR": "FRIENDLY",
+    "AUS:RUS": "FRIENDLY",
+    "GBR:RUS": "FRIENDLY"
+  },
+
+  "adjacency": [
+    { "from": "AREA_PARIS",      "to": "AREA_LYON",       "cost": { "_placeholder": true } },
+    { "from": "AREA_LYON",       "to": "AREA_PARIS",      "cost": { "_placeholder": true } },
+    { "from": "AREA_PARIS",      "to": "AREA_STRASBOURG", "cost": { "_placeholder": true } },
+    { "from": "AREA_STRASBOURG", "to": "AREA_PARIS",      "cost": { "_placeholder": true } },
+    { "from": "AREA_PARIS",      "to": "AREA_BREST",      "cost": { "_placeholder": true } },
+    { "from": "AREA_BREST",      "to": "AREA_PARIS",      "cost": { "_placeholder": true } },
+    { "from": "AREA_LYON",       "to": "AREA_MARSEILLE",  "cost": { "_placeholder": true } },
+    { "from": "AREA_MARSEILLE",  "to": "AREA_LYON",       "cost": { "_placeholder": true } },
+    { "from": "AREA_STRASBOURG", "to": "AREA_MUNICH",     "cost": { "_placeholder": true } },
+    { "from": "AREA_MUNICH",     "to": "AREA_STRASBOURG", "cost": { "_placeholder": true } },
+    { "from": "AREA_MUNICH",     "to": "AREA_VIENNA",     "cost": { "_placeholder": true } },
+    { "from": "AREA_VIENNA",     "to": "AREA_MUNICH",     "cost": { "_placeholder": true } },
+    { "from": "AREA_VIENNA",     "to": "AREA_PRAGUE",     "cost": { "_placeholder": true } },
+    { "from": "AREA_PRAGUE",     "to": "AREA_VIENNA",     "cost": { "_placeholder": true } },
+    { "from": "AREA_PRAGUE",     "to": "AREA_BERLIN",     "cost": { "_placeholder": true } },
+    { "from": "AREA_BERLIN",     "to": "AREA_PRAGUE",     "cost": { "_placeholder": true } },
+    { "from": "AREA_BERLIN",     "to": "AREA_STPETE",     "cost": { "_placeholder": true } },
+    { "from": "AREA_STPETE",     "to": "AREA_BERLIN",     "cost": { "_placeholder": true } },
+    { "from": "AREA_STPETE",     "to": "AREA_MOSCOW",     "cost": { "_placeholder": true } },
+    { "from": "AREA_MOSCOW",     "to": "AREA_STPETE",     "cost": { "_placeholder": true } }
+  ],
+
+  "coast_links": [
+    { "area": "AREA_BREST",     "sea": "SEA_ENGLISH_CHANNEL" },
+    { "area": "AREA_LONDON",    "sea": "SEA_ENGLISH_CHANNEL" },
+    { "area": "AREA_MARSEILLE", "sea": "SEA_WESTERN_MED" },
+    { "area": "AREA_STPETE",    "sea": "SEA_BALTIC" },
+    { "area": "AREA_ISTANBUL",  "sea": "SEA_WESTERN_MED" }
+  ],
+
+  "sea_adjacency": [
+    { "from": "SEA_ENGLISH_CHANNEL", "to": "SEA_NORTH_SEA" },
+    { "from": "SEA_NORTH_SEA",       "to": "SEA_ENGLISH_CHANNEL" },
+    { "from": "SEA_NORTH_SEA",       "to": "SEA_BALTIC" },
+    { "from": "SEA_BALTIC",          "to": "SEA_NORTH_SEA" },
+    { "from": "SEA_ENGLISH_CHANNEL", "to": "SEA_WESTERN_MED" },
+    { "from": "SEA_WESTERN_MED",     "to": "SEA_ENGLISH_CHANNEL" }
+  ]
+}

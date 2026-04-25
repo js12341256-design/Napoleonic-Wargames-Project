@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EconomyTable",
+  "type": "object",
+  "required": [
+    "corps_maintenance_per_sp",
+    "depot_build_cost",
+    "fleet_maintenance_per_ship",
+    "manpower_recovery_per_month_q12",
+    "schema_version"
+  ],
+  "properties": {
+    "corps_maintenance_per_sp": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "depot_build_cost": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "fleet_maintenance_per_ship": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "manpower_recovery_per_month_q12": {
+      "$ref": "#/definitions/Maybe_for_int32"
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "Maybe_for_int32": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

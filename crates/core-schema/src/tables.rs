@@ -1,0 +1,209 @@
+//! Rules tables.  Designer-authored values in `data/tables/*.json`.
+//!
+//! PROMPT.md §6.1: Claude Code never invents values.  Missing values
+//! load as [`Maybe::Placeholder`] and surface as warnings; the scenario
+//! is then `unplayable_in_release: true`.
+//!
+//! Phase 1 status: schemas only.  Validators and consumers land in their
+//! respective rules-subsystem phases.
+
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
+
+/// Either a designer-authored value of type `T`, or an explicit
+/// PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot
+/// ship in release per §6.1.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(untagged)]
+pub enum Maybe<T> {
+    Value(T),
+    Placeholder(PlaceholderMarker),
+}
+
+/// A literal `{"_placeholder": true}` JSON object.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct PlaceholderMarker {
+    #[serde(rename = "_placeholder")]
+    pub _placeholder: bool,
+}
+
+impl PlaceholderMarker {
+    pub fn new() -> Self {
+        Self { _placeholder: true }
+    }
+}
+
+impl Default for PlaceholderMarker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<T> Maybe<T> {
+    pub fn placeholder() -> Self {
+        Self::Placeholder(PlaceholderMarker::new())
+    }
+    pub fn is_placeholder(&self) -> bool {
+        matches!(self, Self::Placeholder(_))
+    }
+    pub fn get(&self) -> Option<&T> {
+        match self {
+            Self::Value(v) => Some(v),
+            Self::Placeholder(_) => None,
+        }
+    }
+}
+
+// ─── Combat (PROMPT.md §6.2) ───────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct CombatTable {
+    pub schema_version: u32,
+    pub ratio_buckets: Vec<String>,
+    pub die_faces: u8,
+    pub formations: Vec<String>,
+    pub formation_matrix: BTreeMap<String, FormationEntry>,
+    pub terrain_modifiers: BTreeMap<String, TerrainModifier>,
+    /// Keyed by `ratio_bucket`; each entry has one `CombatResult` per
+    /// die face (length must equal `die_faces`).
+    pub results: BTreeMap<String, Vec<Maybe<CombatResult>>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct FormationEntry {
+    pub att_col_shift: i8,
+    pub def_col_shift: i8,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct TerrainModifier {
+    pub att_col_shift: i8,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct CombatResult {
+    pub attacker_sp_loss: i32,
+    pub defender_sp_loss: i32,
+    /// Morale delta in fixed-point quarter-thousandths (`/10000`).
+    pub attacker_morale_q4: i32,
+    pub defender_morale_q4: i32,
+    pub retreat_hexes: i32,
+}
+
+// ─── Attrition ─────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct AttritionTable {
+    pub schema_version: u32,
+    /// Keyed by `<terrain>_<season>_<supply_state>` →
+    /// SP loss per turn.
+    pub rows: BTreeMap<String, Maybe<i32>>,
+}
+
+// ─── Weather ───────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct WeatherTable {
+    pub schema_version: u32,
+    pub theaters: Vec<String>,
+    /// `month (1..=12)` → theater → distribution over weather kinds.
+    /// Each distribution is a map from weather kind to a probability in
+    /// fixed-point Q12 (denominator 4096); each row must sum to 4096.
+    pub monthly: BTreeMap<u8, BTreeMap<String, BTreeMap<String, Maybe<i32>>>>,
+}
+
+// ─── Minor activation ──────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct MinorActivationTable {
+    pub schema_version: u32,
+    /// Keyed by minor ID → trigger key → outcome distribution.
+    pub rows: BTreeMap<String, Maybe<MinorActivationRow>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct MinorActivationRow {
+    pub trigger: String,
+    /// outcome key → Q12 probability.
+    pub outcomes: BTreeMap<String, i32>,
+}
+
+// ─── PP modifiers ──────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PpModifiersTable {
+    pub schema_version: u32,
+    /// Keyed by event name → integer PP delta.
+    pub events: BTreeMap<String, Maybe<i32>>,
+}
+
+// ─── Leader casualty ───────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct LeaderCasualtyTable {
+    pub schema_version: u32,
+    /// Battle intensity bucket → outcome distribution (Q12).
+    pub by_intensity: BTreeMap<String, BTreeMap<String, Maybe<i32>>>,
+}
+
+// ─── Morale ────────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct MoraleTable {
+    pub schema_version: u32,
+    pub retreat_threshold_q4: Maybe<i32>,
+    pub rout_threshold_q4: Maybe<i32>,
+    pub recovery_per_turn_q4: Maybe<i32>,
+}
+
+// ─── Naval combat ──────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct NavalCombatTable {
+    pub schema_version: u32,
+    pub ratio_buckets: Vec<String>,
+    pub die_faces: u8,
+    pub results: BTreeMap<String, Vec<Maybe<NavalResult>>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct NavalResult {
+    pub attacker_ship_loss: i32,
+    pub defender_ship_loss: i32,
+    pub disengage: bool,
+}
+
+// ─── Economy ───────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct EconomyTable {
+    pub schema_version: u32,
+    pub corps_maintenance_per_sp: Maybe<i32>,
+    pub fleet_maintenance_per_ship: Maybe<i32>,
+    pub depot_build_cost: Maybe<i32>,
+    pub manpower_recovery_per_month_q12: Maybe<i32>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn placeholder_round_trip() {
+        let m: Maybe<i32> = Maybe::placeholder();
+        let s = serde_json::to_string(&m).unwrap();
+        assert_eq!(s, r#"{"_placeholder":true}"#);
+        let back: Maybe<i32> = serde_json::from_str(&s).unwrap();
+        assert!(back.is_placeholder());
+    }
+
+    #[test]
+    fn value_round_trip() {
+        let m: Maybe<i32> = Maybe::Value(42);
+        let s = serde_json::to_string(&m).unwrap();
+        assert_eq!(s, "42");
+        let back: Maybe<i32> = serde_json::from_str(&s).unwrap();
+        assert_eq!(back.get(), Some(&42));
+    }
+}

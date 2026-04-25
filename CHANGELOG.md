@@ -26,3 +26,13 @@ Sections that may appear per release:
   bundle as a visual-style reference only (see its `README.md`).
 - ADR 0001 recording §23 answers and the prototype-vs-master-prompt
   contradiction resolution.
+- Phase 1 — data model, canonical-JSON pipeline, scenario loader,
+  fog-of-war projection, integrity validator, 1805 scenario placeholder,
+  and `xtask dump-schemas`.  39 tests passing.  See
+  `docs/phase-reports/phase-01.md`.
+
+### Rules
+
+- Schema version 1 introduced (`Scenario.schema_version = 1`).  No
+  rules tables are filled yet; the 1805 scenario remains
+  `unplayable_in_release: true` per PROMPT.md §6.1.

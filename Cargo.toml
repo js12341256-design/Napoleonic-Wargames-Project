@@ -36,6 +36,15 @@ missing_debug_implementations = "warn"
 # These are informational at the workspace level; `core` re-enforces them.
 float_arithmetic = "warn"
 
+# Shared dep versions; opt in per crate.
+[workspace.dependencies]
+serde       = { version = "1", features = ["derive"] }
+serde_json  = { version = "1", features = ["preserve_order"] }
+schemars    = { version = "0.8" }
+indexmap    = { version = "2", features = ["serde"] }
+thiserror   = { version = "1" }
+blake3      = { version = "1" }
+
 # Release profile; debug profile uses cargo defaults.
 [profile.release]
 lto = "thin"
