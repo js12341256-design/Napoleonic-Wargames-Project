@@ -50,6 +50,12 @@ Sections that may appear per release:
   table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
   provide real combat.json values).  144 tests passing.
   See `docs/phase-reports/phase-04.md`.
+- Phase 12 — server scaffold: axum HTTP + WebSocket server, in-memory
+  `GameSession` storage keyed by `game_id`, order submission routing,
+  reconnect replay via `GET /games/{id}/events?since=N` and WebSocket
+  `last_event_index`, player-specific `ProjectedScenario` responses,
+  `docs/rules/server.md`, and 15+ server tests.  See
+  `docs/phase-reports/phase-12.md`.
 
 ### Rules
 
