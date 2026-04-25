@@ -203,10 +203,10 @@ pub fn generate_orders(ctx: &AiContext<'_>) -> AiOrders {
                     }
                 });
 
-            if let Some(destination) = target {
-                if let Some(order) = make_move_order(power, corps_id, &destination, scenario) {
-                    orders.movement_orders.push(order);
-                }
+            if let Some(destination) = target
+                && let Some(order) = make_move_order(power, corps_id, &destination, scenario)
+            {
+                orders.movement_orders.push(order);
             }
         }
     }
@@ -217,12 +217,13 @@ pub fn generate_orders(ctx: &AiContext<'_>) -> AiOrders {
         } else {
             100
         };
-        if ps.treasury > threshold && ps.manpower > 20 && scenario.production_queue.is_empty() {
-            if let Some(ref cap) = capital {
-                if let Some(order) = make_build_corps_order(power, cap, scenario) {
-                    orders.economic_orders.push(order);
-                }
-            }
+        if ps.treasury > threshold
+            && ps.manpower > 20
+            && scenario.production_queue.is_empty()
+            && let Some(ref cap) = capital
+            && let Some(order) = make_build_corps_order(power, cap, scenario)
+        {
+            orders.economic_orders.push(order);
         }
     }
 

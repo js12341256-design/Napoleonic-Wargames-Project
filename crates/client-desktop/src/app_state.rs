@@ -1,3 +1,4 @@
+#[cfg_attr(not(test), allow(dead_code))]
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 pub enum AppState {
     #[default]
@@ -10,6 +11,7 @@ pub enum AppState {
     Results,
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn can_transition(from: &AppState, to: &AppState) -> bool {
     matches!(
         (from, to),
@@ -25,6 +27,7 @@ pub fn can_transition(from: &AppState, to: &AppState) -> bool {
     )
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn state_display_name(state: &AppState) -> &'static str {
     match state {
         AppState::MainMenu => "Main Menu",
@@ -37,6 +40,7 @@ pub fn state_display_name(state: &AppState) -> &'static str {
     }
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 #[derive(Debug, Default)]
 pub struct PendingOrders {
     pub orders: Vec<gc1805_core::orders::Order>,

@@ -379,7 +379,10 @@ mod tests {
     }
 
     fn completed_turn(turn: u32) -> Event {
-        Event::TurnCompleted { turn }
+        Event::TurnCompleted {
+            turn,
+            state_hash: String::new(),
+        }
     }
 
     #[test]

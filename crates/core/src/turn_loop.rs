@@ -130,17 +130,13 @@ pub fn run_turn(
 mod tests {
     use super::*;
     use gc1805_core_schema::{
-        combat_types::BattleOutcome,
         ids::{AreaId, CorpsId, LeaderId, PowerId},
         scenario::{
             Area, AreaAdjacency, Corps, DiplomaticPairKey, DiplomaticState, Features, GameDate,
             MovementRules, Owner, PowerSetup, PowerSlot, PowerState, Scenario, TaxPolicy, Terrain,
             SCHEMA_VERSION,
         },
-        tables::{
-            CombatResult, DocumentedMap, Formation, FormationEntry, Maybe, PlaceholderMarker,
-            RatioBucket, TerrainModifier,
-        },
+        tables::{CombatResult, DocumentedMap, Formation, FormationEntry, Maybe, RatioBucket, TerrainModifier},
     };
     use std::collections::BTreeMap;
 

@@ -68,15 +68,14 @@ pub fn check_revolts(scenario: &Scenario) -> Vec<Event> {
         if !has_manpower {
             continue;
         }
-        if let Owner::Power(slot) = &area.owner {
-            if let Some(ps) = scenario.power_state.get(&slot.power) {
-                if ps.prestige < REVOLT_PRESTIGE_THRESHOLD {
-                    events.push(Event::RevoltTriggered {
-                        area: _area_id.clone(),
-                        owner: slot.power.clone(),
-                    });
-                }
-            }
+        if let Owner::Power(slot) = &area.owner
+            && let Some(ps) = scenario.power_state.get(&slot.power)
+            && ps.prestige < REVOLT_PRESTIGE_THRESHOLD
+        {
+            events.push(Event::RevoltTriggered {
+                area: _area_id.clone(),
+                owner: slot.power.clone(),
+            });
         }
     }
     events
