@@ -37,6 +37,8 @@ pub enum Order {
     BuildFleet(BuildFleetOrder),
     /// Send money to another power; applied at the next economic phase.
     Subsidize(SubsidyOrder),
+    /// Establish a depot in a friendly area.
+    EstablishDepot(EstablishDepotOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -79,6 +81,12 @@ pub struct BuildFleetOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct EstablishDepotOrder {
+    pub submitter: PowerId,
+    pub area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct SubsidyOrder {
     pub submitter: PowerId,
     pub recipient: PowerId,
@@ -107,6 +115,7 @@ impl Order {
             Order::BuildCorps(o) => &o.submitter,
             Order::BuildFleet(o) => &o.submitter,
             Order::Subsidize(o) => &o.submitter,
+            Order::EstablishDepot(o) => &o.submitter,
         }
     }
 
@@ -121,7 +130,8 @@ impl Order {
             Order::SetTaxPolicy(_)
             | Order::BuildCorps(_)
             | Order::BuildFleet(_)
-            | Order::Subsidize(_) => None,
+            | Order::Subsidize(_)
+            | Order::EstablishDepot(_) => None,
         }
     }
 

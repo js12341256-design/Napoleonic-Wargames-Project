@@ -17,6 +17,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::ids::{AreaId, CorpsId, PowerId};
 use crate::scenario::{ProductionKind, TaxPolicy};
+use crate::supply_types::SupplyState;
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
 /// canonical JSON form `{"kind": "MOVEMENT_RESOLVED", ...fields}`.
@@ -74,6 +75,17 @@ pub enum Event {
     TaxPolicySet {
         power: PowerId,
         new_policy: TaxPolicy,
+    },
+    /// Supply was traced for a corps during the supply phase.
+    SupplyTraced {
+        corps: CorpsId,
+        supply_state: SupplyState,
+    },
+    /// Attrition SP loss applied to a corps because it was out of supply.
+    AttritionApplied {
+        corps: CorpsId,
+        sp_loss: i32,
+        reason: String,
     },
 }
 

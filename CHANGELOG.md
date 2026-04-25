@@ -42,6 +42,11 @@ Sections that may appear per release:
   (`SetTaxPolicy`, `BuildCorps`, `BuildFleet`, `Subsidize`), 22
   hand-written test cases, `gc1805 economic-phase` CLI subcommand.
   92 tests passing.  See `docs/phase-reports/phase-03.md`.
+- Phase 5 — supply tracing and attrition resolution, `SupplyState`
+  schema/events, `EstablishDepot` order validation, placeholder
+  `attrition.json`, canonical `docs/rules/supply.md`, and 36 hand-
+  written supply tests.  128 tests passing total.  See
+  `docs/phase-reports/phase-05.md`.
 
 ### Rules
 
@@ -51,3 +56,6 @@ Sections that may appear per release:
 - `Scenario.movement_rules` added with four placeholder-friendly
   numerics: `max_corps_per_area`, `movement_hops_per_turn`,
   `forced_march_extra_hops`, `forced_march_morale_loss_q4`.
+- Supply resolution now emits `SupplyTraced` and `AttritionApplied`
+  events, and the core schema exports `SupplyState` with canonical JSON
+  tags `IN_SUPPLY`, `FORAGING`, and `OUT_OF_SUPPLY`.

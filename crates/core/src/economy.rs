@@ -536,6 +536,7 @@ fn order_kind_name(order: &Order) -> &'static str {
         Order::BuildCorps(_) => "BuildCorps",
         Order::BuildFleet(_) => "BuildFleet",
         Order::Subsidize(_) => "Subsidize",
+        Order::EstablishDepot(_) => "EstablishDepot",
     }
 }
 

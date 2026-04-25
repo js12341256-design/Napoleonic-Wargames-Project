@@ -24,12 +24,14 @@ pub mod canonical;
 pub mod events;
 pub mod ids;
 pub mod scenario;
+pub mod supply_types;
 pub mod tables;
 
 pub use canonical::{canonical_hash, to_canonical_string, CanonicalJsonError};
 pub use events::Event;
 pub use ids::{AreaId, CorpsId, FleetId, LeaderId, MinorId, PowerId, SeaZoneId};
 pub use scenario::{Scenario, SCHEMA_VERSION};
+pub use supply_types::SupplyState;
 
 /// Errors raised by schema validation.
 #[derive(Debug, thiserror::Error)]

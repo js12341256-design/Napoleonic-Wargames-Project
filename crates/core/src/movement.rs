@@ -100,7 +100,8 @@ pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, Movem
         Order::SetTaxPolicy(_)
         | Order::BuildCorps(_)
         | Order::BuildFleet(_)
-        | Order::Subsidize(_) => {
+        | Order::Subsidize(_)
+        | Order::EstablishDepot(_) => {
             // Economic orders go through gc1805_core::economy.
             Err(MovementRejection::NotMovementOrder(format!("{order:?}")))
         }
