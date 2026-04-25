@@ -57,7 +57,10 @@ pub enum Event {
         shortfall: i64,
     },
     /// A replacement batch from the manpower queue arrived.
-    ReplacementsArrived { owner: PowerId, sp_amount: i32 },
+    ReplacementsArrived {
+        owner: PowerId,
+        sp_amount: i32,
+    },
     /// A production item completed and a new unit entered the scenario.
     UnitProduced {
         owner: PowerId,
@@ -74,6 +77,38 @@ pub enum Event {
     TaxPolicySet {
         power: PowerId,
         new_policy: TaxPolicy,
+    },
+
+    // ─── Diplomacy (Phase 6) ─────────────────────────────────────────────
+    WarDeclared {
+        by: PowerId,
+        against: PowerId,
+    },
+    PeaceProposed {
+        by: PowerId,
+        to: PowerId,
+    },
+    PeaceAccepted {
+        power_a: PowerId,
+        power_b: PowerId,
+    },
+    AllianceFormed {
+        power_a: PowerId,
+        power_b: PowerId,
+    },
+    AllianceBroken {
+        power_a: PowerId,
+        power_b: PowerId,
+    },
+    PrestigeChanged {
+        power: PowerId,
+        delta: i32,
+        reason: String,
+    },
+    AllianceCascade {
+        new_belligerent: PowerId,
+        against: PowerId,
+        via_ally: PowerId,
     },
 }
 

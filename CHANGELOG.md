@@ -42,6 +42,10 @@ Sections that may appear per release:
   (`SetTaxPolicy`, `BuildCorps`, `BuildFleet`, `Subsidize`), 22
   hand-written test cases, `gc1805 economic-phase` CLI subcommand.
   92 tests passing.  See `docs/phase-reports/phase-03.md`.
+- Phase 6 — diplomacy validator/resolver, diplomacy order vocabulary
+  (`DeclareWar`, `ProposePeace`, `FormAlliance`, `BreakAlliance`),
+  diplomacy event vocabulary, alliance cascade handling, and 30
+  hand-written tests.  See `docs/phase-reports/phase-06.md`.
 
 ### Rules
 

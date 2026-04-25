@@ -37,6 +37,14 @@ pub enum Order {
     BuildFleet(BuildFleetOrder),
     /// Send money to another power; applied at the next economic phase.
     Subsidize(SubsidyOrder),
+    /// Open war against another major power during the diplomatic phase.
+    DeclareWar(DeclareWarOrder),
+    /// Propose peace terms to a current enemy.
+    ProposePeace(ProposePeaceOrder),
+    /// Form an alliance with another power.
+    FormAlliance(FormAllianceOrder),
+    /// End an existing alliance.
+    BreakAlliance(BreakAllianceOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -86,6 +94,31 @@ pub struct SubsidyOrder {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct DeclareWarOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct ProposePeaceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+    pub terms: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct FormAllianceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct BreakAllianceOrder {
+    pub submitter: PowerId,
+    pub target: PowerId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct InterceptionOrder {
     pub submitter: PowerId,
     pub corps: CorpsId,
@@ -107,6 +140,10 @@ impl Order {
             Order::BuildCorps(o) => &o.submitter,
             Order::BuildFleet(o) => &o.submitter,
             Order::Subsidize(o) => &o.submitter,
+            Order::DeclareWar(o) => &o.submitter,
+            Order::ProposePeace(o) => &o.submitter,
+            Order::FormAlliance(o) => &o.submitter,
+            Order::BreakAlliance(o) => &o.submitter,
         }
     }
 
@@ -121,7 +158,11 @@ impl Order {
             Order::SetTaxPolicy(_)
             | Order::BuildCorps(_)
             | Order::BuildFleet(_)
-            | Order::Subsidize(_) => None,
+            | Order::Subsidize(_)
+            | Order::DeclareWar(_)
+            | Order::ProposePeace(_)
+            | Order::FormAlliance(_)
+            | Order::BreakAlliance(_) => None,
         }
     }
 

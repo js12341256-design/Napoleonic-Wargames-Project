@@ -8,6 +8,7 @@
 #![forbid(unsafe_code)]
 #![deny(clippy::float_arithmetic)]
 
+pub mod diplomacy;
 pub mod economy;
 pub mod loader;
 pub mod map;
@@ -25,5 +26,8 @@ pub use orders::Order;
 pub use projection::{project, ProjectedScenario};
 pub use validate::{validate_scenario, IntegrityIssue};
 
+pub use diplomacy::{
+    get_diplomatic_state, resolve_diplomatic_phase, set_diplomatic_state, validate_diplomatic_order,
+};
 pub use economy::{apply_economic_order, resolve_economic_phase, validate_economic_order};
 pub use gc1805_core_schema as schema;

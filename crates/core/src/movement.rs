@@ -100,8 +100,12 @@ pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, Movem
         Order::SetTaxPolicy(_)
         | Order::BuildCorps(_)
         | Order::BuildFleet(_)
-        | Order::Subsidize(_) => {
-            // Economic orders go through gc1805_core::economy.
+        | Order::Subsidize(_)
+        | Order::DeclareWar(_)
+        | Order::ProposePeace(_)
+        | Order::FormAlliance(_)
+        | Order::BreakAlliance(_) => {
+            // Economic and diplomatic orders do not resolve in movement.
             Err(MovementRejection::NotMovementOrder(format!("{order:?}")))
         }
     }
