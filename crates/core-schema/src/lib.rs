@@ -25,6 +25,7 @@ pub mod combat_types;
 pub mod events;
 pub mod ids;
 pub mod scenario;
+pub mod supply_types;
 pub mod tables;
 
 pub use canonical::{CanonicalJsonError, canonical_hash, to_canonical_string};
@@ -32,6 +33,7 @@ pub use combat_types::{BattleOutcome, LeaderCasualtyKind};
 pub use events::Event;
 pub use ids::{AreaId, CorpsId, FleetId, LeaderId, MinorId, PowerId, SeaZoneId};
 pub use scenario::{SCHEMA_VERSION, Scenario};
+pub use supply_types::SupplyState;
 
 /// Errors raised by schema validation.
 #[derive(Debug, thiserror::Error)]

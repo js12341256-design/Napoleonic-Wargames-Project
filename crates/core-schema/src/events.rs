@@ -18,6 +18,7 @@ use serde::{Deserialize, Serialize};
 use crate::combat_types::{BattleOutcome, LeaderCasualtyKind};
 use crate::ids::{AreaId, CorpsId, LeaderId, PowerId};
 use crate::scenario::{ProductionKind, TaxPolicy};
+use crate::supply_types::SupplyState;
 
 /// Top-level event-log entry.  `serde(tag = "kind")` makes the
 /// canonical JSON form `{"kind": "MOVEMENT_RESOLVED", ...fields}`.
@@ -103,6 +104,19 @@ pub enum Event {
     LeaderCasualty {
         leader: LeaderId,
         casualty_kind: LeaderCasualtyKind,
+    },
+
+    // ─── Supply (Phase 5) ────────────────────────────────────────────────
+    /// Supply was traced for a corps during the supply phase.
+    SupplyTraced {
+        corps: CorpsId,
+        supply_state: SupplyState,
+    },
+    /// Attrition SP loss applied to a corps because it was out of supply.
+    AttritionApplied {
+        corps: CorpsId,
+        sp_loss: i32,
+        reason: String,
     },
 }
 

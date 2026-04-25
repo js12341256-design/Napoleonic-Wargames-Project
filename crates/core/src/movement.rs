@@ -102,8 +102,9 @@ pub fn validate_order(s: &Scenario, order: &Order) -> Result<MovementPlan, Movem
         | Order::BuildFleet(_)
         | Order::Subsidize(_)
         | Order::Attack(_)
-        | Order::Bombard(_) => {
-            // Economic / combat orders go through their own resolvers.
+        | Order::Bombard(_)
+        | Order::EstablishDepot(_) => {
+            // Non-movement orders go through their own resolvers.
             Err(MovementRejection::NotMovementOrder(format!("{order:?}")))
         }
     }

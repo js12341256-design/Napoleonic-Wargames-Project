@@ -41,6 +41,8 @@ pub enum Order {
     Attack(AttackOrder),
     /// Bombard an adjacent enemy area (artillery-only action).
     Bombard(BombardOrder),
+    /// Establish a depot in a friendly area.
+    EstablishDepot(EstablishDepotOrder),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -78,6 +80,12 @@ pub struct BuildCorpsOrder {
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 pub struct BuildFleetOrder {
+    pub submitter: PowerId,
+    pub area: AreaId,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct EstablishDepotOrder {
     pub submitter: PowerId,
     pub area: AreaId,
 }
@@ -128,6 +136,7 @@ impl Order {
             Order::Subsidize(o) => &o.submitter,
             Order::Attack(o) => &o.submitter,
             Order::Bombard(o) => &o.submitter,
+            Order::EstablishDepot(o) => &o.submitter,
         }
     }
 
@@ -144,7 +153,8 @@ impl Order {
             | Order::BuildFleet(_)
             | Order::Subsidize(_)
             | Order::Attack(_)
-            | Order::Bombard(_) => None,
+            | Order::Bombard(_)
+            | Order::EstablishDepot(_) => None,
         }
     }
 

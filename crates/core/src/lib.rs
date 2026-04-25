@@ -15,6 +15,7 @@ pub mod map;
 pub mod movement;
 pub mod orders;
 pub mod projection;
+pub mod supply;
 pub mod validate;
 
 pub use loader::{LoadError, LoadReport, load_scenario_str};
@@ -23,8 +24,9 @@ pub use movement::{
     MovementPlan, MovementRejection, resolve_order, validate_or_reject, validate_order,
 };
 pub use orders::Order;
-pub use projection::{ProjectedScenario, project};
-pub use validate::{IntegrityIssue, validate_scenario};
+pub use projection::{project, ProjectedScenario};
+pub use supply::{resolve_supply_phase, trace_supply, validate_depot_order};
+pub use validate::{validate_scenario, IntegrityIssue};
 
 pub use economy::{apply_economic_order, resolve_economic_phase, validate_economic_order};
 pub use gc1805_core_schema as schema;
