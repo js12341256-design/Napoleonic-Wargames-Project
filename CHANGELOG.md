@@ -50,6 +50,10 @@ Sections that may appear per release:
   table stubs, `docs/rules/combat.md`.  Gate OPEN pending Q1 (designer must
   provide real combat.json values).  144 tests passing.
   See `docs/phase-reports/phase-04.md`.
+- Phase 18 — replay support: `ReplayFile`/`TurnHash`/`ReplayPlayer`,
+  `create_replay`, `append_events`, `seek_to_turn`, `verify_integrity`,
+  replay save/load helpers, `Event::TurnCompleted`, `docs/rules/replay.md`,
+  and 16 hand-written replay tests.  See `docs/phase-reports/phase-18.md`.
 
 ### Rules
 

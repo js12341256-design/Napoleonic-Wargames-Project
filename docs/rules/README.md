@@ -14,3 +14,4 @@ Expected files (none yet exist):
 - `minors.md`
 - `political.md`
 - `weather.md`
+- `replay.md`

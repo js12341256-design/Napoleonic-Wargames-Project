@@ -104,6 +104,10 @@ pub enum Event {
         leader: LeaderId,
         casualty_kind: LeaderCasualtyKind,
     },
+
+    // ─── Replay (Phase 18) ───────────────────────────────────────────────
+    /// Marks the end of a completed turn in the event log.
+    TurnCompleted { turn: u32 },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
