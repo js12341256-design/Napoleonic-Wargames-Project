@@ -13,6 +13,7 @@ pub mod combat;
 pub mod diplomacy;
 pub mod division;
 pub mod economy;
+pub mod frontlines;
 pub mod loader;
 pub mod map;
 pub mod marshals;
@@ -45,5 +46,6 @@ pub use economy::{apply_economic_order, resolve_economic_phase, validate_economi
 pub use clock::{GameClock, GameSpeed};
 pub use division::{BattleTactic, DivisionRegistry, DivisionTemplate};
 pub use marshals::{Marshal, MarshalRegistry, MarshalTrait};
+pub use frontlines::{FrontLineManager, BattleEvent, BattleResult, FrontLine};
 
 pub use gc1805_core_schema as schema;

@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import type { Marshal, DivisionTemplate } from './types'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
 import DivisionDesigner from './components/DivisionDesigner'
+import MapView from './MapView'
+import type { AttackArrow, ContestedArea, BattleToast } from './MapView'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷',
@@ -99,6 +101,31 @@ export default function App() {
   // Data
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
   const [templates, setTemplates] = useState<DivisionTemplate[]>([])
+
+  // Mock front line data
+  const [battleToasts, setBattleToasts] = useState<BattleToast[]>([])
+
+  const mockAttackArrows: AttackArrow[] = [
+    { fromArea: 'AREA_PARIS', toArea: 'AREA_VIENNA', attacker: 'FRA', strength: 100 },
+    { fromArea: 'AREA_MUNICH', toArea: 'AREA_PRAGUE', attacker: 'FRA', strength: 70 },
+    { fromArea: 'AREA_LONDON', toArea: 'AREA_BREST', attacker: 'GBR', strength: 50 },
+  ]
+
+  const mockContestedAreas: ContestedArea[] = [
+    { areaId: 'AREA_VIENNA', attacker: 'FRA', defender: 'AUS', pressure: 25 },
+    { areaId: 'AREA_PRAGUE', attacker: 'FRA', defender: 'AUS', pressure: -10 },
+    { areaId: 'AREA_BREST', attacker: 'GBR', defender: 'FRA', pressure: 5 },
+  ]
+
+  // Fire a mock battle toast on first mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBattleToasts([
+        { area: 'AREA_VIENNA', areaName: 'Austerlitz', attacker: 'FRA', result: 'AttackerAdvances', timestamp: Date.now() },
+      ])
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleTick = useCallback(() => {
     setDay((d) => {
@@ -251,20 +278,16 @@ export default function App() {
           onTick={handleTick}
         />
 
-        {/* Placeholder for map */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 'calc(100vh - 54px)',
-            color: '#444',
-            fontSize: 14,
-            fontStyle: 'italic',
-          }}
-        >
-          Map viewport — awaiting WASM integration
-        </div>
+        {/* Map with front line visualization */}
+        <MapView
+          scenarioData={{}}
+          powerStates={{}}
+          currentTurn={game.turn}
+          onEndTurn={() => setGame(g => ({ ...g, turn: g.turn + 1 }))}
+          attackArrows={mockAttackArrows}
+          contestedAreas={mockContestedAreas}
+          battleToasts={battleToasts}
+        />
       </div>
 
       {/* Marshals Panel */}

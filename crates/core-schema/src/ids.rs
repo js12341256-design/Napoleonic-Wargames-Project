@@ -110,6 +110,12 @@ id_newtype!(
     "DIVTPL_"
 );
 
+id_newtype!(
+    /// Front line between two powers.  `FRONT_<ATT>_<DEF>`.
+    FrontLineId,
+    "FRONT_"
+);
+
 /// Light validation: ID must be ASCII, non-empty, contain only
 /// `[A-Z0-9_]`, and start with the type's required prefix.
 pub fn validate_id(value: &str, required_prefix: &str) -> Result<(), String> {

@@ -251,6 +251,66 @@ impl WasmDivisionRegistry {
     }
 }
 
+// ── Front Lines WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmFrontLines {
+    manager: gc1805_core::frontlines::FrontLineManager,
+}
+
+#[wasm_bindgen]
+impl WasmFrontLines {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmFrontLines {
+        WasmFrontLines {
+            manager: gc1805_core::frontlines::FrontLineManager::new(),
+        }
+    }
+
+    /// Issue an attack order from one area to another.
+    #[wasm_bindgen]
+    pub fn issue_attack_order(
+        &mut self,
+        from_area: &str,
+        to_area: &str,
+        corps_id: &str,
+        attacker: &str,
+        defender: &str,
+        attacker_strength: u32,
+        defender_strength: u32,
+    ) {
+        self.manager.issue_attack_order(
+            gc1805_core_schema::ids::AreaId::from(from_area),
+            gc1805_core_schema::ids::AreaId::from(to_area),
+            gc1805_core_schema::ids::CorpsId::from(corps_id),
+            gc1805_core_schema::ids::PowerId::from(attacker),
+            gc1805_core_schema::ids::PowerId::from(defender),
+            attacker_strength,
+            defender_strength,
+        );
+    }
+
+    /// Get all front lines as JSON.
+    #[wasm_bindgen]
+    pub fn get_front_lines_json(&self) -> String {
+        self.manager.get_front_lines_json()
+    }
+
+    /// Get recent battle events as JSON.
+    #[wasm_bindgen]
+    pub fn get_battle_events_json(&self) -> String {
+        self.manager.get_battle_events_json()
+    }
+
+    /// Resolve all pending battles for the given tick. Returns events JSON.
+    #[wasm_bindgen]
+    pub fn resolve_battles(&mut self, tick: u64) -> String {
+        let events = self.manager.resolve_battles(tick);
+        serde_json::to_string(&events).unwrap_or_default()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::helpers::*;

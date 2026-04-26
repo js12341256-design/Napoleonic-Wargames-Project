@@ -33,8 +33,8 @@ pub use canonical::{CanonicalJsonError, canonical_hash, to_canonical_string};
 pub use combat_types::{BattleOutcome, LeaderCasualtyKind};
 pub use events::Event;
 pub use ids::{
-    AreaId, CorpsId, DivisionTemplateId, FleetId, LeaderId, MarshalId, MinorId, PowerId,
-    SeaZoneId,
+    AreaId, CorpsId, DivisionTemplateId, FleetId, FrontLineId, LeaderId, MarshalId, MinorId,
+    PowerId, SeaZoneId,
 };
 pub use naval_types::NavalOutcome;
 pub use scenario::{SCHEMA_VERSION, Scenario};
