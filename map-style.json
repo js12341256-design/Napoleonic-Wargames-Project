@@ -1,0 +1,132 @@
+{
+  "version": 8,
+  "name": "Grand Campaign 1805 \u2014 Historical",
+  "glyphs": "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  "sources": {
+    "game-territories": {
+      "type": "geojson",
+      "data": "/game-territories.geojson",
+      "promoteId": "id"
+    },
+    "corps-markers": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": []
+      }
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#7aa7c7"
+      }
+    },
+    {
+      "id": "game-territories-fill",
+      "type": "fill",
+      "source": "game-territories",
+      "paint": {
+        "fill-color": [
+          "coalesce",
+          [
+            "get",
+            "color"
+          ],
+          "#C8C8B8"
+        ],
+        "fill-opacity": [
+          "case",
+          [
+            "boolean",
+            [
+              "feature-state",
+              "selected"
+            ],
+            false
+          ],
+          0.85,
+          [
+            "boolean",
+            [
+              "feature-state",
+              "hover"
+            ],
+            false
+          ],
+          0.75,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "game-territories-border",
+      "type": "line",
+      "source": "game-territories",
+      "paint": {
+        "line-color": "#2a1a0a",
+        "line-width": [
+          "case",
+          [
+            "boolean",
+            [
+              "feature-state",
+              "selected"
+            ],
+            false
+          ],
+          2.5,
+          0.8
+        ],
+        "line-opacity": 0.8
+      }
+    },
+    {
+      "id": "game-territories-selected-glow",
+      "type": "line",
+      "source": "game-territories",
+      "filter": [
+        "==",
+        [
+          "feature-state",
+          "selected"
+        ],
+        true
+      ],
+      "paint": {
+        "line-color": "#FFD700",
+        "line-width": 3,
+        "line-blur": 2
+      }
+    },
+    {
+      "id": "corps-circles",
+      "type": "circle",
+      "source": "corps-markers",
+      "paint": {
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          4,
+          6,
+          8,
+          12
+        ],
+        "circle-color": [
+          "get",
+          "color"
+        ],
+        "circle-stroke-width": 1.5,
+        "circle-stroke-color": "#1a0a00",
+        "circle-opacity": 0.9
+      }
+    }
+  ]
+}

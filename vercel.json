@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "web/dist",
+  "outputDirectory": ".",
   "buildCommand": null,
   "installCommand": null,
   "framework": null
