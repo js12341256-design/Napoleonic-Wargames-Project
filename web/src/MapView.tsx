@@ -35,6 +35,29 @@ const COAST_CLR = 'rgba(180,200,240,0.45)'
 const RIVER_CLR = 'rgba(60,100,180,0.45)'
 const LAKE_CLR = '#1e3455'
 
+/* ───────── front line types ───────── */
+export interface AttackArrow {
+  fromArea: string
+  toArea: string
+  attacker: string
+  strength: number
+}
+
+export interface ContestedArea {
+  areaId: string
+  attacker: string
+  defender: string
+  pressure: number // -100 to +100
+}
+
+export interface BattleToast {
+  area: string
+  areaName: string
+  attacker: string
+  result: 'AttackerAdvances' | 'Stalemate' | 'DefenderHolds' | 'DefenderRoutes'
+  timestamp: number
+}
+
 /* ───────── helpers ───────── */
 type CorpsInfo = { id: string; owner: string; sp: number; area: string; displayName: string }
 
@@ -43,6 +66,9 @@ interface MapViewProps {
   powerStates: Record<string, any>
   currentTurn: number
   onEndTurn: () => void
+  attackArrows?: AttackArrow[]
+  contestedAreas?: ContestedArea[]
+  battleToasts?: BattleToast[]
 }
 
 function clamp(v: number, lo: number, hi: number) {
@@ -91,7 +117,7 @@ function ownerLabel(area: any): string {
 }
 
 /* ───────── component ───────── */
-export default function MapView({ scenarioData, powerStates, currentTurn, onEndTurn }: MapViewProps) {
+export default function MapView({ scenarioData, powerStates, currentTurn, onEndTurn, attackArrows = [], contestedAreas = [], battleToasts = [] }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef({ active: false, x: 0, y: 0, sx: 0, sy: 0, moved: false })
 
@@ -171,6 +197,22 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
     return g
   }, [scenarioData])
 
+  /* contested area lookup */
+  const contestedMap = useMemo(() => {
+    const m: Record<string, ContestedArea> = {}
+    for (const ca of contestedAreas) m[ca.areaId] = ca
+    return m
+  }, [contestedAreas])
+
+  /* visible toasts (fade after 3s) */
+  const [visibleToasts, setVisibleToasts] = useState<BattleToast[]>([])
+  useEffect(() => {
+    if (battleToasts.length === 0) return
+    setVisibleToasts(battleToasts)
+    const timer = setTimeout(() => setVisibleToasts([]), 3000)
+    return () => clearTimeout(timer)
+  }, [battleToasts])
+
   /* selected area */
   const selInfo = useMemo(() => {
     if (!selId) return null
@@ -246,7 +288,7 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
           {/* ocean */}
           <rect width={SVG_W} height={SVG_H} fill={OCEAN} />
 
-          {/* subtle ocean grain */}
+          {/* defs: clips, filters, markers, animations */}
           <defs>
             <clipPath id="lc">
               {landPaths.map((d: string, i: number) => <path key={i} d={d} />)}
@@ -255,6 +297,24 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
+            {/* arrowhead marker per power color */}
+            {Object.entries(POWER_COLORS).map(([pid, col]) => (
+              <marker key={`ah-${pid}`} id={`arrowhead-${pid}`} markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill={col} />
+              </marker>
+            ))}
+            {/* battle pulse filter */}
+            <filter id="battleGlow">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <style>{`
+              @keyframes battlePulse {
+                0%, 100% { stroke: rgba(255,40,40,0.9); stroke-width: 3; }
+                50% { stroke: rgba(255,40,40,0.15); stroke-width: 1.5; }
+              }
+              .battle-flash { animation: battlePulse 0.8s infinite; fill: none; pointer-events: none; }
+            `}</style>
           </defs>
 
           {/* land base fill */}
@@ -355,7 +415,101 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
               )
             })
           })}
+
+          {/* ── FRONT LINE LAYERS ── */}
+
+          {/* Contested territory pressure overlay — bicolor split */}
+          <g clipPath="url(#lc)" style={{ pointerEvents: 'none' }}>
+            {terrData.map((t: any) => {
+              const ca = contestedMap[t.aid]
+              if (!ca) return null
+              const attCol = POWER_COLORS[ca.attacker] || '#888'
+              const defCol = POWER_COLORS[ca.defender] || '#888'
+              // Split position: 50% at pressure=0, slides with pressure
+              const splitPct = 50 + (ca.pressure / 2)
+              const clipId = `split-${t.aid}`
+              return (
+                <g key={`contested-${t.aid}`}>
+                  <defs>
+                    <clipPath id={`${clipId}-left`}>
+                      <rect x={0} y={0} width={SVG_W * splitPct / 100} height={SVG_H} />
+                    </clipPath>
+                    <clipPath id={`${clipId}-right`}>
+                      <rect x={SVG_W * splitPct / 100} y={0} width={SVG_W * (100 - splitPct) / 100} height={SVG_H} />
+                    </clipPath>
+                  </defs>
+                  <path d={t.path} fill={attCol} fillOpacity={0.5} clipPath={`url(#${clipId}-left)`} />
+                  <path d={t.path} fill={defCol} fillOpacity={0.5} clipPath={`url(#${clipId}-right)`} />
+                  {/* jagged front line divider */}
+                  <path d={t.path} fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth={1.5} strokeDasharray="4 2 1 2" />
+                </g>
+              )
+            })}
+          </g>
+
+          {/* Battle flash — pulsing red border on contested areas */}
+          <g clipPath="url(#lc)" style={{ pointerEvents: 'none' }}>
+            {terrData.map((t: any) => {
+              if (!contestedMap[t.aid]) return null
+              return (
+                <path
+                  key={`flash-${t.aid}`}
+                  d={t.path}
+                  className="battle-flash"
+                  filter="url(#battleGlow)"
+                />
+              )
+            })}
+          </g>
+
+          {/* Attack arrows — from source centroid to target centroid */}
+          {centers && attackArrows.map((arrow, i) => {
+            const fromC = centers[arrow.fromArea]
+            const toC = centers[arrow.toArea]
+            if (!fromC || !toC) return null
+            const p1 = projection(fromC as [number, number])
+            const p2 = projection(toC as [number, number])
+            if (!p1 || !p2) return null
+            const col = POWER_COLORS[arrow.attacker] || '#fff'
+            const thickness = Math.max(1.5, Math.min(6, arrow.strength / 20))
+            return (
+              <line
+                key={`arrow-${i}`}
+                x1={p1[0]} y1={p1[1]}
+                x2={p2[0]} y2={p2[1]}
+                stroke={col}
+                strokeWidth={thickness}
+                strokeOpacity={0.85}
+                markerEnd={`url(#arrowhead-${arrow.attacker})`}
+                style={{ pointerEvents: 'none' }}
+              />
+            )
+          })}
         </svg>
+
+        {/* battle result toasts — bottom right */}
+        {visibleToasts.length > 0 && (
+          <div style={{ position: 'absolute', bottom: 80, right: 14, display: 'flex', flexDirection: 'column', gap: 6, zIndex: 30 }}>
+            {visibleToasts.map((toast, i) => {
+              const resultText = toast.result === 'AttackerAdvances' ? `${POWER_NAMES[toast.attacker] || toast.attacker} advances!`
+                : toast.result === 'DefenderRoutes' ? `${POWER_NAMES[toast.attacker] || toast.attacker} routs the enemy!`
+                : toast.result === 'Stalemate' ? 'Stalemate!'
+                : 'Defender holds!'
+              return (
+                <div key={`toast-${i}`} style={{
+                  background: 'rgba(14,10,6,0.92)', border: '1px solid #c8a000',
+                  padding: '8px 14px', borderRadius: 4, minWidth: 220,
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+                  animation: 'fadeIn 0.3s ease-out',
+                }}>
+                  <div style={{ color: '#f3e5bb', fontSize: 13, fontWeight: 700 }}>
+                    {'⚔️'} {toast.areaName}: {resultText}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
         {/* zoom buttons */}
         <div style={{ position: 'absolute', top: 14, right: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -412,7 +566,7 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
         {/* legend */}
         <div style={{ position: 'absolute', right: 14, bottom: 18, background: 'rgba(14,10,6,0.88)', border: '1px solid #5b4527', padding: '10px 12px', width: 200 }}>
           <div style={{ color: '#d8bc76', fontSize: 11, letterSpacing: 2, marginBottom: 8 }}>LAYERS</div>
-          <div style={{ color: '#cdb790', fontSize: 12, lineHeight: 1.6 }}>Land &middot; Territories &middot; Rivers &middot; Lakes &middot; Corps</div>
+          <div style={{ color: '#cdb790', fontSize: 12, lineHeight: 1.6 }}>Land &middot; Territories &middot; Rivers &middot; Lakes &middot; Corps &middot; Front Lines</div>
           <div style={{ color: '#8d795a', fontSize: 11, marginTop: 8 }}>Real GeoJSON &middot; Mercator</div>
         </div>
       </div>
