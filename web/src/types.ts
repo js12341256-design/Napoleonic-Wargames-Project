@@ -39,3 +39,16 @@ export interface DivisionTemplate {
   artilleryBatteries: number;
   tactic: "Column" | "Line" | "Square" | "SkirmishScreen";
 }
+
+export interface GameEventOption {
+  label: string;
+  effects: string[];
+}
+
+export interface GameEvent {
+  id: number;
+  title: string;
+  description: string;
+  firesFor: string;
+  options: GameEventOption[];
+}

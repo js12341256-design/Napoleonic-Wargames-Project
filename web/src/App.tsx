@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import type { Marshal, DivisionTemplate, PowerEconomy } from './types'
+import type { Marshal, DivisionTemplate, PowerEconomy, GameEvent } from './types'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
 import DivisionDesigner from './components/DivisionDesigner'
 import EconomyPanel from './components/EconomyPanel'
+import EventPopup from './components/EventPopup'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷',
@@ -73,6 +74,42 @@ const MOCK_MARSHALS: Marshal[] = [
   },
 ]
 
+const MOCK_EVENTS: GameEvent[] = [
+  {
+    id: 1,
+    title: 'The Emperor Crowns Himself',
+    description:
+      'In the Cathedral of Notre-Dame, Napoleon Bonaparte takes the crown from the Pope\'s hands and places it upon his own head. The assembled dignitaries watch in stunned silence as a new era begins for France.',
+    firesFor: 'FRA',
+    options: [
+      { label: 'Grand Ceremony', effects: ['+5 manpower', '-10 treasury'] },
+      { label: 'Simple Ceremony', effects: ['+15 treasury'] },
+    ],
+  },
+  {
+    id: 6,
+    title: 'Trafalgar Aftermath',
+    description:
+      'The combined Franco-Spanish fleet has been shattered off Cape Trafalgar. Admiral Villeneuve is captured, and French naval power lies broken. The Emperor must decide how to respond.',
+    firesFor: 'FRA',
+    options: [
+      { label: 'Rebuild the Fleet', effects: ['-30 treasury'] },
+      { label: 'Accept Naval Inferiority', effects: ['+10 manpower'] },
+    ],
+  },
+  {
+    id: 9,
+    title: 'Trafalgar Victory',
+    description:
+      'The Royal Navy has won a decisive victory off Cape Trafalgar. But the triumph is bittersweet \u2014 Admiral Lord Nelson has fallen on the deck of HMS Victory.',
+    firesFor: 'GBR',
+    options: [
+      { label: 'Honor Nelson', effects: ['+5 manpower', '-10 treasury'] },
+      { label: 'Focus on Victory', effects: ['+10 treasury'] },
+    ],
+  },
+]
+
 interface GameState {
   turn: number
   powers: string[]
@@ -114,6 +151,9 @@ export default function App() {
   })
   const playerPower = 'FRA'
   const playerEconomy = economies[playerPower]
+
+  // Events
+  const [pendingEvents, setPendingEvents] = useState<GameEvent[]>(MOCK_EVENTS)
 
   const handleTick = useCallback(() => {
     setDay((d) => {
@@ -184,6 +224,10 @@ export default function App() {
 
   const handleSaveTemplate = useCallback((t: DivisionTemplate) => {
     setTemplates((prev) => [...prev, t])
+  }, [])
+
+  const handleResolveEvent = useCallback((eventId: number, _optionIndex: number) => {
+    setPendingEvents((prev) => prev.filter((e) => e.id !== eventId))
   }, [])
 
   return (
@@ -359,6 +403,9 @@ export default function App() {
           onRecruit={handleRecruit}
         />
       )}
+
+      {/* Event Popup */}
+      <EventPopup events={pendingEvents} onResolve={handleResolveEvent} />
     </div>
   )
 }

@@ -1,0 +1,434 @@
+{
+  "AREA_ALESSANDRIA": [
+    8.75,
+    45.0
+  ],
+  "AREA_ALEXANDRIA": [
+    30.25,
+    31.0
+  ],
+  "AREA_ALGIERS": [
+    3.0,
+    35.25
+  ],
+  "AREA_AMSTERDAM": [
+    5.25,
+    52.25
+  ],
+  "AREA_ANTWERP": [
+    4.5,
+    51.0
+  ],
+  "AREA_ATHENS": [
+    24.0,
+    37.75
+  ],
+  "AREA_BAVARIA": [
+    11.75,
+    48.5
+  ],
+  "AREA_BELGRADE": [
+    20.5,
+    44.75
+  ],
+  "AREA_BENGHAZI": [
+    20.5,
+    31.75
+  ],
+  "AREA_BERG": [
+    7.25,
+    51.25
+  ],
+  "AREA_BERLIN": [
+    13.5,
+    52.5
+  ],
+  "AREA_BERN": [
+    7.5,
+    46.75
+  ],
+  "AREA_BOSNIA": [
+    17.75,
+    44.25
+  ],
+  "AREA_BRAZIL_COLONIES": [
+    -45.0,
+    -15.0
+  ],
+  "AREA_BREST": [
+    -3.5,
+    48.25
+  ],
+  "AREA_BRUNSWICK": [
+    10.5,
+    52.25
+  ],
+  "AREA_BRUSSELS": [
+    4.25,
+    50.5
+  ],
+  "AREA_BUCHAREST": [
+    26.25,
+    44.5
+  ],
+  "AREA_CAIRO": [
+    31.5,
+    29.75
+  ],
+  "AREA_CLUJ": [
+    24.0,
+    47.0
+  ],
+  "AREA_COLOGNE": [
+    7.0,
+    50.75
+  ],
+  "AREA_COPENHAGEN": [
+    13.0,
+    56.0
+  ],
+  "AREA_CORFU": [
+    20.0,
+    39.5
+  ],
+  "AREA_CRIMEA": [
+    34.5,
+    45.5
+  ],
+  "AREA_CYRENAICA": [
+    21.5,
+    30.5
+  ],
+  "AREA_DAMASCUS": [
+    37.0,
+    33.5
+  ],
+  "AREA_DARMSTADT": [
+    8.75,
+    50.0
+  ],
+  "AREA_DENMARK": [
+    10.5,
+    56.5
+  ],
+  "AREA_DRESDEN": [
+    14.0,
+    51.25
+  ],
+  "AREA_DUBLIN": [
+    -8.0,
+    53.25
+  ],
+  "AREA_EGYPT": [
+    30.25,
+    26.75
+  ],
+  "AREA_ELVAS": [
+    -7.0,
+    38.5
+  ],
+  "AREA_FEZ": [
+    -5.5,
+    34.25
+  ],
+  "AREA_FINLAND": [
+    25.5,
+    62.5
+  ],
+  "AREA_FLANDERS": [
+    3.5,
+    51.0
+  ],
+  "AREA_FLORENCE": [
+    11.75,
+    44.0
+  ],
+  "AREA_FRANKFURT": [
+    9.0,
+    50.25
+  ],
+  "AREA_GALICIA_EAST": [
+    24.0,
+    49.75
+  ],
+  "AREA_GALICIA_WEST": [
+    20.0,
+    50.25
+  ],
+  "AREA_HAMBURG": [
+    10.5,
+    53.75
+  ],
+  "AREA_HANOVER": [
+    10.0,
+    52.5
+  ],
+  "AREA_HOLLAND": [
+    5.5,
+    52.5
+  ],
+  "AREA_HOLSTEIN": [
+    9.75,
+    54.0
+  ],
+  "AREA_IASI": [
+    27.75,
+    47.25
+  ],
+  "AREA_ILLYRIA": [
+    16.25,
+    45.0
+  ],
+  "AREA_INGOLSTADT": [
+    11.75,
+    48.75
+  ],
+  "AREA_IRELAND": [
+    -8.0,
+    53.25
+  ],
+  "AREA_ISTANBUL": [
+    29.5,
+    41.25
+  ],
+  "AREA_JERUSALEM": [
+    35.5,
+    31.75
+  ],
+  "AREA_KARLSRUHE": [
+    8.25,
+    49.0
+  ],
+  "AREA_KASSEL": [
+    9.5,
+    51.25
+  ],
+  "AREA_KIEL": [
+    10.25,
+    54.25
+  ],
+  "AREA_KLEVES": [
+    6.5,
+    52.0
+  ],
+  "AREA_KRAKOW": [
+    19.75,
+    50.25
+  ],
+  "AREA_LEIPZIG": [
+    12.5,
+    51.25
+  ],
+  "AREA_LISBON": [
+    -7.75,
+    38.25
+  ],
+  "AREA_LOMBARDY": [
+    10.0,
+    45.5
+  ],
+  "AREA_LONDON": [
+    -0.5,
+    51.75
+  ],
+  "AREA_LUBECK": [
+    10.75,
+    53.75
+  ],
+  "AREA_LYON": [
+    4.5,
+    45.75
+  ],
+  "AREA_MADRID": [
+    -5.0,
+    40.0
+  ],
+  "AREA_MALTA": [
+    14.5,
+    35.9
+  ],
+  "AREA_MANTUA": [
+    11.0,
+    45.25
+  ],
+  "AREA_MARSEILLE": [
+    5.0,
+    43.5
+  ],
+  "AREA_MECKLENBURG": [
+    12.25,
+    54.0
+  ],
+  "AREA_MILAN": [
+    9.75,
+    45.5
+  ],
+  "AREA_MOLDAVIA": [
+    28.5,
+    47.25
+  ],
+  "AREA_MOREA": [
+    22.5,
+    37.5
+  ],
+  "AREA_MOROCCO": [
+    -7.5,
+    31.5
+  ],
+  "AREA_MOSCOW": [
+    38.0,
+    55.75
+  ],
+  "AREA_MUNICH": [
+    11.75,
+    48.5
+  ],
+  "AREA_NAPLES": [
+    15.5,
+    39.5
+  ],
+  "AREA_NASSAU": [
+    8.0,
+    50.25
+  ],
+  "AREA_NORWAY": [
+    10.0,
+    61.5
+  ],
+  "AREA_OLDENBURG": [
+    8.25,
+    53.25
+  ],
+  "AREA_PALERMO": [
+    14.0,
+    38.0
+  ],
+  "AREA_PALESTINE": [
+    35.5,
+    32.25
+  ],
+  "AREA_PARIS": [
+    1.5,
+    48.5
+  ],
+  "AREA_PIEDMONT": [
+    8.25,
+    44.75
+  ],
+  "AREA_PORTUGAL": [
+    -7.75,
+    39.0
+  ],
+  "AREA_POSEN": [
+    17.25,
+    52.5
+  ],
+  "AREA_PRAGUE": [
+    14.5,
+    50.25
+  ],
+  "AREA_RHODES": [
+    28.25,
+    36.5
+  ],
+  "AREA_ROMAGNA": [
+    12.25,
+    44.0
+  ],
+  "AREA_ROME": [
+    13.0,
+    42.0
+  ],
+  "AREA_SARAJEVO": [
+    18.5,
+    43.75
+  ],
+  "AREA_SARDINIA_ISLAND": [
+    9.0,
+    40.0
+  ],
+  "AREA_SEVASTOPOL": [
+    34.0,
+    44.75
+  ],
+  "AREA_SICILY": [
+    14.25,
+    37.5
+  ],
+  "AREA_STOCKHOLM": [
+    18.0,
+    59.25
+  ],
+  "AREA_STPETE": [
+    30.5,
+    59.5
+  ],
+  "AREA_STRASBOURG": [
+    8.0,
+    48.75
+  ],
+  "AREA_STUTTGART": [
+    9.5,
+    49.0
+  ],
+  "AREA_SWEDEN_SOUTH": [
+    15.5,
+    57.25
+  ],
+  "AREA_SWEDISH_POMERANIA": [
+    13.75,
+    54.25
+  ],
+  "AREA_SWITZERLAND": [
+    8.0,
+    46.75
+  ],
+  "AREA_SYRIA": [
+    38.75,
+    35.0
+  ],
+  "AREA_THURINGIA": [
+    11.25,
+    51.0
+  ],
+  "AREA_TRANSYLVANIA": [
+    24.25,
+    46.25
+  ],
+  "AREA_TRIPOLI": [
+    15.75,
+    31.0
+  ],
+  "AREA_TUNIS": [
+    10.5,
+    35.25
+  ],
+  "AREA_TURIN": [
+    7.75,
+    45.0
+  ],
+  "AREA_VALLETTA": [
+    14.5,
+    35.9
+  ],
+  "AREA_VENETIA": [
+    12.25,
+    45.25
+  ],
+  "AREA_VENICE": [
+    12.75,
+    45.5
+  ],
+  "AREA_VIENNA": [
+    16.0,
+    48.25
+  ],
+  "AREA_WARSAW": [
+    21.0,
+    52.25
+  ],
+  "AREA_WURZBURG": [
+    10.0,
+    50.0
+  ]
+}
