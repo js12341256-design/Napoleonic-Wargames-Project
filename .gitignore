@@ -4,7 +4,7 @@ Cargo.lock.bak
 
 # Node / web
 /web/node_modules
-/web/dist
+
 /web/.vite
 
 # Editor / OS
