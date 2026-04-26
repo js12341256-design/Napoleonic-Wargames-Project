@@ -118,6 +118,139 @@ impl WasmGame {
     }
 }
 
+// ── Game Clock WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmGameClock {
+    clock: gc1805_core::clock::GameClock,
+}
+
+#[wasm_bindgen]
+impl WasmGameClock {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmGameClock {
+        WasmGameClock {
+            clock: gc1805_core::clock::GameClock::new(),
+        }
+    }
+
+    #[wasm_bindgen]
+    pub fn advance_tick(&mut self) {
+        self.clock.advance_tick();
+    }
+
+    #[wasm_bindgen]
+    pub fn get_date(&self) -> String {
+        self.clock.date_string()
+    }
+
+    #[wasm_bindgen]
+    pub fn set_speed(&mut self, speed: u8) {
+        self.clock.set_speed(speed);
+    }
+
+    #[wasm_bindgen]
+    pub fn toggle_pause(&mut self) {
+        self.clock.toggle_pause();
+    }
+
+    #[wasm_bindgen]
+    pub fn is_paused(&self) -> bool {
+        self.clock.paused
+    }
+}
+
+// ── Marshals WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmMarshalRegistry {
+    registry: gc1805_core::marshals::MarshalRegistry,
+}
+
+#[wasm_bindgen]
+impl WasmMarshalRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmMarshalRegistry {
+        WasmMarshalRegistry {
+            registry: gc1805_core::marshals::MarshalRegistry::with_historical(),
+        }
+    }
+
+    #[wasm_bindgen]
+    pub fn get_marshals_json(&self) -> String {
+        self.registry.to_json()
+    }
+
+    #[wasm_bindgen]
+    pub fn assign_marshal(&mut self, marshal_id: u32, corps_id: u32) -> Result<(), JsValue> {
+        let mid = gc1805_core_schema::ids::MarshalId::from(format!("MARSHAL_{marshal_id}"));
+        let cid = gc1805_core_schema::ids::CorpsId::from(format!("CORPS_{corps_id}"));
+        self.registry
+            .assign_marshal(&mid, &cid)
+            .map_err(|e| JsValue::from_str(&e))
+    }
+
+    /// Assign a marshal by string ID to a corps by string ID.
+    #[wasm_bindgen]
+    pub fn assign_marshal_by_name(
+        &mut self,
+        marshal_id: &str,
+        corps_id: &str,
+    ) -> Result<(), JsValue> {
+        let mid = gc1805_core_schema::ids::MarshalId::from(marshal_id);
+        let cid = gc1805_core_schema::ids::CorpsId::from(corps_id);
+        self.registry
+            .assign_marshal(&mid, &cid)
+            .map_err(|e| JsValue::from_str(&e))
+    }
+
+    #[wasm_bindgen]
+    pub fn get_power_marshals(&self, power_id: &str) -> String {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        self.registry.power_marshals_json(&pid)
+    }
+}
+
+// ── Division Designer WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmDivisionRegistry {
+    registry: gc1805_core::division::DivisionRegistry,
+}
+
+#[wasm_bindgen]
+impl WasmDivisionRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmDivisionRegistry {
+        WasmDivisionRegistry {
+            registry: gc1805_core::division::DivisionRegistry::with_defaults(),
+        }
+    }
+
+    #[wasm_bindgen]
+    pub fn get_division_templates_json(&self) -> String {
+        self.registry.to_json()
+    }
+
+    #[wasm_bindgen]
+    pub fn create_division_template(&mut self, json: String) -> Result<String, JsValue> {
+        self.registry
+            .create_from_json(&json)
+            .map_err(|e| JsValue::from_str(&e))
+    }
+
+    #[wasm_bindgen]
+    pub fn get_division_stats(&self, template_id: &str) -> Result<String, JsValue> {
+        let tid = gc1805_core_schema::ids::DivisionTemplateId::from(template_id);
+        self.registry
+            .stats_json(&tid)
+            .map_err(|e| JsValue::from_str(&e))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::helpers::*;

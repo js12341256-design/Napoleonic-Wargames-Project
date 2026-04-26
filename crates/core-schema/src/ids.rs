@@ -98,6 +98,18 @@ id_newtype!(
     "FLEET_"
 );
 
+id_newtype!(
+    /// Marshal / commander.  `MARSHAL_<NAME>`.
+    MarshalId,
+    "MARSHAL_"
+);
+
+id_newtype!(
+    /// Division template.  `DIVTPL_<NAME>`.
+    DivisionTemplateId,
+    "DIVTPL_"
+);
+
 /// Light validation: ID must be ASCII, non-empty, contain only
 /// `[A-Z0-9_]`, and start with the type's required prefix.
 pub fn validate_id(value: &str, required_prefix: &str) -> Result<(), String> {
