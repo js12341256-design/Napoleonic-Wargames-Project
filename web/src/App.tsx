@@ -3,6 +3,7 @@ import type { Marshal, DivisionTemplate } from './types'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
 import DivisionDesigner from './components/DivisionDesigner'
+import FocusTree from './components/FocusTree'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷',
@@ -95,6 +96,7 @@ export default function App() {
   // Panel toggles
   const [marshalsOpen, setMarshalsOpen] = useState(false)
   const [divisionsOpen, setDivisionsOpen] = useState(false)
+  const [focusOpen, setFocusOpen] = useState(false)
 
   // Data
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
@@ -200,6 +202,25 @@ export default function App() {
         {/* spacer */}
         <div style={{ flex: 1 }} />
 
+        {/* Focus button */}
+        <button
+          onClick={() => setFocusOpen(true)}
+          style={{
+            background: focusOpen ? 'rgba(212,175,55,0.2)' : 'rgba(30,25,50,0.8)',
+            border: `1px solid ${focusOpen ? '#d4af37' : '#5a4524'}`,
+            color: focusOpen ? '#d4af37' : '#aa8844',
+            cursor: 'pointer',
+            padding: '6px 14px',
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 1,
+            borderRadius: 3,
+            fontFamily: 'Cinzel, serif',
+          }}
+        >
+          Focus
+        </button>
+
         {/* Marshals button */}
         <button
           onClick={() => setMarshalsOpen((o) => !o)}
@@ -281,6 +302,12 @@ export default function App() {
         onSave={handleSaveTemplate}
         open={divisionsOpen}
         onClose={() => setDivisionsOpen(false)}
+      />
+
+      {/* Focus Tree */}
+      <FocusTree
+        open={focusOpen}
+        onClose={() => setFocusOpen(false)}
       />
     </div>
   )

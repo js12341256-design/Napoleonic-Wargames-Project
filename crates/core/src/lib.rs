@@ -10,6 +10,7 @@
 
 pub mod clock;
 pub mod combat;
+pub mod focuses;
 pub mod diplomacy;
 pub mod division;
 pub mod economy;
@@ -45,5 +46,6 @@ pub use economy::{apply_economic_order, resolve_economic_phase, validate_economi
 pub use clock::{GameClock, GameSpeed};
 pub use division::{BattleTactic, DivisionRegistry, DivisionTemplate};
 pub use marshals::{Marshal, MarshalRegistry, MarshalTrait};
+pub use focuses::{Focus, FocusEffect, FocusId, FocusRegistry, FocusTree};
 
 pub use gc1805_core_schema as schema;

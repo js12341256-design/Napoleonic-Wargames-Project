@@ -251,6 +251,51 @@ impl WasmDivisionRegistry {
     }
 }
 
+// ── Focus Tree WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmFocusRegistry {
+    registry: gc1805_core::focuses::FocusRegistry,
+}
+
+#[wasm_bindgen]
+impl WasmFocusRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmFocusRegistry {
+        WasmFocusRegistry {
+            registry: gc1805_core::focuses::FocusRegistry::with_defaults(),
+        }
+    }
+
+    /// Get the full focus tree JSON for a power (by string id, e.g. "FRA").
+    #[wasm_bindgen]
+    pub fn get_focus_tree_json(&self, power_id: &str) -> String {
+        self.registry.get_tree_json(power_id)
+    }
+
+    /// Start a focus for a power.  Returns true on success.
+    #[wasm_bindgen]
+    pub fn start_focus(&mut self, power_id: &str, focus_id: u32) -> bool {
+        self.registry.start_focus(power_id, focus_id)
+    }
+
+    /// Advance in-progress focus by `days`.  Returns JSON of effects if completed, else "null".
+    #[wasm_bindgen]
+    pub fn advance_focus_progress(&mut self, power_id: &str, days: u32) -> String {
+        match self.registry.advance_focus(power_id, days) {
+            Some(effects) => serde_json::to_string(&effects).unwrap_or_default(),
+            None => "null".to_owned(),
+        }
+    }
+
+    /// Get completed focuses as JSON array of focus IDs.
+    #[wasm_bindgen]
+    pub fn get_completed_focuses(&self, power_id: &str) -> String {
+        self.registry.get_completed_json(power_id)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::helpers::*;
