@@ -13,6 +13,7 @@ pub mod combat;
 pub mod diplomacy;
 pub mod division;
 pub mod economy;
+pub mod events;
 pub mod loader;
 pub mod map;
 pub mod marshals;
@@ -44,6 +45,7 @@ pub use diplomacy::{
 pub use economy::{apply_economic_order, resolve_economic_phase, validate_economic_order};
 pub use clock::{GameClock, GameSpeed};
 pub use division::{BattleTactic, DivisionRegistry, DivisionTemplate};
+pub use events::{EventRegistry, HistoricalEvent};
 pub use marshals::{Marshal, MarshalRegistry, MarshalTrait};
 
 pub use gc1805_core_schema as schema;

@@ -251,6 +251,83 @@ impl WasmDivisionRegistry {
     }
 }
 
+// ── Historical Events WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmEventRegistry {
+    registry: gc1805_core::events::EventRegistry,
+    /// IDs of events whose triggers have been met (pending player resolution).
+    pending_ids: Vec<u32>,
+}
+
+#[wasm_bindgen]
+impl WasmEventRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmEventRegistry {
+        WasmEventRegistry {
+            registry: gc1805_core::events::EventRegistry::with_historical(),
+            pending_ids: Vec::new(),
+        }
+    }
+
+    /// Check date-based triggers and update the pending list.
+    #[wasm_bindgen]
+    pub fn advance_event_triggers(&mut self, current_day: u32, current_month: u8, current_year: u16) {
+        let new_pending = self.registry.advance_triggers(current_year, current_month, current_day as u8);
+        for id in new_pending {
+            if !self.pending_ids.contains(&id) {
+                self.pending_ids.push(id);
+            }
+        }
+    }
+
+    /// Get pending events for a power as JSON.
+    #[wasm_bindgen]
+    pub fn get_pending_events_json(&self, power_id: &str) -> String {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        self.registry.pending_events_json(&pid, &self.pending_ids)
+    }
+
+    /// Player picks an option. Returns JSON array of effect summaries.
+    #[wasm_bindgen]
+    pub fn resolve_event(&mut self, event_id: u32, option_index: u8) -> Result<String, JsValue> {
+        let effects = self
+            .registry
+            .resolve(event_id, option_index)
+            .map_err(|e| JsValue::from_str(&e))?;
+        // Remove from pending
+        self.pending_ids.retain(|&id| id != event_id);
+        // Return effect summaries as JSON
+        let summaries: Vec<String> = effects
+            .iter()
+            .map(|e| match e {
+                gc1805_core::events::EventEffect::ManpowerChange(n) => {
+                    if *n >= 0 { format!("+{n} manpower") } else { format!("{n} manpower") }
+                }
+                gc1805_core::events::EventEffect::TreasuryChange(n) => {
+                    if *n >= 0 { format!("+{n} treasury") } else { format!("{n} treasury") }
+                }
+                gc1805_core::events::EventEffect::RelationChange { power, delta } => {
+                    let sign = if *delta >= 0 { "+" } else { "" };
+                    format!("{sign}{delta} relations with {}", power.as_str())
+                }
+                gc1805_core::events::EventEffect::DeclareWar(p) => {
+                    format!("War declared on {}", p.as_str())
+                }
+                gc1805_core::events::EventEffect::PeaceOffer(p) => {
+                    format!("Peace offered to {}", p.as_str())
+                }
+                gc1805_core::events::EventEffect::AddTrait(m, t) => {
+                    format!("{:?} added to {}", t, m.as_str())
+                }
+                gc1805_core::events::EventEffect::NewsMessage(msg) => msg.clone(),
+            })
+            .collect();
+        serde_json::to_string(&summaries).map_err(|e| JsValue::from_str(&e.to_string()))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::helpers::*;
