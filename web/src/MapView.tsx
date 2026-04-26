@@ -253,9 +253,9 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
 
   /* ── render ── */
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0a0a12', fontFamily: 'Cinzel,serif', color: '#f1dfb1' }}>
-      {/* ── top power bar ── */}
-      <div style={{ height: 54, background: 'linear-gradient(180deg,#1d1307,#0c0803)', borderBottom: '1px solid #5a4524', display: 'flex', alignItems: 'center', gap: 10, padding: '0 12px', overflowX: 'auto', flexShrink: 0 }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#0a0a12', fontFamily: 'Cinzel,serif', color: '#f1dfb1' }}>
+      {/* ── top power bar ── HIDDEN: App.tsx owns the top bar now ── */}
+      <div style={{ display: 'none' }}>
         {Object.entries(POWER_NAMES).map(([pid, name]) => {
           const t = powerStates?.[pid]?.treasury ?? scenarioData?.powers?.[pid]?.starting_treasury ?? 0
           return (
