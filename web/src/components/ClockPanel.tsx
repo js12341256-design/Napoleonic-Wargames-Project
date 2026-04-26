@@ -7,6 +7,9 @@ interface ClockPanelProps {
   onSetSpeed: (s: number) => void
   onTogglePause: () => void
   onTick: () => void
+  treasury?: number
+  incomePerDay?: number
+  manpowerPool?: number
 }
 
 const SPEED_INTERVALS: Record<number, number> = {
@@ -19,6 +22,12 @@ const SPEED_INTERVALS: Record<number, number> = {
 
 const SPEED_ICONS = ['▶', '▶▶', '▶▶▶', '▶▶▶▶', '▶▶▶▶▶']
 
+function formatCompact(n: number): string {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M'
+  if (n >= 1_000) return Math.round(n / 1_000) + 'K'
+  return String(n)
+}
+
 export default function ClockPanel({
   date,
   speed,
@@ -26,6 +35,9 @@ export default function ClockPanel({
   onSetSpeed,
   onTogglePause,
   onTick,
+  treasury,
+  incomePerDay,
+  manpowerPool,
 }: ClockPanelProps) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -75,6 +87,37 @@ export default function ClockPanel({
       >
         {date}
       </span>
+
+      {/* economy summary */}
+      {treasury != null && (
+        <span
+          style={{
+            color: '#d4af37',
+            fontSize: 12,
+            marginRight: 4,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {formatCompact(treasury)}
+          {incomePerDay != null && (
+            <span style={{ color: '#44cc44', fontSize: 10 }}>
+              {' '}(+{incomePerDay})
+            </span>
+          )}
+        </span>
+      )}
+      {manpowerPool != null && (
+        <span
+          style={{
+            color: '#8899bb',
+            fontSize: 12,
+            marginRight: 8,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {formatCompact(manpowerPool)}
+        </span>
+      )}
 
       {/* pause button */}
       <button

@@ -18,6 +18,18 @@ export type MarshalTrait =
   | "NavalCommander"
   | "InspirationalLeader";
 
+export interface PowerEconomy {
+  power: string;
+  treasury: number;
+  income_per_day: number;
+  expenditure_per_day: number;
+  manpower_pool: number;
+  manpower_cap: number;
+  manpower_recovery: number;
+  factories: number;
+  war_exhaustion: number;
+}
+
 export interface DivisionTemplate {
   id: number;
   name: string;

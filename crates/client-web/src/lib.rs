@@ -251,6 +251,54 @@ impl WasmDivisionRegistry {
     }
 }
 
+// ── Economy Registry WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmEconomyRegistry {
+    registry: gc1805_core::production::EconomyRegistry,
+}
+
+#[wasm_bindgen]
+impl WasmEconomyRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmEconomyRegistry {
+        WasmEconomyRegistry {
+            registry: gc1805_core::production::default_economies(),
+        }
+    }
+
+    /// Get all economies as JSON.
+    #[wasm_bindgen]
+    pub fn get_economies_json(&self) -> String {
+        gc1805_core::production::economies_to_json(&self.registry)
+    }
+
+    /// Get a single power's economy as JSON.
+    #[wasm_bindgen]
+    pub fn get_power_economy_json(&self, power_id: &str) -> String {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        gc1805_core::production::power_economy_to_json(&self.registry, &pid)
+    }
+
+    /// Advance all economies by N days.
+    #[wasm_bindgen]
+    pub fn advance_all_economies(&mut self, days: u32) {
+        gc1805_core::production::advance_all_economies(&mut self.registry, days);
+    }
+
+    /// Recruit a unit: spend manpower and gold. Returns true on success.
+    #[wasm_bindgen]
+    pub fn recruit_unit(&mut self, power_id: &str, manpower_cost: u32, gold_cost: u32) -> bool {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        if let Some(economy) = self.registry.get_mut(&pid) {
+            gc1805_core::production::spend_resources(economy, manpower_cost, gold_cost).is_ok()
+        } else {
+            false
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::helpers::*;

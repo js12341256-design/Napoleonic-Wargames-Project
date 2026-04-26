@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
-import type { Marshal, DivisionTemplate } from './types'
+import type { Marshal, DivisionTemplate, PowerEconomy } from './types'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
 import DivisionDesigner from './components/DivisionDesigner'
+import EconomyPanel from './components/EconomyPanel'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷',
@@ -95,10 +96,24 @@ export default function App() {
   // Panel toggles
   const [marshalsOpen, setMarshalsOpen] = useState(false)
   const [divisionsOpen, setDivisionsOpen] = useState(false)
+  const [economyOpen, setEconomyOpen] = useState(false)
 
   // Data
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
   const [templates, setTemplates] = useState<DivisionTemplate[]>([])
+
+  // Economy state — default starting values (France as player)
+  const [economies, setEconomies] = useState<Record<string, PowerEconomy>>({
+    FRA: { power: 'FRA', treasury: 5000, income_per_day: 120, expenditure_per_day: 80, manpower_pool: 650000, manpower_cap: 650000, manpower_recovery: 8000, factories: 8, war_exhaustion: 0 },
+    GBR: { power: 'GBR', treasury: 15000, income_per_day: 80, expenditure_per_day: 60, manpower_pool: 150000, manpower_cap: 150000, manpower_recovery: 2000, factories: 15, war_exhaustion: 0 },
+    RUS: { power: 'RUS', treasury: 2000, income_per_day: 60, expenditure_per_day: 45, manpower_pool: 900000, manpower_cap: 900000, manpower_recovery: 10000, factories: 3, war_exhaustion: 0 },
+    AUS: { power: 'AUS', treasury: 3000, income_per_day: 70, expenditure_per_day: 50, manpower_pool: 400000, manpower_cap: 400000, manpower_recovery: 5000, factories: 5, war_exhaustion: 0 },
+    PRU: { power: 'PRU', treasury: 2500, income_per_day: 50, expenditure_per_day: 35, manpower_pool: 200000, manpower_cap: 200000, manpower_recovery: 3000, factories: 4, war_exhaustion: 0 },
+    OTT: { power: 'OTT', treasury: 4000, income_per_day: 55, expenditure_per_day: 40, manpower_pool: 300000, manpower_cap: 300000, manpower_recovery: 4000, factories: 2, war_exhaustion: 0 },
+    SPA: { power: 'SPA', treasury: 6000, income_per_day: 65, expenditure_per_day: 45, manpower_pool: 180000, manpower_cap: 180000, manpower_recovery: 2500, factories: 3, war_exhaustion: 0 },
+  })
+  const playerPower = 'FRA'
+  const playerEconomy = economies[playerPower]
 
   const handleTick = useCallback(() => {
     setDay((d) => {
@@ -127,7 +142,37 @@ export default function App() {
       }
       return newDay
     })
+
+    // Advance all economies by 1 day per tick
+    setEconomies((prev) => {
+      const next: Record<string, PowerEconomy> = {}
+      for (const [pid, eco] of Object.entries(prev)) {
+        const netDaily = eco.income_per_day - eco.expenditure_per_day
+        const recovered = Math.floor(eco.manpower_recovery / 30)
+        next[pid] = {
+          ...eco,
+          treasury: eco.treasury + netDaily,
+          manpower_pool: Math.min(eco.manpower_cap, eco.manpower_pool + recovered),
+        }
+      }
+      return next
+    })
   }, [month])
+
+  const handleRecruit = useCallback(() => {
+    setEconomies((prev) => {
+      const eco = prev[playerPower]
+      if (!eco || eco.manpower_pool < 10_000 || eco.treasury < 500) return prev
+      return {
+        ...prev,
+        [playerPower]: {
+          ...eco,
+          manpower_pool: eco.manpower_pool - 10_000,
+          treasury: eco.treasury - 500,
+        },
+      }
+    })
+  }, [playerPower])
 
   const handleAssign = useCallback((marshalId: number, corpsId: number) => {
     setMarshals((prev) =>
@@ -200,6 +245,25 @@ export default function App() {
         {/* spacer */}
         <div style={{ flex: 1 }} />
 
+        {/* Economy button */}
+        <button
+          onClick={() => setEconomyOpen((o) => !o)}
+          style={{
+            background: economyOpen ? 'rgba(212,175,55,0.2)' : 'rgba(30,25,50,0.8)',
+            border: `1px solid ${economyOpen ? '#d4af37' : '#5a4524'}`,
+            color: economyOpen ? '#d4af37' : '#aa8844',
+            cursor: 'pointer',
+            padding: '6px 14px',
+            fontSize: 14,
+            fontWeight: 700,
+            letterSpacing: 1,
+            borderRadius: 3,
+            fontFamily: 'Cinzel, serif',
+          }}
+        >
+          Economy
+        </button>
+
         {/* Marshals button */}
         <button
           onClick={() => setMarshalsOpen((o) => !o)}
@@ -249,6 +313,9 @@ export default function App() {
           onSetSpeed={setSpeed}
           onTogglePause={() => setPaused((p) => !p)}
           onTick={handleTick}
+          treasury={playerEconomy?.treasury}
+          incomePerDay={playerEconomy?.income_per_day}
+          manpowerPool={playerEconomy?.manpower_pool}
         />
 
         {/* Placeholder for map */}
@@ -282,6 +349,16 @@ export default function App() {
         open={divisionsOpen}
         onClose={() => setDivisionsOpen(false)}
       />
+
+      {/* Economy Panel */}
+      {playerEconomy && (
+        <EconomyPanel
+          economy={playerEconomy}
+          open={economyOpen}
+          onClose={() => setEconomyOpen(false)}
+          onRecruit={handleRecruit}
+        />
+      )}
     </div>
   )
 }

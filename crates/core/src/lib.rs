@@ -22,6 +22,7 @@ pub mod movement;
 pub mod naval;
 pub mod orders;
 pub mod political;
+pub mod production;
 pub mod projection;
 pub mod replay;
 pub mod supply;
@@ -45,5 +46,11 @@ pub use economy::{apply_economic_order, resolve_economic_phase, validate_economi
 pub use clock::{GameClock, GameSpeed};
 pub use division::{BattleTactic, DivisionRegistry, DivisionTemplate};
 pub use marshals::{Marshal, MarshalRegistry, MarshalTrait};
+
+pub use production::{
+    EconomyRegistry, PowerEconomy, advance_all_economies, advance_economy, can_recruit,
+    default_economies, economies_to_json, power_economy_to_json, record_casualties,
+    spend_resources,
+};
 
 pub use gc1805_core_schema as schema;
