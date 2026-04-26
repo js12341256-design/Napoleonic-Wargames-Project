@@ -1,0 +1,60 @@
+# CI pipeline per PROMPT.md §16.1 (Phase 0 gate) and §2.6/§2.7 (determinism).
+#
+# Defensive minimal version: ubuntu-latest only, no version pin (rust-
+# toolchain.toml drives), no rust-cache.  Once this is green we re-add
+# the cross-platform matrix and caching.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  GC1805_DETERMINISM_SEED: "0x5EEDED0000000001"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.95.0
+          components: rustfmt
+      - name: Verify pinned toolchain
+        run: |
+          set -e
+          PINNED=$(grep '^channel' rust-toolchain.toml | cut -d'"' -f2)
+          ACTUAL=$(rustc --version | awk '{print $2}')
+          if [ "$PINNED" != "$ACTUAL" ]; then
+            echo "Toolchain mismatch: pinned=$PINNED actual=$ACTUAL"
+            exit 1
+          fi
+      - run: cargo fmt --all --check
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.95.0
+          components: clippy
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.95.0
+      - run: cargo build --workspace --all-targets
+      - run: cargo test --workspace --all-targets

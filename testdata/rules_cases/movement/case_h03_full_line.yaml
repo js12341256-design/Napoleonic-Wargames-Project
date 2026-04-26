@@ -1,0 +1,15 @@
+name: case_h03_full_line
+kind: hops
+given:
+  areas: [AREA_A, AREA_B, AREA_C, AREA_D, AREA_E]
+  edges:
+    - { from: AREA_A, to: AREA_B, cost: 1 }
+    - { from: AREA_B, to: AREA_C, cost: 1 }
+    - { from: AREA_C, to: AREA_D, cost: 1 }
+    - { from: AREA_D, to: AREA_E, cost: 1 }
+when:
+  from: AREA_A
+  to:   AREA_E
+then:
+  hops: 4
+  path: [AREA_A, AREA_B, AREA_C, AREA_D, AREA_E]

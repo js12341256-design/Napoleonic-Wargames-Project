@@ -1,0 +1,4001 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "AREA_ALESSANDRIA",
+      "properties": {
+        "id": "AREA_ALESSANDRIA",
+        "name": "Alessandria",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.5,
+              44
+            ],
+            [
+              10,
+              44
+            ],
+            [
+              10,
+              46
+            ],
+            [
+              7.5,
+              46
+            ],
+            [
+              7.5,
+              44
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ALEXANDRIA",
+      "properties": {
+        "id": "AREA_ALEXANDRIA",
+        "name": "Alexandria",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              28,
+              30
+            ],
+            [
+              32.5,
+              30
+            ],
+            [
+              32.5,
+              32
+            ],
+            [
+              28,
+              32
+            ],
+            [
+              28,
+              30
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ALGIERS",
+      "properties": {
+        "id": "AREA_ALGIERS",
+        "name": "Algiers",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2,
+              33
+            ],
+            [
+              8,
+              33
+            ],
+            [
+              8,
+              37.5
+            ],
+            [
+              -2,
+              37.5
+            ],
+            [
+              -2,
+              33
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_AMSTERDAM",
+      "properties": {
+        "id": "AREA_AMSTERDAM",
+        "name": "Amsterdam",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.5,
+              51
+            ],
+            [
+              7,
+              51
+            ],
+            [
+              7,
+              53.5
+            ],
+            [
+              3.5,
+              53.5
+            ],
+            [
+              3.5,
+              51
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ANTWERP",
+      "properties": {
+        "id": "AREA_ANTWERP",
+        "name": "Antwerp",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3,
+              50
+            ],
+            [
+              6,
+              50
+            ],
+            [
+              6,
+              52
+            ],
+            [
+              3,
+              52
+            ],
+            [
+              3,
+              50
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ATHENS",
+      "properties": {
+        "id": "AREA_ATHENS",
+        "name": "Athens",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22,
+              36.5
+            ],
+            [
+              26,
+              36.5
+            ],
+            [
+              26,
+              39
+            ],
+            [
+              22,
+              39
+            ],
+            [
+              22,
+              36.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BAVARIA",
+      "properties": {
+        "id": "AREA_BAVARIA",
+        "name": "Bavaria",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.5,
+              47
+            ],
+            [
+              14,
+              47
+            ],
+            [
+              14,
+              50
+            ],
+            [
+              9.5,
+              50
+            ],
+            [
+              9.5,
+              47
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BELGRADE",
+      "properties": {
+        "id": "AREA_BELGRADE",
+        "name": "Belgrade",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              18,
+              43.5
+            ],
+            [
+              23,
+              43.5
+            ],
+            [
+              23,
+              46
+            ],
+            [
+              18,
+              46
+            ],
+            [
+              18,
+              43.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BENGHAZI",
+      "properties": {
+        "id": "AREA_BENGHAZI",
+        "name": "Benghazi",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              18,
+              30.5
+            ],
+            [
+              23,
+              30.5
+            ],
+            [
+              23,
+              33
+            ],
+            [
+              18,
+              33
+            ],
+            [
+              18,
+              30.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BERG",
+      "properties": {
+        "id": "AREA_BERG",
+        "name": "Berg",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6,
+              50.5
+            ],
+            [
+              8.5,
+              50.5
+            ],
+            [
+              8.5,
+              52
+            ],
+            [
+              6,
+              52
+            ],
+            [
+              6,
+              50.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BERLIN",
+      "properties": {
+        "id": "AREA_BERLIN",
+        "name": "Berlin",
+        "owner": "PRU",
+        "color": "#7090A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11,
+              51
+            ],
+            [
+              16,
+              51
+            ],
+            [
+              16,
+              54
+            ],
+            [
+              11,
+              54
+            ],
+            [
+              11,
+              51
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BERN",
+      "properties": {
+        "id": "AREA_BERN",
+        "name": "Bern",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.5,
+              46
+            ],
+            [
+              9.5,
+              46
+            ],
+            [
+              9.5,
+              47.5
+            ],
+            [
+              5.5,
+              47.5
+            ],
+            [
+              5.5,
+              46
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BOSNIA",
+      "properties": {
+        "id": "AREA_BOSNIA",
+        "name": "Bosnia",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              15.5,
+              42.5
+            ],
+            [
+              20,
+              42.5
+            ],
+            [
+              20,
+              46
+            ],
+            [
+              15.5,
+              46
+            ],
+            [
+              15.5,
+              42.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BRAZIL_COLONIES",
+      "properties": {
+        "id": "AREA_BRAZIL_COLONIES",
+        "name": "Brazil Colonies",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55,
+              -35
+            ],
+            [
+              -35,
+              -35
+            ],
+            [
+              -35,
+              5
+            ],
+            [
+              -55,
+              5
+            ],
+            [
+              -55,
+              -35
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BREST",
+      "properties": {
+        "id": "AREA_BREST",
+        "name": "Brest",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -5.5,
+              47.5
+            ],
+            [
+              -1.5,
+              47.5
+            ],
+            [
+              -1.5,
+              49
+            ],
+            [
+              -5.5,
+              49
+            ],
+            [
+              -5.5,
+              47.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BRUNSWICK",
+      "properties": {
+        "id": "AREA_BRUNSWICK",
+        "name": "Brunswick",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9,
+              51.5
+            ],
+            [
+              12,
+              51.5
+            ],
+            [
+              12,
+              53
+            ],
+            [
+              9,
+              53
+            ],
+            [
+              9,
+              51.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BRUSSELS",
+      "properties": {
+        "id": "AREA_BRUSSELS",
+        "name": "Brussels",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.5,
+              49.5
+            ],
+            [
+              6,
+              49.5
+            ],
+            [
+              6,
+              51.5
+            ],
+            [
+              2.5,
+              51.5
+            ],
+            [
+              2.5,
+              49.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_BUCHAREST",
+      "properties": {
+        "id": "AREA_BUCHAREST",
+        "name": "Bucharest",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              23.5,
+              43
+            ],
+            [
+              29,
+              43
+            ],
+            [
+              29,
+              46
+            ],
+            [
+              23.5,
+              46
+            ],
+            [
+              23.5,
+              43
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_CAIRO",
+      "properties": {
+        "id": "AREA_CAIRO",
+        "name": "Cairo",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              29,
+              28
+            ],
+            [
+              34,
+              28
+            ],
+            [
+              34,
+              31.5
+            ],
+            [
+              29,
+              31.5
+            ],
+            [
+              29,
+              28
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_CLUJ",
+      "properties": {
+        "id": "AREA_CLUJ",
+        "name": "Cluj",
+        "owner": "AUS",
+        "color": "#FF6B35"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22,
+              46
+            ],
+            [
+              26,
+              46
+            ],
+            [
+              26,
+              48
+            ],
+            [
+              22,
+              48
+            ],
+            [
+              22,
+              46
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_COLOGNE",
+      "properties": {
+        "id": "AREA_COLOGNE",
+        "name": "Cologne",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.5,
+              49.5
+            ],
+            [
+              8.5,
+              49.5
+            ],
+            [
+              8.5,
+              52
+            ],
+            [
+              5.5,
+              52
+            ],
+            [
+              5.5,
+              49.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_COPENHAGEN",
+      "properties": {
+        "id": "AREA_COPENHAGEN",
+        "name": "Copenhagen",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11,
+              55
+            ],
+            [
+              15,
+              55
+            ],
+            [
+              15,
+              57
+            ],
+            [
+              11,
+              57
+            ],
+            [
+              11,
+              55
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_CORFU",
+      "properties": {
+        "id": "AREA_CORFU",
+        "name": "Corfu",
+        "owner": "RUS",
+        "color": "#C8A8D4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              19,
+              38.5
+            ],
+            [
+              21,
+              38.5
+            ],
+            [
+              21,
+              40.5
+            ],
+            [
+              19,
+              40.5
+            ],
+            [
+              19,
+              38.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_CRIMEA",
+      "properties": {
+        "id": "AREA_CRIMEA",
+        "name": "Crimea",
+        "owner": "RUS",
+        "color": "#C8A8D4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32,
+              44.5
+            ],
+            [
+              37,
+              44.5
+            ],
+            [
+              37,
+              46.5
+            ],
+            [
+              32,
+              46.5
+            ],
+            [
+              32,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_CYRENAICA",
+      "properties": {
+        "id": "AREA_CYRENAICA",
+        "name": "Cyrenaica",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              17,
+              28
+            ],
+            [
+              26,
+              28
+            ],
+            [
+              26,
+              33
+            ],
+            [
+              17,
+              33
+            ],
+            [
+              17,
+              28
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_DAMASCUS",
+      "properties": {
+        "id": "AREA_DAMASCUS",
+        "name": "Damascus",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              35,
+              32
+            ],
+            [
+              39,
+              32
+            ],
+            [
+              39,
+              35
+            ],
+            [
+              35,
+              35
+            ],
+            [
+              35,
+              32
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_DARMSTADT",
+      "properties": {
+        "id": "AREA_DARMSTADT",
+        "name": "Darmstadt",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.5,
+              49
+            ],
+            [
+              10,
+              49
+            ],
+            [
+              10,
+              51
+            ],
+            [
+              7.5,
+              51
+            ],
+            [
+              7.5,
+              49
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_DENMARK",
+      "properties": {
+        "id": "AREA_DENMARK",
+        "name": "Denmark",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              55
+            ],
+            [
+              13,
+              55
+            ],
+            [
+              13,
+              58
+            ],
+            [
+              8,
+              58
+            ],
+            [
+              8,
+              55
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_DRESDEN",
+      "properties": {
+        "id": "AREA_DRESDEN",
+        "name": "Dresden",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              50
+            ],
+            [
+              16,
+              50
+            ],
+            [
+              16,
+              52.5
+            ],
+            [
+              12,
+              52.5
+            ],
+            [
+              12,
+              50
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_DUBLIN",
+      "properties": {
+        "id": "AREA_DUBLIN",
+        "name": "Dublin",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -10.5,
+              51.5
+            ],
+            [
+              -5.5,
+              51.5
+            ],
+            [
+              -5.5,
+              55
+            ],
+            [
+              -10.5,
+              55
+            ],
+            [
+              -10.5,
+              51.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_EGYPT",
+      "properties": {
+        "id": "AREA_EGYPT",
+        "name": "Egypt",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              24.5,
+              22
+            ],
+            [
+              36,
+              22
+            ],
+            [
+              36,
+              31.5
+            ],
+            [
+              24.5,
+              31.5
+            ],
+            [
+              24.5,
+              22
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ELVAS",
+      "properties": {
+        "id": "AREA_ELVAS",
+        "name": "Elvas",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -8,
+              37.5
+            ],
+            [
+              -6,
+              37.5
+            ],
+            [
+              -6,
+              39.5
+            ],
+            [
+              -8,
+              39.5
+            ],
+            [
+              -8,
+              37.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_FEZ",
+      "properties": {
+        "id": "AREA_FEZ",
+        "name": "Fez",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -9,
+              33
+            ],
+            [
+              -2,
+              33
+            ],
+            [
+              -2,
+              35.5
+            ],
+            [
+              -9,
+              35.5
+            ],
+            [
+              -9,
+              33
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_FINLAND",
+      "properties": {
+        "id": "AREA_FINLAND",
+        "name": "Finland",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              19,
+              59
+            ],
+            [
+              32,
+              59
+            ],
+            [
+              32,
+              66
+            ],
+            [
+              19,
+              66
+            ],
+            [
+              19,
+              59
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_FLANDERS",
+      "properties": {
+        "id": "AREA_FLANDERS",
+        "name": "Flanders",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.5,
+              50
+            ],
+            [
+              5.5,
+              50
+            ],
+            [
+              5.5,
+              52
+            ],
+            [
+              1.5,
+              52
+            ],
+            [
+              1.5,
+              50
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_FLORENCE",
+      "properties": {
+        "id": "AREA_FLORENCE",
+        "name": "Florence",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10,
+              43
+            ],
+            [
+              13.5,
+              43
+            ],
+            [
+              13.5,
+              45
+            ],
+            [
+              10,
+              45
+            ],
+            [
+              10,
+              43
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_FRANKFURT",
+      "properties": {
+        "id": "AREA_FRANKFURT",
+        "name": "Frankfurt",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7,
+              49
+            ],
+            [
+              11,
+              49
+            ],
+            [
+              11,
+              51.5
+            ],
+            [
+              7,
+              51.5
+            ],
+            [
+              7,
+              49
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_GALICIA_EAST",
+      "properties": {
+        "id": "AREA_GALICIA_EAST",
+        "name": "Galicia East",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              21,
+              48.5
+            ],
+            [
+              27,
+              48.5
+            ],
+            [
+              27,
+              51
+            ],
+            [
+              21,
+              51
+            ],
+            [
+              21,
+              48.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_GALICIA_WEST",
+      "properties": {
+        "id": "AREA_GALICIA_WEST",
+        "name": "Galicia West",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              17.5,
+              49
+            ],
+            [
+              22.5,
+              49
+            ],
+            [
+              22.5,
+              51.5
+            ],
+            [
+              17.5,
+              51.5
+            ],
+            [
+              17.5,
+              49
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_HAMBURG",
+      "properties": {
+        "id": "AREA_HAMBURG",
+        "name": "Hamburg",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              52.5
+            ],
+            [
+              13,
+              52.5
+            ],
+            [
+              13,
+              55
+            ],
+            [
+              8,
+              55
+            ],
+            [
+              8,
+              52.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_HANOVER",
+      "properties": {
+        "id": "AREA_HANOVER",
+        "name": "Hanover",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.5,
+              51.5
+            ],
+            [
+              11.5,
+              51.5
+            ],
+            [
+              11.5,
+              53.5
+            ],
+            [
+              8.5,
+              53.5
+            ],
+            [
+              8.5,
+              51.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_HOLLAND",
+      "properties": {
+        "id": "AREA_HOLLAND",
+        "name": "Holland",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.5,
+              51.5
+            ],
+            [
+              7.5,
+              51.5
+            ],
+            [
+              7.5,
+              53.5
+            ],
+            [
+              3.5,
+              53.5
+            ],
+            [
+              3.5,
+              51.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_HOLSTEIN",
+      "properties": {
+        "id": "AREA_HOLSTEIN",
+        "name": "Holstein",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.5,
+              53
+            ],
+            [
+              11,
+              53
+            ],
+            [
+              11,
+              55
+            ],
+            [
+              8.5,
+              55
+            ],
+            [
+              8.5,
+              53
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_IASI",
+      "properties": {
+        "id": "AREA_IASI",
+        "name": "Iasi",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              25.5,
+              46
+            ],
+            [
+              30,
+              46
+            ],
+            [
+              30,
+              48.5
+            ],
+            [
+              25.5,
+              48.5
+            ],
+            [
+              25.5,
+              46
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ILLYRIA",
+      "properties": {
+        "id": "AREA_ILLYRIA",
+        "name": "Illyria",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.5,
+              43
+            ],
+            [
+              19,
+              43
+            ],
+            [
+              19,
+              47
+            ],
+            [
+              13.5,
+              47
+            ],
+            [
+              13.5,
+              43
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_INGOLSTADT",
+      "properties": {
+        "id": "AREA_INGOLSTADT",
+        "name": "Ingolstadt",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.5,
+              48
+            ],
+            [
+              13,
+              48
+            ],
+            [
+              13,
+              49.5
+            ],
+            [
+              10.5,
+              49.5
+            ],
+            [
+              10.5,
+              48
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_IRELAND",
+      "properties": {
+        "id": "AREA_IRELAND",
+        "name": "Ireland",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -10.5,
+              51
+            ],
+            [
+              -5.5,
+              51
+            ],
+            [
+              -5.5,
+              55.5
+            ],
+            [
+              -10.5,
+              55.5
+            ],
+            [
+              -10.5,
+              51
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ISTANBUL",
+      "properties": {
+        "id": "AREA_ISTANBUL",
+        "name": "Istanbul",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27,
+              40
+            ],
+            [
+              32,
+              40
+            ],
+            [
+              32,
+              42.5
+            ],
+            [
+              27,
+              42.5
+            ],
+            [
+              27,
+              40
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_JERUSALEM",
+      "properties": {
+        "id": "AREA_JERUSALEM",
+        "name": "Jerusalem",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              33,
+              30
+            ],
+            [
+              38,
+              30
+            ],
+            [
+              38,
+              33.5
+            ],
+            [
+              33,
+              33.5
+            ],
+            [
+              33,
+              30
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_KARLSRUHE",
+      "properties": {
+        "id": "AREA_KARLSRUHE",
+        "name": "Karlsruhe",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7,
+              48
+            ],
+            [
+              9.5,
+              48
+            ],
+            [
+              9.5,
+              50
+            ],
+            [
+              7,
+              50
+            ],
+            [
+              7,
+              48
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_KASSEL",
+      "properties": {
+        "id": "AREA_KASSEL",
+        "name": "Kassel",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              50.5
+            ],
+            [
+              11,
+              50.5
+            ],
+            [
+              11,
+              52
+            ],
+            [
+              8,
+              52
+            ],
+            [
+              8,
+              50.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_KIEL",
+      "properties": {
+        "id": "AREA_KIEL",
+        "name": "Kiel",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9,
+              53.5
+            ],
+            [
+              11.5,
+              53.5
+            ],
+            [
+              11.5,
+              55
+            ],
+            [
+              9,
+              55
+            ],
+            [
+              9,
+              53.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_KLEVES",
+      "properties": {
+        "id": "AREA_KLEVES",
+        "name": "Kleves",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5,
+              51
+            ],
+            [
+              8,
+              51
+            ],
+            [
+              8,
+              53
+            ],
+            [
+              5,
+              53
+            ],
+            [
+              5,
+              51
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_KRAKOW",
+      "properties": {
+        "id": "AREA_KRAKOW",
+        "name": "Krakow",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              17.5,
+              49
+            ],
+            [
+              22,
+              49
+            ],
+            [
+              22,
+              51.5
+            ],
+            [
+              17.5,
+              51.5
+            ],
+            [
+              17.5,
+              49
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LEIPZIG",
+      "properties": {
+        "id": "AREA_LEIPZIG",
+        "name": "Leipzig",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11,
+              50
+            ],
+            [
+              14,
+              50
+            ],
+            [
+              14,
+              52.5
+            ],
+            [
+              11,
+              52.5
+            ],
+            [
+              11,
+              50
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LISBON",
+      "properties": {
+        "id": "AREA_LISBON",
+        "name": "Lisbon",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -9.5,
+              36.5
+            ],
+            [
+              -6,
+              36.5
+            ],
+            [
+              -6,
+              40
+            ],
+            [
+              -9.5,
+              40
+            ],
+            [
+              -9.5,
+              36.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LOMBARDY",
+      "properties": {
+        "id": "AREA_LOMBARDY",
+        "name": "Lombardy",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              44.5
+            ],
+            [
+              12,
+              44.5
+            ],
+            [
+              12,
+              46.5
+            ],
+            [
+              8,
+              46.5
+            ],
+            [
+              8,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LONDON",
+      "properties": {
+        "id": "AREA_LONDON",
+        "name": "London",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -3,
+              50.5
+            ],
+            [
+              2,
+              50.5
+            ],
+            [
+              2,
+              53
+            ],
+            [
+              -3,
+              53
+            ],
+            [
+              -3,
+              50.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LUBECK",
+      "properties": {
+        "id": "AREA_LUBECK",
+        "name": "Lubeck",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.5,
+              53
+            ],
+            [
+              12,
+              53
+            ],
+            [
+              12,
+              54.5
+            ],
+            [
+              9.5,
+              54.5
+            ],
+            [
+              9.5,
+              53
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_LYON",
+      "properties": {
+        "id": "AREA_LYON",
+        "name": "Lyon",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2,
+              44.5
+            ],
+            [
+              7,
+              44.5
+            ],
+            [
+              7,
+              47
+            ],
+            [
+              2,
+              47
+            ],
+            [
+              2,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MADRID",
+      "properties": {
+        "id": "AREA_MADRID",
+        "name": "Madrid",
+        "owner": "SPA",
+        "color": "#8e44ad"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -9,
+              38
+            ],
+            [
+              -1,
+              38
+            ],
+            [
+              -1,
+              42
+            ],
+            [
+              -9,
+              42
+            ],
+            [
+              -9,
+              38
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MALTA",
+      "properties": {
+        "id": "AREA_MALTA",
+        "name": "Malta",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.5,
+              35.5
+            ],
+            [
+              15.5,
+              35.5
+            ],
+            [
+              15.5,
+              36.3
+            ],
+            [
+              13.5,
+              36.3
+            ],
+            [
+              13.5,
+              35.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MANTUA",
+      "properties": {
+        "id": "AREA_MANTUA",
+        "name": "Mantua",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10,
+              44.5
+            ],
+            [
+              12,
+              44.5
+            ],
+            [
+              12,
+              46
+            ],
+            [
+              10,
+              46
+            ],
+            [
+              10,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MARSEILLE",
+      "properties": {
+        "id": "AREA_MARSEILLE",
+        "name": "Marseille",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2,
+              42.5
+            ],
+            [
+              8,
+              42.5
+            ],
+            [
+              8,
+              44.5
+            ],
+            [
+              2,
+              44.5
+            ],
+            [
+              2,
+              42.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MECKLENBURG",
+      "properties": {
+        "id": "AREA_MECKLENBURG",
+        "name": "Mecklenburg",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.5,
+              53
+            ],
+            [
+              14,
+              53
+            ],
+            [
+              14,
+              55
+            ],
+            [
+              10.5,
+              55
+            ],
+            [
+              10.5,
+              53
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MILAN",
+      "properties": {
+        "id": "AREA_MILAN",
+        "name": "Milan",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.5,
+              44.5
+            ],
+            [
+              12,
+              44.5
+            ],
+            [
+              12,
+              46.5
+            ],
+            [
+              7.5,
+              46.5
+            ],
+            [
+              7.5,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MOLDAVIA",
+      "properties": {
+        "id": "AREA_MOLDAVIA",
+        "name": "Moldavia",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26,
+              46
+            ],
+            [
+              31,
+              46
+            ],
+            [
+              31,
+              48.5
+            ],
+            [
+              26,
+              48.5
+            ],
+            [
+              26,
+              46
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MOREA",
+      "properties": {
+        "id": "AREA_MOREA",
+        "name": "Morea",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              20.5,
+              36
+            ],
+            [
+              24.5,
+              36
+            ],
+            [
+              24.5,
+              39
+            ],
+            [
+              20.5,
+              39
+            ],
+            [
+              20.5,
+              36
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MOROCCO",
+      "properties": {
+        "id": "AREA_MOROCCO",
+        "name": "Morocco",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -14,
+              27
+            ],
+            [
+              -1,
+              27
+            ],
+            [
+              -1,
+              36
+            ],
+            [
+              -14,
+              36
+            ],
+            [
+              -14,
+              27
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MOSCOW",
+      "properties": {
+        "id": "AREA_MOSCOW",
+        "name": "Moscow",
+        "owner": "RUS",
+        "color": "#C8A8D4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              33,
+              53.5
+            ],
+            [
+              43,
+              53.5
+            ],
+            [
+              43,
+              58
+            ],
+            [
+              33,
+              58
+            ],
+            [
+              33,
+              53.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_MUNICH",
+      "properties": {
+        "id": "AREA_MUNICH",
+        "name": "Munich",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.5,
+              47
+            ],
+            [
+              14,
+              47
+            ],
+            [
+              14,
+              50
+            ],
+            [
+              9.5,
+              50
+            ],
+            [
+              9.5,
+              47
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_NAPLES",
+      "properties": {
+        "id": "AREA_NAPLES",
+        "name": "Naples",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.5,
+              37.5
+            ],
+            [
+              17.5,
+              37.5
+            ],
+            [
+              17.5,
+              41.5
+            ],
+            [
+              13.5,
+              41.5
+            ],
+            [
+              13.5,
+              37.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_NASSAU",
+      "properties": {
+        "id": "AREA_NASSAU",
+        "name": "Nassau",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7,
+              49.5
+            ],
+            [
+              9,
+              49.5
+            ],
+            [
+              9,
+              51
+            ],
+            [
+              7,
+              51
+            ],
+            [
+              7,
+              49.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_NORWAY",
+      "properties": {
+        "id": "AREA_NORWAY",
+        "name": "Norway",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4,
+              57
+            ],
+            [
+              16,
+              57
+            ],
+            [
+              16,
+              66
+            ],
+            [
+              4,
+              66
+            ],
+            [
+              4,
+              57
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_OLDENBURG",
+      "properties": {
+        "id": "AREA_OLDENBURG",
+        "name": "Oldenburg",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7,
+              52.5
+            ],
+            [
+              9.5,
+              52.5
+            ],
+            [
+              9.5,
+              54
+            ],
+            [
+              7,
+              54
+            ],
+            [
+              7,
+              52.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PALERMO",
+      "properties": {
+        "id": "AREA_PALERMO",
+        "name": "Palermo",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              37
+            ],
+            [
+              16,
+              37
+            ],
+            [
+              16,
+              39
+            ],
+            [
+              12,
+              39
+            ],
+            [
+              12,
+              37
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PALESTINE",
+      "properties": {
+        "id": "AREA_PALESTINE",
+        "name": "Palestine",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              34,
+              31
+            ],
+            [
+              37,
+              31
+            ],
+            [
+              37,
+              33.5
+            ],
+            [
+              34,
+              33.5
+            ],
+            [
+              34,
+              31
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PARIS",
+      "properties": {
+        "id": "AREA_PARIS",
+        "name": "Paris",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2,
+              47
+            ],
+            [
+              5,
+              47
+            ],
+            [
+              5,
+              50
+            ],
+            [
+              -2,
+              50
+            ],
+            [
+              -2,
+              47
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PIEDMONT",
+      "properties": {
+        "id": "AREA_PIEDMONT",
+        "name": "Piedmont",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.5,
+              43.5
+            ],
+            [
+              10,
+              43.5
+            ],
+            [
+              10,
+              46
+            ],
+            [
+              6.5,
+              46
+            ],
+            [
+              6.5,
+              43.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PORTUGAL",
+      "properties": {
+        "id": "AREA_PORTUGAL",
+        "name": "Portugal",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -9.5,
+              36
+            ],
+            [
+              -6,
+              36
+            ],
+            [
+              -6,
+              42
+            ],
+            [
+              -9.5,
+              42
+            ],
+            [
+              -9.5,
+              36
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_POSEN",
+      "properties": {
+        "id": "AREA_POSEN",
+        "name": "Posen",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              15,
+              51
+            ],
+            [
+              19.5,
+              51
+            ],
+            [
+              19.5,
+              54
+            ],
+            [
+              15,
+              54
+            ],
+            [
+              15,
+              51
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_PRAGUE",
+      "properties": {
+        "id": "AREA_PRAGUE",
+        "name": "Prague",
+        "owner": "AUS",
+        "color": "#FF6B35"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              49
+            ],
+            [
+              17,
+              49
+            ],
+            [
+              17,
+              51.5
+            ],
+            [
+              12,
+              51.5
+            ],
+            [
+              12,
+              49
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_RHODES",
+      "properties": {
+        "id": "AREA_RHODES",
+        "name": "Rhodes",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              27,
+              35.5
+            ],
+            [
+              29.5,
+              35.5
+            ],
+            [
+              29.5,
+              37.5
+            ],
+            [
+              27,
+              37.5
+            ],
+            [
+              27,
+              35.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ROMAGNA",
+      "properties": {
+        "id": "AREA_ROMAGNA",
+        "name": "Romagna",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.5,
+              43
+            ],
+            [
+              14,
+              43
+            ],
+            [
+              14,
+              45
+            ],
+            [
+              10.5,
+              45
+            ],
+            [
+              10.5,
+              43
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_ROME",
+      "properties": {
+        "id": "AREA_ROME",
+        "name": "Rome",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11.5,
+              40.5
+            ],
+            [
+              14.5,
+              40.5
+            ],
+            [
+              14.5,
+              43.5
+            ],
+            [
+              11.5,
+              43.5
+            ],
+            [
+              11.5,
+              40.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SARAJEVO",
+      "properties": {
+        "id": "AREA_SARAJEVO",
+        "name": "Sarajevo",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              16.5,
+              42.5
+            ],
+            [
+              20.5,
+              42.5
+            ],
+            [
+              20.5,
+              45
+            ],
+            [
+              16.5,
+              45
+            ],
+            [
+              16.5,
+              42.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SARDINIA_ISLAND",
+      "properties": {
+        "id": "AREA_SARDINIA_ISLAND",
+        "name": "Sardinia Island",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.5,
+              38.5
+            ],
+            [
+              10.5,
+              38.5
+            ],
+            [
+              10.5,
+              41.5
+            ],
+            [
+              7.5,
+              41.5
+            ],
+            [
+              7.5,
+              38.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SEVASTOPOL",
+      "properties": {
+        "id": "AREA_SEVASTOPOL",
+        "name": "Sevastopol",
+        "owner": "RUS",
+        "color": "#C8A8D4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32,
+              44
+            ],
+            [
+              36,
+              44
+            ],
+            [
+              36,
+              45.5
+            ],
+            [
+              32,
+              45.5
+            ],
+            [
+              32,
+              44
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SICILY",
+      "properties": {
+        "id": "AREA_SICILY",
+        "name": "Sicily",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              36.5
+            ],
+            [
+              16.5,
+              36.5
+            ],
+            [
+              16.5,
+              38.5
+            ],
+            [
+              12,
+              38.5
+            ],
+            [
+              12,
+              36.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_STOCKHOLM",
+      "properties": {
+        "id": "AREA_STOCKHOLM",
+        "name": "Stockholm",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14,
+              57.5
+            ],
+            [
+              22,
+              57.5
+            ],
+            [
+              22,
+              61
+            ],
+            [
+              14,
+              61
+            ],
+            [
+              14,
+              57.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_STPETE",
+      "properties": {
+        "id": "AREA_STPETE",
+        "name": "Stpete",
+        "owner": "RUS",
+        "color": "#C8A8D4"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              26,
+              57.5
+            ],
+            [
+              35,
+              57.5
+            ],
+            [
+              35,
+              61.5
+            ],
+            [
+              26,
+              61.5
+            ],
+            [
+              26,
+              57.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_STRASBOURG",
+      "properties": {
+        "id": "AREA_STRASBOURG",
+        "name": "Strasbourg",
+        "owner": "FRA",
+        "color": "#9B7B9E"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6,
+              47.5
+            ],
+            [
+              10,
+              47.5
+            ],
+            [
+              10,
+              50
+            ],
+            [
+              6,
+              50
+            ],
+            [
+              6,
+              47.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_STUTTGART",
+      "properties": {
+        "id": "AREA_STUTTGART",
+        "name": "Stuttgart",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              48
+            ],
+            [
+              11,
+              48
+            ],
+            [
+              11,
+              50
+            ],
+            [
+              8,
+              50
+            ],
+            [
+              8,
+              48
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SWEDEN_SOUTH",
+      "properties": {
+        "id": "AREA_SWEDEN_SOUTH",
+        "name": "Sweden South",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              55.5
+            ],
+            [
+              19,
+              55.5
+            ],
+            [
+              19,
+              59
+            ],
+            [
+              12,
+              59
+            ],
+            [
+              12,
+              55.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SWEDISH_POMERANIA",
+      "properties": {
+        "id": "AREA_SWEDISH_POMERANIA",
+        "name": "Swedish Pomerania",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              12,
+              53.5
+            ],
+            [
+              15.5,
+              53.5
+            ],
+            [
+              15.5,
+              55
+            ],
+            [
+              12,
+              55
+            ],
+            [
+              12,
+              53.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SWITZERLAND",
+      "properties": {
+        "id": "AREA_SWITZERLAND",
+        "name": "Switzerland",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.5,
+              45.5
+            ],
+            [
+              10.5,
+              45.5
+            ],
+            [
+              10.5,
+              48
+            ],
+            [
+              5.5,
+              48
+            ],
+            [
+              5.5,
+              45.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_SYRIA",
+      "properties": {
+        "id": "AREA_SYRIA",
+        "name": "Syria",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              35.5,
+              33
+            ],
+            [
+              42,
+              33
+            ],
+            [
+              42,
+              37
+            ],
+            [
+              35.5,
+              37
+            ],
+            [
+              35.5,
+              33
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_THURINGIA",
+      "properties": {
+        "id": "AREA_THURINGIA",
+        "name": "Thuringia",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.5,
+              50
+            ],
+            [
+              13,
+              50
+            ],
+            [
+              13,
+              52
+            ],
+            [
+              9.5,
+              52
+            ],
+            [
+              9.5,
+              50
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_TRANSYLVANIA",
+      "properties": {
+        "id": "AREA_TRANSYLVANIA",
+        "name": "Transylvania",
+        "owner": "AUS",
+        "color": "#FF6B35"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              21.5,
+              45
+            ],
+            [
+              27,
+              45
+            ],
+            [
+              27,
+              47.5
+            ],
+            [
+              21.5,
+              47.5
+            ],
+            [
+              21.5,
+              45
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_TRIPOLI",
+      "properties": {
+        "id": "AREA_TRIPOLI",
+        "name": "Tripoli",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              9.5,
+              28
+            ],
+            [
+              22,
+              28
+            ],
+            [
+              22,
+              34
+            ],
+            [
+              9.5,
+              34
+            ],
+            [
+              9.5,
+              28
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_TUNIS",
+      "properties": {
+        "id": "AREA_TUNIS",
+        "name": "Tunis",
+        "owner": "OTT",
+        "color": "#D4C4A8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              7.5,
+              33
+            ],
+            [
+              13.5,
+              33
+            ],
+            [
+              13.5,
+              37.5
+            ],
+            [
+              7.5,
+              37.5
+            ],
+            [
+              7.5,
+              33
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_TURIN",
+      "properties": {
+        "id": "AREA_TURIN",
+        "name": "Turin",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6.5,
+              44
+            ],
+            [
+              9,
+              44
+            ],
+            [
+              9,
+              46
+            ],
+            [
+              6.5,
+              46
+            ],
+            [
+              6.5,
+              44
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_VALLETTA",
+      "properties": {
+        "id": "AREA_VALLETTA",
+        "name": "Valletta",
+        "owner": "GBR",
+        "color": "#E84090"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.5,
+              35.5
+            ],
+            [
+              15.5,
+              35.5
+            ],
+            [
+              15.5,
+              36.3
+            ],
+            [
+              13.5,
+              36.3
+            ],
+            [
+              13.5,
+              35.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_VENETIA",
+      "properties": {
+        "id": "AREA_VENETIA",
+        "name": "Venetia",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10.5,
+              44
+            ],
+            [
+              14,
+              44
+            ],
+            [
+              14,
+              46.5
+            ],
+            [
+              10.5,
+              46.5
+            ],
+            [
+              10.5,
+              44
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_VENICE",
+      "properties": {
+        "id": "AREA_VENICE",
+        "name": "Venice",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              11,
+              44.5
+            ],
+            [
+              14.5,
+              44.5
+            ],
+            [
+              14.5,
+              46.5
+            ],
+            [
+              11,
+              46.5
+            ],
+            [
+              11,
+              44.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_VIENNA",
+      "properties": {
+        "id": "AREA_VIENNA",
+        "name": "Vienna",
+        "owner": "AUS",
+        "color": "#FF6B35"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              14,
+              47
+            ],
+            [
+              18,
+              47
+            ],
+            [
+              18,
+              49.5
+            ],
+            [
+              14,
+              49.5
+            ],
+            [
+              14,
+              47
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_WARSAW",
+      "properties": {
+        "id": "AREA_WARSAW",
+        "name": "Warsaw",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              18,
+              50.5
+            ],
+            [
+              24,
+              50.5
+            ],
+            [
+              24,
+              54
+            ],
+            [
+              18,
+              54
+            ],
+            [
+              18,
+              50.5
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "AREA_WURZBURG",
+      "properties": {
+        "id": "AREA_WURZBURG",
+        "name": "Wurzburg",
+        "owner": null,
+        "color": "#C8B898"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8.5,
+              49
+            ],
+            [
+              11.5,
+              49
+            ],
+            [
+              11.5,
+              51
+            ],
+            [
+              8.5,
+              51
+            ],
+            [
+              8.5,
+              49
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

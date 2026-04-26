@@ -1,0 +1,11 @@
+name: case_c04_placeholder_required_returns_none
+kind: cost
+given:
+  areas: [AREA_A, AREA_B]
+  edges:
+    - { from: AREA_A, to: AREA_B, cost: PLACEHOLDER }
+when:
+  from: AREA_A
+  to:   AREA_B
+then:
+  cost: null   # unreachable through known-cost edges

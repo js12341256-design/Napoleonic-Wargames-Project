@@ -1,0 +1,15 @@
+[package]
+name = "asset-pipeline"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "SVG map, locale YAML, and sprite atlas processor."
+
+[[bin]]
+name = "asset-pipeline"
+path = "src/main.rs"
+
+[lints]
+workspace = true

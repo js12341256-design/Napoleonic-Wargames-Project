@@ -1,0 +1,2550 @@
+{
+  "schema_version": 1,
+  "source_minor_count": 52,
+  "source_declared_minor_count": 50,
+  "minor_definitions": [
+    {
+      "id": "MINOR_HANOVER",
+      "display_name": "Electorate of Hanover",
+      "kind": "GERMAN_STATE",
+      "starting_status": "ALLIED_FREE",
+      "starting_patron": "GBR",
+      "primary_areas": [
+        "AREA_HANOVER"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_HANOVER",
+      "money_yield": 5,
+      "manpower_yield": 4,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 12,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6500,
+      "fortresses": {
+        "AREA_HANOVER": 1
+      },
+      "activation_table_id": "ACT_HANOVER",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR",
+          "PRU"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "BRITISH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": [
+        "KINGDOM_OF_WESTPHALIA",
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_BAVARIA",
+      "display_name": "Electorate of Bavaria",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_MUNICH",
+        "AREA_BAVARIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_MUNICH",
+      "money_yield": 6,
+      "manpower_yield": 5,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 14,
+      "max_cav_per_corps": 3,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 7000,
+      "fortresses": {
+        "AREA_MUNICH": 1,
+        "AREA_INGOLSTADT": 2
+      },
+      "activation_table_id": "ACT_BAVARIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": [
+          "AUS"
+        ]
+      },
+      "special_rules": [
+        "FRENCH_TRADITIONAL_ALLY",
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE",
+        "HOLY_ROMAN_EMPIRE_RECREATION"
+      ]
+    },
+    {
+      "id": "MINOR_WURTTEMBERG",
+      "display_name": "Duchy of Württemberg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_STUTTGART"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_STUTTGART",
+      "money_yield": 3,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6500,
+      "fortresses": {
+        "AREA_STUTTGART": 1
+      },
+      "activation_table_id": "ACT_WURTTEMBERG",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA",
+          "AUS"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_BADEN",
+      "display_name": "Margraviate of Baden",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_KARLSRUHE"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_KARLSRUHE",
+      "money_yield": 3,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 8,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6000,
+      "fortresses": {},
+      "activation_table_id": "ACT_BADEN",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_HESSE",
+      "display_name": "Hessen (combined)",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_KASSEL",
+        "AREA_DARMSTADT"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_KASSEL",
+      "money_yield": 4,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6500,
+      "fortresses": {
+        "AREA_KASSEL": 1
+      },
+      "activation_table_id": "ACT_HESSE",
+      "diplomatic_inclination": {
+        "pro": [
+          "PRU",
+          "GBR"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "PRUSSIAN_TRADITIONAL_ALLY",
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE",
+        "KINGDOM_OF_WESTPHALIA"
+      ]
+    },
+    {
+      "id": "MINOR_SAXONY",
+      "display_name": "Electorate of Saxony",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_DRESDEN",
+        "AREA_LEIPZIG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_DRESDEN",
+      "money_yield": 5,
+      "manpower_yield": 4,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 14,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 7000,
+      "fortresses": {
+        "AREA_DRESDEN": 2
+      },
+      "activation_table_id": "ACT_SAXONY",
+      "diplomatic_inclination": {
+        "pro": [
+          "PRU"
+        ],
+        "con": [
+          "AUS"
+        ]
+      },
+      "special_rules": [
+        "PRUSSIAN_TRADITIONAL_ALLY",
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_DUCHIES",
+      "display_name": "The Saxon Duchies",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_THURINGIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_THURINGIA",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5500,
+      "fortresses": {},
+      "activation_table_id": "ACT_DUCHIES",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_BRUNSWICK",
+      "display_name": "Duchy of Brunswick",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_BRUNSWICK"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BRUNSWICK",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6500,
+      "fortresses": {},
+      "activation_table_id": "ACT_BRUNSWICK",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR",
+          "PRU"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE",
+        "KINGDOM_OF_WESTPHALIA"
+      ]
+    },
+    {
+      "id": "MINOR_MECKLENBURG",
+      "display_name": "Mecklenburg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_MECKLENBURG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_MECKLENBURG",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5500,
+      "fortresses": {},
+      "activation_table_id": "ACT_MECKLENBURG",
+      "diplomatic_inclination": {
+        "pro": [
+          "PRU"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_OLDENBURG",
+      "display_name": "Duchy of Oldenburg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_OLDENBURG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_OLDENBURG",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_OLDENBURG",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_BERG",
+      "display_name": "Duchy of Berg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_BERG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BERG",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5500,
+      "fortresses": {},
+      "activation_table_id": "ACT_BERG",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE",
+        "GRAND_DUCHY_OF_BERG"
+      ]
+    },
+    {
+      "id": "MINOR_KLEVES",
+      "display_name": "Cleves",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_KLEVES"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_KLEVES",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_KLEVES",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "GRAND_DUCHY_OF_BERG"
+      ]
+    },
+    {
+      "id": "MINOR_FRANKFURT",
+      "display_name": "Free City of Frankfurt",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_FRANKFURT"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_FRANKFURT",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_FRANKFURT",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_COLOGNE",
+      "display_name": "Electorate of Cologne",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_COLOGNE"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_COLOGNE",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_COLOGNE",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_DENMARK_NORWAY",
+      "display_name": "Kingdom of Denmark-Norway",
+      "kind": "SCANDINAVIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_DENMARK"
+      ],
+      "secondary_areas": [
+        "AREA_NORWAY"
+      ],
+      "capital_area": "AREA_COPENHAGEN",
+      "money_yield": 4,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 12,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 18,
+      "fleet_pool_transports": 4,
+      "national_morale_default": 6500,
+      "fortresses": {
+        "AREA_COPENHAGEN": 2
+      },
+      "activation_table_id": "ACT_DENMARK_NORWAY",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": [
+          "GBR",
+          "SWE"
+        ]
+      },
+      "special_rules": [
+        "SCANDINAVIAN_WINTER_BONUS"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_SWEDEN",
+      "display_name": "Kingdom of Sweden",
+      "kind": "SCANDINAVIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_STOCKHOLM",
+        "AREA_SWEDEN_SOUTH"
+      ],
+      "secondary_areas": [
+        "AREA_FINLAND",
+        "AREA_SWEDISH_POMERANIA"
+      ],
+      "capital_area": "AREA_STOCKHOLM",
+      "money_yield": 5,
+      "manpower_yield": 4,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 12,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 12,
+      "fleet_pool_transports": 3,
+      "national_morale_default": 7000,
+      "fortresses": {
+        "AREA_STOCKHOLM": 2,
+        "AREA_SWEDISH_POMERANIA": 1
+      },
+      "activation_table_id": "ACT_SWEDEN",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR",
+          "RUS"
+        ],
+        "con": [
+          "FRA",
+          "DEN"
+        ]
+      },
+      "special_rules": [
+        "SCANDINAVIAN_WINTER_BONUS",
+        "BRITISH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 4,
+      "vp_to_conquer": 5,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_PORTUGAL",
+      "display_name": "Kingdom of Portugal",
+      "kind": "IBERIAN_STATE",
+      "starting_status": "ALLIED_FREE",
+      "starting_patron": "GBR",
+      "primary_areas": [
+        "AREA_LISBON",
+        "AREA_PORTUGAL"
+      ],
+      "secondary_areas": [
+        "AREA_BRAZIL_COLONIES"
+      ],
+      "capital_area": "AREA_LISBON",
+      "money_yield": 5,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 12,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 10,
+      "fleet_pool_transports": 6,
+      "national_morale_default": 6000,
+      "fortresses": {
+        "AREA_LISBON": 2,
+        "AREA_ELVAS": 2
+      },
+      "activation_table_id": "ACT_PORTUGAL",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR"
+        ],
+        "con": [
+          "FRA",
+          "SPA"
+        ]
+      },
+      "special_rules": [
+        "GUERILLA_PRONE",
+        "BRITISH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 4,
+      "vp_to_conquer": 5,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_SWITZERLAND",
+      "display_name": "Helvetic Confederation",
+      "kind": "ALPINE_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_SWITZERLAND"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BERN",
+      "money_yield": 4,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 7000,
+      "fortresses": {},
+      "activation_table_id": "ACT_SWITZERLAND",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "ALPINE_NEUTRAL",
+        "GUERILLA_PRONE"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_HOLLAND",
+      "display_name": "Batavian Republic",
+      "kind": "LOW_COUNTRIES_STATE",
+      "starting_status": "ALLIED_FREE",
+      "starting_patron": "FRA",
+      "primary_areas": [
+        "AREA_AMSTERDAM",
+        "AREA_HOLLAND"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_AMSTERDAM",
+      "money_yield": 6,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 12,
+      "fleet_pool_transports": 4,
+      "national_morale_default": 6000,
+      "fortresses": {
+        "AREA_AMSTERDAM": 2
+      },
+      "activation_table_id": "ACT_HOLLAND",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": [
+          "GBR"
+        ]
+      },
+      "special_rules": [
+        "FRENCH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 4,
+      "vp_to_conquer": 5,
+      "can_be_part_of": [
+        "KINGDOM_OF_HOLLAND"
+      ]
+    },
+    {
+      "id": "MINOR_FLANDERS",
+      "display_name": "Austrian Netherlands (Flanders)",
+      "kind": "LOW_COUNTRIES_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_BRUSSELS",
+        "AREA_FLANDERS"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BRUSSELS",
+      "money_yield": 5,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 2,
+      "national_morale_default": 5500,
+      "fortresses": {
+        "AREA_BRUSSELS": 1,
+        "AREA_ANTWERP": 2
+      },
+      "activation_table_id": "ACT_FLANDERS",
+      "diplomatic_inclination": {
+        "pro": [
+          "AUS"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_PIEDMONT",
+      "display_name": "Kingdom of Piedmont-Sardinia",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_TURIN",
+        "AREA_PIEDMONT"
+      ],
+      "secondary_areas": [
+        "AREA_SARDINIA_ISLAND"
+      ],
+      "capital_area": "AREA_TURIN",
+      "money_yield": 4,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 4,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 6500,
+      "fortresses": {
+        "AREA_TURIN": 2,
+        "AREA_ALESSANDRIA": 2
+      },
+      "activation_table_id": "ACT_PIEDMONT",
+      "diplomatic_inclination": {
+        "pro": [
+          "AUS",
+          "GBR"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "AUSTRIAN_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_LOMBARDY",
+      "display_name": "Lombardy",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "FRA",
+      "primary_areas": [
+        "AREA_MILAN",
+        "AREA_LOMBARDY"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_MILAN",
+      "money_yield": 5,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6000,
+      "fortresses": {
+        "AREA_MILAN": 2,
+        "AREA_MANTUA": 3
+      },
+      "activation_table_id": "ACT_LOMBARDY",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": [
+          "AUS"
+        ]
+      },
+      "special_rules": [],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": [
+        "KINGDOM_OF_ITALY"
+      ]
+    },
+    {
+      "id": "MINOR_VENETIA",
+      "display_name": "Republic of Venice",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_VENICE",
+        "AREA_VENETIA"
+      ],
+      "secondary_areas": [
+        "AREA_ILLYRIA"
+      ],
+      "capital_area": "AREA_VENICE",
+      "money_yield": 4,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 8,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 6,
+      "fleet_pool_transports": 2,
+      "national_morale_default": 5500,
+      "fortresses": {
+        "AREA_VENICE": 2
+      },
+      "activation_table_id": "ACT_VENETIA",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": [
+        "KINGDOM_OF_ITALY"
+      ]
+    },
+    {
+      "id": "MINOR_TUSCANY",
+      "display_name": "Grand Duchy of Tuscany",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_FLORENCE"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_FLORENCE",
+      "money_yield": 4,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_FLORENCE": 1
+      },
+      "activation_table_id": "ACT_TUSCANY",
+      "diplomatic_inclination": {
+        "pro": [
+          "AUS"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": [
+        "KINGDOM_OF_ITALY"
+      ]
+    },
+    {
+      "id": "MINOR_PAPACY",
+      "display_name": "Papal States",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_ROME"
+      ],
+      "secondary_areas": [
+        "AREA_ROMAGNA"
+      ],
+      "capital_area": "AREA_ROME",
+      "money_yield": 4,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_ROME": 1
+      },
+      "activation_table_id": "ACT_PAPACY",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "PAPAL_DIPLOMATIC_NEUTRALITY"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_NAPLES",
+      "display_name": "Kingdom of Naples",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_NAPLES"
+      ],
+      "secondary_areas": [
+        "AREA_SICILY"
+      ],
+      "capital_area": "AREA_NAPLES",
+      "money_yield": 5,
+      "manpower_yield": 3,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 10,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 8,
+      "fleet_pool_transports": 3,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_NAPLES": 2,
+        "AREA_PALERMO": 1
+      },
+      "activation_table_id": "ACT_NAPLES",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR",
+          "SPA",
+          "AUS"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "GUERILLA_PRONE"
+      ],
+      "vp_to_control": 4,
+      "vp_to_conquer": 5,
+      "can_be_part_of": [
+        "KINGDOM_OF_TWO_SICILIES"
+      ]
+    },
+    {
+      "id": "MINOR_SICILY",
+      "display_name": "Kingdom of Sicily",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "NONEXISTENT_AT_START",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_PALERMO"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_PALERMO",
+      "money_yield": 3,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 4,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_PALERMO": 1
+      },
+      "activation_table_id": "ACT_SICILY",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "ISLAND_DEFENSE_BONUS",
+        "BRITISH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": [
+        "KINGDOM_OF_TWO_SICILIES"
+      ]
+    },
+    {
+      "id": "MINOR_POLAND",
+      "display_name": "Polish lands (Galicia / Posen / Warsaw)",
+      "kind": "EAST_EUROPEAN_STATE",
+      "starting_status": "NONEXISTENT_AT_START",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_WARSAW"
+      ],
+      "secondary_areas": [
+        "AREA_GALICIA_EAST",
+        "AREA_GALICIA_WEST",
+        "AREA_POSEN"
+      ],
+      "capital_area": "AREA_WARSAW",
+      "money_yield": 6,
+      "manpower_yield": 6,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 12,
+      "max_cav_per_corps": 3,
+      "max_art_per_corps": 1,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 7000,
+      "fortresses": {
+        "AREA_WARSAW": 1,
+        "AREA_KRAKOW": 2
+      },
+      "activation_table_id": "ACT_POLAND",
+      "diplomatic_inclination": {
+        "pro": [
+          "FRA"
+        ],
+        "con": [
+          "RUS",
+          "PRU",
+          "AUS"
+        ]
+      },
+      "special_rules": [
+        "FRENCH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 5,
+      "vp_to_conquer": 5,
+      "can_be_part_of": [
+        "DUCHY_OF_WARSAW"
+      ]
+    },
+    {
+      "id": "MINOR_CRIMEA",
+      "display_name": "Crimean Khanate (vestigial)",
+      "kind": "EAST_EUROPEAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "RUS",
+      "primary_areas": [
+        "AREA_CRIMEA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_SEVASTOPOL",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 4,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 2,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_SEVASTOPOL": 1
+      },
+      "activation_table_id": "ACT_CRIMEA",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "RUSSIAN_PROXIMITY_BIAS",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_WALLACHIA",
+      "display_name": "Wallachia",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_BUCHAREST"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BUCHAREST",
+      "money_yield": 3,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_WALLACHIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS",
+          "AUS"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_MOLDAVIA",
+      "display_name": "Moldavia",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_MOLDAVIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_IASI",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_MOLDAVIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_TRANSYLVANIA",
+      "display_name": "Transylvania",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "AUS",
+      "primary_areas": [
+        "AREA_TRANSYLVANIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_CLUJ",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_TRANSYLVANIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "AUS"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "AUSTRIAN_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_SERBIA",
+      "display_name": "Serbia",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_BELGRADE"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BELGRADE",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5500,
+      "fortresses": {},
+      "activation_table_id": "ACT_SERBIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS",
+          "AUS"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "GUERILLA_PRONE",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_BOSNIA",
+      "display_name": "Bosnia",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_BOSNIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_SARAJEVO",
+      "money_yield": 1,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_BOSNIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_GREECE",
+      "display_name": "Greek lands (Morea)",
+      "kind": "BALKAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_MOREA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_ATHENS",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_GREECE",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS",
+          "GBR"
+        ],
+        "con": [
+          "OTT"
+        ]
+      },
+      "special_rules": [
+        "GUERILLA_PRONE",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_RHODES",
+      "display_name": "Rhodes / Aegean Islands",
+      "kind": "EAST_MEDITERRANEAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_RHODES"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_RHODES",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 3,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 2,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4500,
+      "fortresses": {
+        "AREA_RHODES": 1
+      },
+      "activation_table_id": "ACT_RHODES",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "ISLAND_DEFENSE_BONUS",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_EGYPT",
+      "display_name": "Egypt",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_EGYPT"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_CAIRO",
+      "money_yield": 5,
+      "manpower_yield": 4,
+      "conquered_yield_pct": 40,
+      "force_pool_corps": 2,
+      "max_inf_per_corps": 8,
+      "max_cav_per_corps": 3,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 4,
+      "fleet_pool_transports": 2,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_ALEXANDRIA": 1,
+        "AREA_CAIRO": 1
+      },
+      "activation_table_id": "ACT_EGYPT",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT",
+          "FRA"
+        ],
+        "con": [
+          "GBR"
+        ]
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 3,
+      "vp_to_conquer": 4,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_SYRIA",
+      "display_name": "Syria",
+      "kind": "EAST_MEDITERRANEAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_SYRIA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_DAMASCUS",
+      "money_yield": 2,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 5,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_SYRIA",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_PALESTINE",
+      "display_name": "Palestine",
+      "kind": "EAST_MEDITERRANEAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_PALESTINE"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_JERUSALEM",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 3,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_PALESTINE",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_TUNIS",
+      "display_name": "Regency of Tunis",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_TUNIS"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_TUNIS",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 3,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 2,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4000,
+      "fortresses": {
+        "AREA_TUNIS": 1
+      },
+      "activation_table_id": "ACT_TUNIS",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "BARBARY_CORSAIR",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_ALGIERS",
+      "display_name": "Regency of Algiers",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_ALGIERS"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_ALGIERS",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 3,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 3,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4000,
+      "fortresses": {
+        "AREA_ALGIERS": 1
+      },
+      "activation_table_id": "ACT_ALGIERS",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "BARBARY_CORSAIR",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_TRIPOLI",
+      "display_name": "Tripolitania",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_TRIPOLI"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_TRIPOLI",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 2,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 1,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4000,
+      "fortresses": {},
+      "activation_table_id": "ACT_TRIPOLI",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "BARBARY_CORSAIR",
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_CYRENAICA",
+      "display_name": "Cyrenaica",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "OTT",
+      "primary_areas": [
+        "AREA_CYRENAICA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_BENGHAZI",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 3500,
+      "fortresses": {},
+      "activation_table_id": "ACT_CYRENAICA",
+      "diplomatic_inclination": {
+        "pro": [
+          "OTT"
+        ],
+        "con": []
+      },
+      "special_rules": [
+        "OTTOMAN_TRIBUTARY"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_MOROCCO",
+      "display_name": "Sultanate of Morocco",
+      "kind": "NORTH_AFRICAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_MOROCCO"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_FEZ",
+      "money_yield": 3,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 4,
+      "max_cav_per_corps": 2,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 1,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 4500,
+      "fortresses": {
+        "AREA_FEZ": 1
+      },
+      "activation_table_id": "ACT_MOROCCO",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": [
+          "SPA"
+        ]
+      },
+      "special_rules": [
+        "BARBARY_CORSAIR"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_HOLSTEIN",
+      "display_name": "Duchy of Holstein",
+      "kind": "GERMAN_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "DEN",
+      "primary_areas": [
+        "AREA_HOLSTEIN"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_KIEL",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_HOLSTEIN",
+      "diplomatic_inclination": {
+        "pro": [
+          "DEN"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_NASSAU",
+      "display_name": "Nassau",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_NASSAU"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_NASSAU",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_NASSAU",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_WURZBURG",
+      "display_name": "Bishopric of Würzburg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_WURZBURG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_WURZBURG",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 4500,
+      "fortresses": {},
+      "activation_table_id": "ACT_WURZBURG",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [
+        "GERMANY_HRE_BIAS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": [
+        "CONFEDERATION_OF_THE_RHINE"
+      ]
+    },
+    {
+      "id": "MINOR_HAMBURG",
+      "display_name": "Free City of Hamburg",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_HAMBURG"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_HAMBURG",
+      "money_yield": 3,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_HAMBURG",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR"
+        ],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_LUBECK",
+      "display_name": "Free City of Lübeck",
+      "kind": "GERMAN_STATE",
+      "starting_status": "NEUTRAL",
+      "starting_patron": null,
+      "primary_areas": [
+        "AREA_LUBECK"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_LUBECK",
+      "money_yield": 2,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 50,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_LUBECK",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": []
+      },
+      "special_rules": [],
+      "vp_to_control": 1,
+      "vp_to_conquer": 1,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_IONIAN",
+      "display_name": "Ionian Islands",
+      "kind": "EAST_MEDITERRANEAN_STATE",
+      "starting_status": "ALLIED_FREE",
+      "starting_patron": "RUS",
+      "primary_areas": [
+        "AREA_CORFU"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_CORFU",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 1,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {
+        "AREA_CORFU": 1
+      },
+      "activation_table_id": "ACT_IONIAN",
+      "diplomatic_inclination": {
+        "pro": [
+          "RUS",
+          "GBR"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "ISLAND_DEFENSE_BONUS"
+      ],
+      "vp_to_control": 1,
+      "vp_to_conquer": 2,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_MALTA",
+      "display_name": "Malta",
+      "kind": "ITALIAN_STATE",
+      "starting_status": "ALLIED_FREE",
+      "starting_patron": "GBR",
+      "primary_areas": [
+        "AREA_MALTA"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_VALLETTA",
+      "money_yield": 1,
+      "manpower_yield": 1,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 0,
+      "max_inf_per_corps": 0,
+      "max_cav_per_corps": 0,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 0,
+      "national_morale_default": 6000,
+      "fortresses": {
+        "AREA_VALLETTA": 3
+      },
+      "activation_table_id": "ACT_MALTA",
+      "diplomatic_inclination": {
+        "pro": [
+          "GBR"
+        ],
+        "con": [
+          "FRA"
+        ]
+      },
+      "special_rules": [
+        "ISLAND_DEFENSE_BONUS",
+        "BRITISH_TRADITIONAL_ALLY"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": []
+    },
+    {
+      "id": "MINOR_IRELAND",
+      "display_name": "Ireland (revolt option)",
+      "kind": "LOW_COUNTRIES_STATE",
+      "starting_status": "FEUDAL",
+      "starting_patron": "GBR",
+      "primary_areas": [
+        "AREA_IRELAND"
+      ],
+      "secondary_areas": [],
+      "capital_area": "AREA_DUBLIN",
+      "money_yield": 3,
+      "manpower_yield": 2,
+      "conquered_yield_pct": 30,
+      "force_pool_corps": 1,
+      "max_inf_per_corps": 6,
+      "max_cav_per_corps": 1,
+      "max_art_per_corps": 0,
+      "fleet_pool_ships": 0,
+      "fleet_pool_transports": 1,
+      "national_morale_default": 5000,
+      "fortresses": {},
+      "activation_table_id": "ACT_IRELAND",
+      "diplomatic_inclination": {
+        "pro": [],
+        "con": [
+          "GBR"
+        ]
+      },
+      "special_rules": [
+        "GUERILLA_PRONE",
+        "ISLAND_DEFENSE_BONUS"
+      ],
+      "vp_to_control": 2,
+      "vp_to_conquer": 3,
+      "can_be_part_of": []
+    }
+  ],
+  "activation_table": {
+    "MINOR_HANOVER": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_BAVARIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_WURTTEMBERG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_BADEN": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_HESSE": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "PRU"
+    },
+    "MINOR_SAXONY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "PRU"
+    },
+    "MINOR_DUCHIES": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_BRUNSWICK": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_MECKLENBURG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "PRU"
+    },
+    "MINOR_OLDENBURG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "RUS"
+    },
+    "MINOR_BERG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_KLEVES": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_FRANKFURT": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_COLOGNE": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_DENMARK_NORWAY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_SWEDEN": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_PORTUGAL": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_SWITZERLAND": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_HOLLAND": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_FLANDERS": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "AUS"
+    },
+    "MINOR_PIEDMONT": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "AUS"
+    },
+    "MINOR_LOMBARDY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_VENETIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_TUSCANY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "AUS"
+    },
+    "MINOR_PAPACY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_NAPLES": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_SICILY": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_POLAND": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "FRA"
+    },
+    "MINOR_CRIMEA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "RUS"
+    },
+    "MINOR_WALLACHIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_MOLDAVIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_TRANSYLVANIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "AUS"
+    },
+    "MINOR_SERBIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_BOSNIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_GREECE": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_RHODES": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_EGYPT": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_SYRIA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_PALESTINE": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_TUNIS": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_ALGIERS": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_TRIPOLI": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_CYRENAICA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "OTT"
+    },
+    "MINOR_MOROCCO": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_HOLSTEIN": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "DEN"
+    },
+    "MINOR_NASSAU": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_WURZBURG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_HAMBURG": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_LUBECK": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": null
+    },
+    "MINOR_IONIAN": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "RUS"
+    },
+    "MINOR_MALTA": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "ALLIED_FREE": 2048,
+        "FEUDAL": 512,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    },
+    "MINOR_IRELAND": {
+      "trigger": "DEFAULT",
+      "outcomes": {
+        "INDEPENDENT_FREE": 1024,
+        "FEUDAL": 1536,
+        "CONQUERED": 512
+      },
+      "favored_patron": "GBR"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+[package]
+name = "gc1805-ai"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "AI decision layer.  Operates on projections only — never on full state (§15.3)."
+
+[lints]
+workspace = true
+
+[dependencies]
+gc1805-core = { path = "../core" }
+gc1805-core-schema = { path = "../core-schema" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

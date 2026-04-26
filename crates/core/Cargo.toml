@@ -1,0 +1,20 @@
+[package]
+name = "gc1805-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Pure simulation core. No I/O, no async, no wall-clock. See PROMPT.md §3.1."
+
+[dependencies]
+gc1805-core-schema = { path = "../core-schema" }
+serde       = { workspace = true }
+serde_json  = { workspace = true }
+schemars    = { workspace = true }
+indexmap    = { workspace = true }
+thiserror   = { workspace = true }
+blake3      = { workspace = true }
+
+[lints]
+workspace = true

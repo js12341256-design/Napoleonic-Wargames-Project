@@ -1,0 +1,29 @@
+[package]
+name = "gc1805-server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Authoritative server (axum + tokio) for Grand Campaign 1805."
+
+[[bin]]
+name = "gc1805-server"
+path = "src/main.rs"
+
+[dependencies]
+axum = { version = "0.8", features = ["ws"] }
+tokio = { version = "1", features = ["full"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = "1"
+gc1805-core = { path = "../core" }
+gc1805-core-schema = { path = "../core-schema" }
+
+[dev-dependencies]
+futures-util = "0.3"
+http-body-util = "0.1"
+tokio-tungstenite = "0.29"
+tower = { version = "0.5", features = ["util"] }
+
+[lints]
+workspace = true

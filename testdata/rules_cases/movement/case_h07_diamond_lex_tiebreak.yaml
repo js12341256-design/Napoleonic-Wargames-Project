@@ -1,0 +1,15 @@
+name: case_h07_diamond_path_picks_lexicographic_first
+kind: hops
+given:
+  areas: [AREA_A, AREA_B, AREA_C, AREA_D]
+  edges:
+    - { from: AREA_A, to: AREA_B, cost: 1 }
+    - { from: AREA_A, to: AREA_C, cost: 1 }
+    - { from: AREA_B, to: AREA_D, cost: 1 }
+    - { from: AREA_C, to: AREA_D, cost: 1 }
+when:
+  from: AREA_A
+  to:   AREA_D
+then:
+  hops: 2
+  intermediate: AREA_B   # lex-smaller of {AREA_B, AREA_C}

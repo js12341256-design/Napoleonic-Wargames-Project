@@ -1,0 +1,17 @@
+name: case_v07_stacking_limit_rejects
+kind: validation
+given:
+  areas: [AREA_A, AREA_B]
+  edges:
+    - { from: AREA_A, to: AREA_B, cost: 1 }
+  corps:
+    - { id: CORPS_FRA_001, owner: FRA, area: AREA_A }
+    - { id: CORPS_FRA_002, owner: FRA, area: AREA_B }
+    - { id: CORPS_FRA_003, owner: FRA, area: AREA_B }
+  movement_rules:
+    max_corps_per_area:    2
+    movement_hops_per_turn: 2
+when:
+  order: { kind: MOVE, submitter: FRA, corps: CORPS_FRA_001, to: AREA_B }
+then:
+  rejection: STACKING_LIMIT

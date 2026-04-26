@@ -1,0 +1,117 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches: [claude/implement-design-system-ciX1R, main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: '1.95.0'
+          targets: wasm32-unknown-unknown
+
+      - name: Install wasm-pack
+        run: cargo install wasm-pack
+
+      - name: Build WASM
+        run: |
+          cd crates/client-web
+          wasm-pack build --target web --out-dir ../../web/pkg
+
+      - name: Copy scenario to public
+        run: |
+          mkdir -p web/public/scenarios/1805_standard
+          copy data\scenarios\1805_standard\scenario.json web\public\scenarios\1805_standard\scenario.json
+        shell: cmd
+
+      - name: Install web deps
+        run: |
+          cd web
+          npm ci
+
+      - name: Build web bundle
+        run: |
+          cd web
+          npm run build
+
+      - name: Create Electron app
+        run: |
+          mkdir gc1805-electron
+          cd gc1805-electron
+          echo '{"name":"grand-campaign-1805","version":"0.1.0","main":"main.js","scripts":{"dist":"electron-builder --win --x64"},"build":{"appId":"com.gc1805.game","productName":"Grand Campaign 1805","directories":{"output":"release"},"win":{"target":"nsis","icon":"icon.ico"},"files":["main.js","web-dist/**/*"]},"devDependencies":{"electron":"^33.0.0","electron-builder":"^25.0.0"}}' > package.json
+
+      - name: Copy web-dist
+        run: |
+          xcopy /E /I web\dist gc1805-electron\web-dist
+        shell: cmd
+
+      - name: Create main.js
+        run: |
+          $main = @'
+          const { app, BrowserWindow, session } = require('electron')
+          const path = require('path')
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 1280, height: 800,
+              title: 'Grand Campaign 1805',
+              backgroundColor: '#0d0d1a',
+              webPreferences: { nodeIntegration: false, contextIsolation: true },
+              autoHideMenuBar: true,
+            })
+            win.loadFile(path.join(__dirname, 'web-dist', 'index.html'))
+          }
+          app.whenReady().then(() => {
+            session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+              callback({ responseHeaders: { ...details.responseHeaders, 'Cross-Origin-Opener-Policy': ['same-origin'], 'Cross-Origin-Embedder-Policy': ['require-corp'] }})
+            })
+            createWindow()
+          })
+          app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
+          '@
+          Set-Content -Path gc1805-electron\main.js -Value $main
+        shell: powershell
+
+      - name: Create placeholder icon
+        run: |
+          cd gc1805-electron
+          node -e "const fs=require('fs');const b=Buffer.alloc(64,0);b[0]=0;b[1]=0;b[2]=1;b[3]=0;b[4]=1;fs.writeFileSync('icon.ico',b);"
+
+      - name: Install Electron deps
+        run: |
+          cd gc1805-electron
+          npm install
+
+      - name: Build Windows installer
+        run: |
+          cd gc1805-electron
+          npx electron-builder --win --x64
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GrandCampaign1805-Windows-Installer
+          path: gc1805-electron/release/*.exe
+          if-no-files-found: warn
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: latest-build
+          name: Grand Campaign 1805 — Latest Build
+          prerelease: true
+          files: gc1805-electron/release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

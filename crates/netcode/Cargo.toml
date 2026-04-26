@@ -1,0 +1,17 @@
+[package]
+name = "gc1805-netcode"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Client–server message protocol types."
+
+[dependencies]
+ed25519-dalek = "2"
+serde_json = "1"
+serde = { version = "1", features = ["derive"] }
+gc1805-core-schema = { path = "../core-schema" }
+
+[lints]
+workspace = true

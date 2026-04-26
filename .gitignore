@@ -1,0 +1,22 @@
+/target
+**/*.rs.bk
+Cargo.lock.bak
+
+# Node / web
+/web/node_modules
+/web/dist
+/web/.vite
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local config
+.env
+.env.local
+
+# Build artifacts from the asset pipeline
+/assets/.build/
+/data/.build/

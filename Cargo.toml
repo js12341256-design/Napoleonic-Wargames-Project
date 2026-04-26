@@ -1,0 +1,52 @@
+# Grand Campaign 1805 — workspace root.
+# See docs/PROMPT.md §3.1 for crate boundaries and §4 for layout.
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/core-schema",
+    "crates/core-rng",
+    "crates/core-validate",
+    "crates/ai",
+    "crates/server",
+    "crates/netcode",
+    "crates/client-shared",
+    "crates/client-desktop",
+    "crates/client-web",
+    "crates/cli",
+    "tools/xtask",
+    "tools/asset-pipeline",
+]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.95.0"
+license = "UNLICENSED"
+repository = "https://github.com/js12341256-design/project1"
+publish = false
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+# §2.2: no floats, no wall-clock, no hash iteration in simulation core.
+# These are informational at the workspace level; `core` re-enforces them.
+float_arithmetic = "warn"
+
+# Shared dep versions; opt in per crate.
+[workspace.dependencies]
+serde       = { version = "1", features = ["derive"] }
+serde_json  = { version = "1", features = ["preserve_order"] }
+schemars    = { version = "0.8" }
+indexmap    = { version = "2", features = ["serde"] }
+thiserror   = { version = "1" }
+blake3      = { version = "1" }
+
+# Release profile; debug profile uses cargo defaults.
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true

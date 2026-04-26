@@ -1,0 +1,7 @@
+{
+  "id": "example_mod",
+  "name": "Example Mod",
+  "version": "0.1.0",
+  "description": "A minimal example mod showing override structure.",
+  "overrides": ["tables/economy.json"]
+}

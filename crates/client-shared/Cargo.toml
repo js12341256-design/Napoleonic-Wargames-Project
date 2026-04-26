@@ -1,0 +1,11 @@
+[package]
+name = "gc1805-client-shared"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+description = "Logic shared between desktop and web clients."
+
+[lints]
+workspace = true

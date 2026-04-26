@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WeatherTable",
+  "type": "object",
+  "required": [
+    "monthly",
+    "schema_version",
+    "theaters"
+  ],
+  "properties": {
+    "monthly": {
+      "description": "`month (1..=12)` → theater → distribution over weather kinds. Each distribution is a map from weather kind to a probability in fixed-point Q12 (denominator 4096); each row must sum to 4096.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Maybe_for_int32"
+          }
+        }
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "theaters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "Maybe_for_int32": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

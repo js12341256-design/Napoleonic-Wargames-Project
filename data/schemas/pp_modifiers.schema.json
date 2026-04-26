@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PpModifiersTable",
+  "type": "object",
+  "required": [
+    "events",
+    "schema_version"
+  ],
+  "properties": {
+    "events": {
+      "description": "Keyed by event name → integer PP delta.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Maybe_for_int32"
+      }
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    }
+  },
+  "definitions": {
+    "Maybe_for_int32": {
+      "description": "Either a designer-authored value of type `T`, or an explicit PLACEHOLDER marker.  A scenario carrying any `Placeholder` cannot ship in release per §6.1.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "$ref": "#/definitions/PlaceholderMarker"
+        }
+      ]
+    },
+    "PlaceholderMarker": {
+      "description": "A literal `{\"_placeholder\": true}` JSON object.",
+      "type": "object",
+      "required": [
+        "_placeholder"
+      ],
+      "properties": {
+        "_placeholder": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
