@@ -63,6 +63,7 @@ export default function EventPopup({ events, onResolve }: EventPopupProps) {
         justifyContent: 'center',
         background: 'rgba(0, 0, 0, 0.75)',
         opacity: visible ? 1 : 0,
+        pointerEvents: visible ? 'auto' : 'none',
         transition: 'opacity 0.4s ease-in-out',
         fontFamily: 'Cinzel, serif',
       }}

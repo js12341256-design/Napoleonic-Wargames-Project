@@ -80,3 +80,52 @@ export interface PowerPoliticsData {
   puppets: string[];
   overlord: string | null;
 }
+
+export interface BattleSide {
+  power: string;
+  commander: string;
+  strength: number;
+  tactic: 'Column' | 'Line' | 'Square' | 'SkirmishScreen';
+}
+
+export interface BattleEvent {
+  territory: string;
+  attacker: BattleSide;
+  defender: BattleSide;
+  outcome: 'attacker_advances' | 'stalemate' | 'defender_holds';
+  attackerCasualties: number;
+  defenderCasualties: number;
+}
+
+export type FocusEffect = Record<string, any>
+
+export interface Focus {
+  id: number;
+  name: string;
+  description: string;
+  power: string;
+  cost_days: number;
+  prerequisites: number[];
+  effects: FocusEffect[];
+  x: number;
+  y: number;
+  icon: string;
+  category: string;
+}
+
+export interface FocusTreeData {
+  power: string;
+  focuses: Record<string, Focus>;
+  completed: number[];
+  in_progress: [number, number] | null;
+}
+
+export interface TerritoryInfo {
+  id: string;
+  name: string;
+  owner: string;
+  terrain: 'Plains' | 'Mountains' | 'Forest' | 'Coast' | 'River';
+  corps: { name: string; strength: number; marshal?: string }[];
+  goldPerDay: number;
+  manpowerPerMonth: number;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import type { Marshal, DivisionTemplate, PowerEconomy, GameEvent, PowerPoliticsData } from './types'
+import type { Marshal, DivisionTemplate, PowerEconomy, GameEvent, PowerPoliticsData, BattleEvent, TerritoryInfo } from './types'
 import MapView, { AttackArrow, ContestedArea, BattleToast } from './MapView'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
@@ -8,6 +8,9 @@ import EconomyPanel from './components/EconomyPanel'
 import EventPopup from './components/EventPopup'
 import FocusTree from './components/FocusTree'
 import PoliticsPanel from './components/PoliticsPanel'
+import BattleScreen from './components/BattleScreen'
+import TerritoryPanel from './components/TerritoryPanel'
+import MiniMap from './components/MiniMap'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷', GBR: '🇬🇧', AUS: '🦅', PRU: '⚫', RUS: '🐻', OTT: '☪️', SPA: '🇪🇸',
@@ -55,11 +58,11 @@ const MOCK_EVENTS: GameEvent[] = [
 ]
 
 const MOCK_ATTACK_ARROWS: AttackArrow[] = [
-  { fromAreaId:'ven', toAreaId:'vie', powerColor:'#1565C0', strength:45000 },
-  { fromAreaId:'bav', toAreaId:'aus', powerColor:'#1565C0', strength:32000 },
+  { fromArea:'ven', toArea:'vie', attacker:'FRA', strength:45000 },
+  { fromArea:'bav', toArea:'aus', attacker:'FRA', strength:32000 },
 ]
 const MOCK_CONTESTED: ContestedArea[] = [
-  { areaId:'ven', attackerColor:'#1565C0', defenderColor:'#F9A825', pressure:60 },
+  { areaId:'ven', attacker:'FRA', defender:'AUS', pressure:60 },
 ]
 
 export default function App() {
@@ -82,11 +85,16 @@ export default function App() {
   // Data
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
   const [templates, setTemplates] = useState<DivisionTemplate[]>([])
-  const [pendingEvents, setPendingEvents] = useState<GameEvent[]>(MOCK_EVENTS)
+  const [pendingEvents, setPendingEvents] = useState<GameEvent[]>([])
+  useEffect(() => { const t = setTimeout(() => setPendingEvents(MOCK_EVENTS), 8000); return () => clearTimeout(t) }, [])
   const [battleToasts, setBattleToasts] = useState<BattleToast[]>([
-    { id:'t1', message:'⚔️ Austerlitz: France advances!', powerColor:'#1565C0' },
+    { area:'ven', areaName:'Austerlitz', attacker:'FRA', result:'AttackerAdvances', timestamp: Date.now() },
   ])
   const [turn, setTurn] = useState(0)
+
+  // Combat & territory state
+  const [battleEvent, setBattleEvent] = useState<BattleEvent | null>(null)
+  const [selectedTerritory, setSelectedTerritory] = useState<TerritoryInfo | null>(null)
 
   const playerPower = 'FRA'
 
@@ -161,6 +169,15 @@ export default function App() {
 
   const handleEndTurn = useCallback(() => {
     setTurn(t => t + 1)
+    // Mock: trigger a battle between France and Austria
+    setBattleEvent({
+      territory: 'Austerlitz',
+      attacker: { power: 'FRA', commander: 'Napoleon Bonaparte', strength: 73000, tactic: 'Column' },
+      defender: { power: 'AUS', commander: 'Archduke Charles', strength: 85000, tactic: 'Line' },
+      outcome: 'attacker_advances',
+      attackerCasualties: 9200,
+      defenderCasualties: 27000,
+    })
   }, [])
 
   const btnStyle = (active: boolean): React.CSSProperties => ({
@@ -253,6 +270,80 @@ export default function App() {
       <PoliticsPanel politics={playerPolitics} open={politicsOpen} onClose={() => setPoliticsOpen(false)} />
       <FocusTree open={focusOpen} onClose={() => setFocusOpen(false)} />
       <EventPopup events={pendingEvents} onResolve={handleResolveEvent} />
+
+      {/* Battle screen modal */}
+      {battleEvent && <BattleScreen battle={battleEvent} onClose={() => setBattleEvent(null)} />}
+
+      {/* Territory panel */}
+      {selectedTerritory && <TerritoryPanel territory={selectedTerritory} onClose={() => setSelectedTerritory(null)} />}
+
+      {/* Minimap */}
+      <MiniMap
+        panX={0} panY={0} zoom={1}
+        mapWidth={1600} mapHeight={1000}
+        viewportWidth={1200} viewportHeight={700}
+        onNavigate={() => {}}
+      />
+
+      {/* Mock: Trigger Battle button */}
+      <button
+        onClick={() => setBattleEvent({
+          territory: 'Ulm',
+          attacker: { power: 'FRA', commander: 'Michel Ney', strength: 45000, tactic: 'Column' },
+          defender: { power: 'AUS', commander: 'Karl Mack', strength: 32000, tactic: 'Square' },
+          outcome: 'attacker_advances',
+          attackerCasualties: 3800,
+          defenderCasualties: 18000,
+        })}
+        style={{
+          position: 'fixed',
+          bottom: 12,
+          left: 12,
+          background: 'rgba(20,18,35,0.9)',
+          border: '1px solid #3a2f1a',
+          color: '#7a6030',
+          cursor: 'pointer',
+          padding: '4px 10px',
+          fontSize: 10,
+          fontFamily: 'Cinzel, serif',
+          borderRadius: 3,
+          zIndex: 100,
+        }}
+      >
+        Trigger Battle
+      </button>
+
+      {/* Mock: territory click */}
+      <button
+        onClick={() => setSelectedTerritory({
+          id: 'vie',
+          name: 'Vienna',
+          owner: 'AUS',
+          terrain: 'Plains',
+          corps: [
+            { name: 'I Corps', strength: 28000, marshal: 'Archduke Charles' },
+            { name: 'II Corps', strength: 22000 },
+          ],
+          goldPerDay: 15,
+          manpowerPerMonth: 3000,
+        })}
+        style={{
+          position: 'fixed',
+          bottom: 12,
+          left: 120,
+          background: 'rgba(20,18,35,0.9)',
+          border: '1px solid #3a2f1a',
+          color: '#7a6030',
+          cursor: 'pointer',
+          padding: '4px 10px',
+          fontSize: 10,
+          fontFamily: 'Cinzel, serif',
+          borderRadius: 3,
+          zIndex: 100,
+        }}
+      >
+        Territory Info
+      </button>
     </div>
   )
 }
