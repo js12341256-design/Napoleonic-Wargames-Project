@@ -35,6 +35,39 @@ const COAST_CLR = 'rgba(180,200,240,0.45)'
 const RIVER_CLR = 'rgba(60,100,180,0.45)'
 const LAKE_CLR = '#1e3455'
 
+/* ───────── terrain classification ───────── */
+const MOUNTAIN_AREAS = new Set([
+  'alps', 'carpathians', 'pyrenees', 'urals', 'tyrol', 'switzerland', 'savoy',
+  'AREA_alps', 'AREA_carpathians', 'AREA_pyrenees', 'AREA_urals', 'AREA_tyrol', 'AREA_switzerland', 'AREA_savoy',
+])
+const FOREST_AREAS = new Set([
+  'black_forest', 'bohemia', 'thuringia', 'lithuania', 'finland',
+  'AREA_black_forest', 'AREA_bohemia', 'AREA_thuringia', 'AREA_lithuania', 'AREA_finland',
+])
+const COAST_AREAS = new Set([
+  'brittany', 'normandy', 'naples', 'sicily', 'andalusia', 'catalonia', 'portugal', 'holland', 'denmark', 'norway', 'dalmatia', 'greece', 'crete',
+  'AREA_brittany', 'AREA_normandy', 'AREA_naples', 'AREA_sicily', 'AREA_andalusia', 'AREA_catalonia', 'AREA_portugal', 'AREA_holland', 'AREA_denmark', 'AREA_norway', 'AREA_dalmatia', 'AREA_greece', 'AREA_crete',
+])
+
+/* Capital territories for star markers */
+const CAPITALS: Record<string, string> = {
+  'paris': 'FRA', 'AREA_paris': 'FRA', 'ile_de_france': 'FRA', 'AREA_ile_de_france': 'FRA',
+  'london': 'GBR', 'AREA_london': 'GBR', 'england': 'GBR', 'AREA_england': 'GBR',
+  'vienna': 'AUS', 'AREA_vienna': 'AUS', 'vie': 'AUS',
+  'berlin': 'PRU', 'AREA_berlin': 'PRU', 'brandenburg': 'PRU', 'AREA_brandenburg': 'PRU',
+  'moscow': 'RUS', 'AREA_moscow': 'RUS',
+  'constantinople': 'OTT', 'AREA_constantinople': 'OTT',
+  'madrid': 'SPA', 'AREA_madrid': 'SPA', 'castile': 'SPA', 'AREA_castile': 'SPA',
+}
+
+function getTerrainType(aid: string, area: any): 'mountain' | 'forest' | 'coast' | 'plains' {
+  const terrain = (area?.terrain || '').toLowerCase()
+  if (terrain.includes('mountain') || terrain.includes('alpine') || MOUNTAIN_AREAS.has(aid)) return 'mountain'
+  if (terrain.includes('forest') || terrain.includes('wood') || FOREST_AREAS.has(aid)) return 'forest'
+  if (terrain.includes('coast') || terrain.includes('port') || COAST_AREAS.has(aid)) return 'coast'
+  return 'plains'
+}
+
 /* ───────── front line types ───────── */
 export interface AttackArrow {
   fromArea: string
@@ -69,6 +102,8 @@ interface MapViewProps {
   attackArrows?: AttackArrow[]
   contestedAreas?: ContestedArea[]
   battleToasts?: BattleToast[]
+  selectedTerritory?: string | null
+  onSelectTerritory?: (id: string | null) => void
 }
 
 function clamp(v: number, lo: number, hi: number) {
@@ -116,8 +151,19 @@ function ownerLabel(area: any): string {
   return 'Neutral'
 }
 
+/** Darken a hex color by a percentage (0-1) */
+function darkenColor(hex: string, amount: number): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  const dr = Math.round(r * (1 - amount))
+  const dg = Math.round(g * (1 - amount))
+  const db = Math.round(b * (1 - amount))
+  return `#${dr.toString(16).padStart(2, '0')}${dg.toString(16).padStart(2, '0')}${db.toString(16).padStart(2, '0')}`
+}
+
 /* ───────── component ───────── */
-export default function MapView({ scenarioData, powerStates, currentTurn, onEndTurn, attackArrows = [], contestedAreas = [], battleToasts = [] }: MapViewProps) {
+export default function MapView({ scenarioData, powerStates, currentTurn, onEndTurn, attackArrows = [], contestedAreas = [], battleToasts = [], selectedTerritory, onSelectTerritory }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef({ active: false, x: 0, y: 0, sx: 0, sy: 0, moved: false })
 
@@ -125,6 +171,13 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [selId, setSelId] = useState<string | null>(null)
   const [hovId, setHovId] = useState<string | null>(null)
+
+  // Sync external selectedTerritory prop
+  const effectiveSelId = selectedTerritory !== undefined ? selectedTerritory : selId
+  const handleSelect = (id: string | null) => {
+    if (onSelectTerritory) onSelectTerritory(id)
+    else setSelId(id)
+  }
 
   /* async geo data */
   const [land, setLand] = useState<any>(null)
@@ -171,7 +224,12 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
     return (terrs as any).features.map((f: any) => {
       const aid = f.properties?.id || f.id
       const a = sa[aid]
-      return { aid, area: a, color: ownerColor(a), path: pathGen(f) || '' }
+      const baseColor = ownerColor(a)
+      const terrain = getTerrainType(aid, a)
+      let displayColor = baseColor
+      if (terrain === 'mountain') displayColor = darkenColor(baseColor, 0.3)
+      else if (terrain === 'forest') displayColor = baseColor // green overlay applied separately
+      return { aid, area: a, color: baseColor, displayColor, terrain, path: pathGen(f) || '' }
     }).filter((t: any) => t.path)
   }, [terrs, scenarioData, pathGen])
 
@@ -215,10 +273,10 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
 
   /* selected area */
   const selInfo = useMemo(() => {
-    if (!selId) return null
-    const a = scenarioData?.areas?.[selId]
-    return { id: selId, area: a, corps: corpsByArea[selId] || [], name: fmtArea(selId, a?.display_name) }
-  }, [selId, scenarioData, corpsByArea])
+    if (!effectiveSelId) return null
+    const a = scenarioData?.areas?.[effectiveSelId]
+    return { id: effectiveSelId, area: a, corps: corpsByArea[effectiveSelId] || [], name: fmtArea(effectiveSelId, a?.display_name) }
+  }, [effectiveSelId, scenarioData, corpsByArea])
 
   /* ── zoom / pan handlers ── */
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
@@ -288,7 +346,7 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
           {/* ocean */}
           <rect width={SVG_W} height={SVG_H} fill={OCEAN} />
 
-          {/* defs: clips, filters, markers, animations */}
+          {/* defs: clips, filters, markers, patterns, animations */}
           <defs>
             <clipPath id="lc">
               {landPaths.map((d: string, i: number) => <path key={i} d={d} />)}
@@ -308,12 +366,46 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
               <feGaussianBlur stdDeviation="4" result="blur" />
               <feMerge><feMergeNode in="blur" /><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
+            {/* Mountain stipple pattern */}
+            <pattern id="mountain-stipple" width="6" height="6" patternUnits="userSpaceOnUse">
+              <rect width="6" height="6" fill="none" />
+              <circle cx="1" cy="1" r="0.6" fill="rgba(255,255,255,0.25)" />
+              <circle cx="4" cy="4" r="0.6" fill="rgba(255,255,255,0.25)" />
+            </pattern>
+            {/* Coast shimmer gradient */}
+            <linearGradient id="coast-shimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(100,160,255,0.08)">
+                <animate attributeName="stopColor" values="rgba(100,160,255,0.08);rgba(100,160,255,0.2);rgba(100,160,255,0.08)" dur="3s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stopColor="rgba(60,120,220,0.05)">
+                <animate attributeName="stopColor" values="rgba(60,120,220,0.05);rgba(60,120,220,0.15);rgba(60,120,220,0.05)" dur="3s" repeatCount="indefinite" />
+              </stop>
+            </linearGradient>
+            {/* Hover brightness filter */}
+            <filter id="hover-bright">
+              <feComponentTransfer>
+                <feFuncR type="linear" slope="1.2" intercept="0.05" />
+                <feFuncG type="linear" slope="1.2" intercept="0.05" />
+                <feFuncB type="linear" slope="1.2" intercept="0.05" />
+              </feComponentTransfer>
+            </filter>
             <style>{`
               @keyframes battlePulse {
                 0%, 100% { stroke: rgba(255,40,40,0.9); stroke-width: 3; }
                 50% { stroke: rgba(255,40,40,0.15); stroke-width: 1.5; }
               }
               .battle-flash { animation: battlePulse 0.8s infinite; fill: none; pointer-events: none; }
+              @keyframes arrowDash {
+                to { stroke-dashoffset: -24; }
+              }
+              .attack-arrow-animated {
+                stroke-dasharray: 12 6 4 6;
+                animation: arrowDash 1.2s linear infinite;
+              }
+              @keyframes warPulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.4; }
+              }
             `}</style>
           </defs>
 
@@ -324,32 +416,56 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
 
           {/* territory fills — clipped to land so colours don't bleed into ocean */}
           <g clipPath="url(#lc)">
-            {terrData.map((t: any) => (
-              <path
-                key={t.aid}
-                d={t.path}
-                fill={t.color}
-                fillOpacity={selId === t.aid ? 0.95 : hovId === t.aid ? 0.88 : 0.75}
-                stroke="none"
-                style={{ cursor: 'pointer', transition: 'fill-opacity 100ms' }}
-                onMouseEnter={() => setHovId(t.aid)}
-                onMouseLeave={() => setHovId(c => c === t.aid ? null : c)}
-                onClick={e => { e.stopPropagation(); if (!dragRef.current.moved) setSelId(t.aid) }}
-              />
-            ))}
+            {terrData.map((t: any) => {
+              const isSelected = effectiveSelId === t.aid
+              const isHovered = hovId === t.aid
+              return (
+                <g key={t.aid}>
+                  {/* Base territory fill */}
+                  <path
+                    d={t.path}
+                    fill={t.terrain === 'mountain' ? t.displayColor : t.color}
+                    fillOpacity={isSelected ? 0.95 : isHovered ? 0.88 : 0.75}
+                    stroke="none"
+                    style={{ cursor: 'pointer', transition: 'fill-opacity 100ms' }}
+                    filter={isHovered && !isSelected ? 'url(#hover-bright)' : undefined}
+                    onMouseEnter={() => setHovId(t.aid)}
+                    onMouseLeave={() => setHovId(c => c === t.aid ? null : c)}
+                    onClick={e => { e.stopPropagation(); if (!dragRef.current.moved) handleSelect(t.aid) }}
+                  />
+                  {/* Mountain stipple overlay */}
+                  {t.terrain === 'mountain' && (
+                    <path d={t.path} fill="url(#mountain-stipple)" fillOpacity={0.7} style={{ pointerEvents: 'none' }} />
+                  )}
+                  {/* Forest green tint overlay */}
+                  {t.terrain === 'forest' && (
+                    <path d={t.path} fill="rgba(34,120,34,0.20)" style={{ pointerEvents: 'none' }} />
+                  )}
+                  {/* Coast shimmer overlay */}
+                  {t.terrain === 'coast' && (
+                    <path d={t.path} fill="url(#coast-shimmer)" style={{ pointerEvents: 'none' }} />
+                  )}
+                </g>
+              )
+            })}
           </g>
 
           {/* territory borders — clipped to land */}
           <g clipPath="url(#lc)" style={{ pointerEvents: 'none' }}>
-            {terrData.map((t: any) => (
-              <path
-                key={`b-${t.aid}`}
-                d={t.path}
-                fill="none"
-                stroke={selId === t.aid ? '#ffe5a8' : BORDER_CLR}
-                strokeWidth={selId === t.aid ? 2.5 : 0.8}
-              />
-            ))}
+            {terrData.map((t: any) => {
+              const isSelected = effectiveSelId === t.aid
+              const isHovered = hovId === t.aid && !isSelected
+              return (
+                <path
+                  key={`b-${t.aid}`}
+                  d={t.path}
+                  fill="none"
+                  stroke={isSelected ? '#d4af37' : isHovered ? 'rgba(255,255,255,0.85)' : BORDER_CLR}
+                  strokeWidth={isSelected ? 2 : isHovered ? 2 : 0.8}
+                  style={{ transition: 'stroke 0.15s, stroke-width 0.15s' }}
+                />
+              )
+            })}
           </g>
 
           {/* coastlines */}
@@ -390,24 +506,50 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
             )
           })}
 
-          {/* corps markers */}
+          {/* Capital star markers */}
+          {centers && Object.entries(CAPITALS).map(([areaId, power]) => {
+            const c = centers[areaId]
+            if (!c) return null
+            const p = projection(c as [number, number])
+            if (!p) return null
+            return (
+              <text
+                key={`cap-${areaId}`}
+                x={p[0]} y={p[1] - 10}
+                textAnchor="middle" dominantBaseline="central"
+                style={{ pointerEvents: 'none', fontSize: 10, fontWeight: 700 }}
+                fill={POWER_COLORS[power] || '#d4af37'}
+                stroke="rgba(0,0,0,0.6)"
+                strokeWidth={1.5}
+                paintOrder="stroke"
+              >
+                ★
+              </text>
+            )
+          })}
+
+          {/* corps markers — shield shapes */}
           {centers && Object.entries(corpsByArea).flatMap(([aid, ac]) => {
             const c = centers[aid]
             if (!c) return []
             const p = projection(c as [number, number])
             if (!p) return []
             return ac.map((corps, i) => {
-              const ox = (i % 3) * 14 - 14
-              const oy = Math.floor(i / 3) * 14 + 8
+              const ox = (i % 3) * 16 - 16
+              const oy = Math.floor(i / 3) * 18 + 10
+              const cx = p[0] + ox
+              const cy = p[1] + oy
               const col = POWER_COLORS[corps.owner] || '#f2d89d'
+              // Shield polygon points (centered at cx, cy)
+              const shieldPoints = `${cx},${cy - 7} ${cx + 6},${cy - 5} ${cx + 6},${cy + 2} ${cx},${cy + 7} ${cx - 6},${cy + 2} ${cx - 6},${cy - 5}`
               return (
                 <g key={corps.id} style={{ pointerEvents: 'none' }}>
-                  <circle cx={p[0] + ox} cy={p[1] + oy} r={7} fill="#0a0a12" opacity={0.85} />
-                  <circle cx={p[0] + ox} cy={p[1] + oy} r={5.5} fill={col} stroke="#fff" strokeWidth={0.8} />
+                  <polygon points={shieldPoints} fill="#0a0a12" opacity={0.85} />
+                  <polygon points={shieldPoints} fill={col} stroke="#fff" strokeWidth={0.8} />
                   <text
-                    x={p[0] + ox} y={p[1] + oy + 0.5}
+                    x={cx} y={cy}
                     textAnchor="middle" dominantBaseline="central"
-                    style={{ fill: '#fff', fontSize: 5, fontWeight: 700, fontFamily: 'sans-serif' }}
+                    style={{ fill: '#fff', fontSize: 5.5, fontWeight: 700, fontFamily: 'sans-serif' }}
                   >
                     {corps.sp}
                   </text>
@@ -462,7 +604,7 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
             })}
           </g>
 
-          {/* Attack arrows — from source centroid to target centroid */}
+          {/* Attack arrows — animated pulsing dashes */}
           {centers && attackArrows.map((arrow, i) => {
             const fromC = centers[arrow.fromArea]
             const toC = centers[arrow.toArea]
@@ -473,16 +615,27 @@ export default function MapView({ scenarioData, powerStates, currentTurn, onEndT
             const col = POWER_COLORS[arrow.attacker] || '#fff'
             const thickness = Math.max(1.5, Math.min(6, arrow.strength / 20))
             return (
-              <line
-                key={`arrow-${i}`}
-                x1={p1[0]} y1={p1[1]}
-                x2={p2[0]} y2={p2[1]}
-                stroke={col}
-                strokeWidth={thickness}
-                strokeOpacity={0.85}
-                markerEnd={`url(#arrowhead-${arrow.attacker})`}
-                style={{ pointerEvents: 'none' }}
-              />
+              <g key={`arrow-${i}`} style={{ pointerEvents: 'none' }}>
+                {/* Glow underlay */}
+                <line
+                  x1={p1[0]} y1={p1[1]}
+                  x2={p2[0]} y2={p2[1]}
+                  stroke={col}
+                  strokeWidth={thickness + 3}
+                  strokeOpacity={0.2}
+                  strokeLinecap="round"
+                />
+                {/* Animated dashed line */}
+                <line
+                  x1={p1[0]} y1={p1[1]}
+                  x2={p2[0]} y2={p2[1]}
+                  stroke={col}
+                  strokeWidth={thickness}
+                  strokeOpacity={0.9}
+                  markerEnd={`url(#arrowhead-${arrow.attacker})`}
+                  className="attack-arrow-animated"
+                />
+              </g>
             )
           })}
         </svg>

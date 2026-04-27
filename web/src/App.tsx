@@ -7,6 +7,8 @@ import DivisionDesigner from './components/DivisionDesigner'
 import EconomyPanel from './components/EconomyPanel'
 import EventPopup from './components/EventPopup'
 import FocusTree from './components/FocusTree'
+import OrderPanel from './components/OrderPanel'
+import { useOrders } from './hooks/useOrders'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷', GBR: '🇬🇧', AUS: '🦅', PRU: '⚫', RUS: '🐻', OTT: '☪️', SPA: '🇪🇸',
@@ -14,6 +16,10 @@ const POWER_FLAGS: Record<string, string> = {
 const POWER_NAMES: Record<string, string> = {
   FRA: 'France', GBR: 'Britain', AUS: 'Austria', PRU: 'Prussia',
   RUS: 'Russia', OTT: 'Ottoman', SPA: 'Spain',
+}
+const POWER_COLORS: Record<string, string> = {
+  FRA: '#1565C0', GBR: '#B71C1C', AUS: '#F9A825', PRU: '#455A64',
+  RUS: '#2E7D32', OTT: '#6A1B9A', SPA: '#E65100',
 }
 const MONTH_NAMES = [
   'January','February','March','April','May','June',
@@ -23,6 +29,20 @@ const DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31]
 
 function formatDate(day: number, month: number, year: number) {
   return `${day} ${MONTH_NAMES[month]} ${year}`
+}
+
+/* Powers currently at war (mock) */
+const AT_WAR = new Set(['FRA', 'GBR', 'AUS', 'RUS'])
+
+/* Mock stability/legitimacy data */
+const POWER_STABILITY: Record<string, { stability: number; legitimacy: number }> = {
+  FRA: { stability: 2, legitimacy: 75 },
+  GBR: { stability: 3, legitimacy: 90 },
+  AUS: { stability: 1, legitimacy: 60 },
+  PRU: { stability: 2, legitimacy: 70 },
+  RUS: { stability: 1, legitimacy: 45 },
+  OTT: { stability: -1, legitimacy: 35 },
+  SPA: { stability: 0, legitimacy: 55 },
 }
 
 const MOCK_MARSHALS: Marshal[] = [
@@ -54,11 +74,11 @@ const MOCK_EVENTS: GameEvent[] = [
 ]
 
 const MOCK_ATTACK_ARROWS: AttackArrow[] = [
-  { fromAreaId:'ven', toAreaId:'vie', powerColor:'#1565C0', strength:45000 },
-  { fromAreaId:'bav', toAreaId:'aus', powerColor:'#1565C0', strength:32000 },
+  { fromArea:'ven', toArea:'vie', attacker:'FRA', strength:45 },
+  { fromArea:'bav', toArea:'aus', attacker:'FRA', strength:32 },
 ]
 const MOCK_CONTESTED: ContestedArea[] = [
-  { areaId:'ven', attackerColor:'#1565C0', defenderColor:'#F9A825', pressure:60 },
+  { areaId:'ven', attacker:'FRA', defender:'AUS', pressure:60 },
 ]
 
 export default function App() {
@@ -81,12 +101,23 @@ export default function App() {
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
   const [templates, setTemplates] = useState<DivisionTemplate[]>([])
   const [pendingEvents, setPendingEvents] = useState<GameEvent[]>(MOCK_EVENTS)
-  const [battleToasts, setBattleToasts] = useState<BattleToast[]>([
-    { id:'t1', message:'⚔️ Austerlitz: France advances!', powerColor:'#1565C0' },
-  ])
+  const [battleToasts] = useState<BattleToast[]>([])
   const [turn, setTurn] = useState(0)
 
   const playerPower = 'FRA'
+
+  // Orders
+  const { orders, addOrder, removeOrder, clearOrders, executeOrders } = useOrders()
+
+  // Seed mock orders on mount
+  const seeded = useRef(false)
+  useEffect(() => {
+    if (seeded.current) return
+    seeded.current = true
+    addOrder({ type: 'Attack', fromTerritory: 'bavaria', toTerritory: 'vienna', corpsId: 3 })
+    addOrder({ type: 'Move', fromTerritory: 'paris', toTerritory: 'strasbourg' })
+    addOrder({ type: 'Hold', fromTerritory: 'milan' })
+  }, [addOrder])
 
   // Economy
   const [economies, setEconomies] = useState<Record<string,PowerEconomy>>({
@@ -99,6 +130,12 @@ export default function App() {
     SPA: { power:'SPA', treasury:6000,  income_per_day:65,  expenditure_per_day:45,  manpower_pool:180000, manpower_cap:180000, manpower_recovery:2500,  factories:3,  war_exhaustion:0 },
   })
   const playerEconomy = economies[playerPower]
+
+  // Previous treasury for animation direction
+  const prevTreasuryRef = useRef(playerEconomy?.treasury ?? 0)
+  useEffect(() => {
+    prevTreasuryRef.current = playerEconomy?.treasury ?? 0
+  }, [playerEconomy?.treasury])
 
   const handleTick = useCallback(() => {
     setDay(d => {
@@ -180,20 +217,53 @@ export default function App() {
         zIndex: 100,
         boxShadow: '0 2px 12px rgba(0,0,0,0.7)',
       }}>
-        {/* Power flags row */}
-        {Object.keys(POWER_NAMES).map(pid => (
-          <div key={pid} style={{
-            height: 34,
-            border: pid === playerPower ? '1px solid #d4af37' : '1px solid #2a1f08',
-            background: pid === playerPower ? 'rgba(212,175,55,0.1)' : 'rgba(10,8,20,0.8)',
-            display: 'flex', alignItems: 'center', padding: '0 8px', gap: 5, borderRadius: 2,
-          }}>
-            <span style={{ fontSize: 14 }}>{POWER_FLAGS[pid]}</span>
-            <span style={{ color: pid === playerPower ? '#d4af37' : '#5a4820', fontSize: 10, fontWeight: 700, letterSpacing: 1 }}>
-              {POWER_NAMES[pid]}
-            </span>
-          </div>
-        ))}
+        {/* Power flags row with warning icons and WAR badges */}
+        {Object.keys(POWER_NAMES).map(pid => {
+          const eco = economies[pid]
+          const stab = POWER_STABILITY[pid]
+          const hasWarning = stab && (stab.stability < 0 || stab.legitimacy < 50)
+          const isAtWar = AT_WAR.has(pid)
+          const treasury = eco?.treasury ?? 0
+          return (
+            <div key={pid} style={{
+              height: 34,
+              border: pid === playerPower ? '1px solid #d4af37' : '1px solid #2a1f08',
+              background: pid === playerPower ? 'rgba(212,175,55,0.1)' : 'rgba(10,8,20,0.8)',
+              display: 'flex', alignItems: 'center', padding: '0 8px', gap: 4, borderRadius: 2,
+            }}>
+              <span style={{ fontSize: 14 }}>{POWER_FLAGS[pid]}</span>
+              <span style={{ color: pid === playerPower ? '#d4af37' : '#5a4820', fontSize: 10, fontWeight: 700, letterSpacing: 1 }}>
+                {POWER_NAMES[pid]}
+              </span>
+              {/* Animated treasury */}
+              <span style={{
+                color: POWER_COLORS[pid], fontSize: 10, fontWeight: 700,
+                transition: 'all 0.4s ease-out',
+                marginLeft: 2,
+              }}>
+                {Math.round(treasury / 1000)}K
+              </span>
+              {/* Warning icon */}
+              {hasWarning && (
+                <span style={{ fontSize: 11, marginLeft: 1 }} title={`Stability: ${stab.stability}, Legitimacy: ${stab.legitimacy}`}>
+                  ⚠️
+                </span>
+              )}
+              {/* WAR badge */}
+              {isAtWar && (
+                <span style={{
+                  background: 'rgba(200,30,30,0.25)', color: '#ff4444',
+                  fontSize: 8, fontWeight: 700, letterSpacing: 1,
+                  padding: '1px 4px', borderRadius: 2,
+                  border: '1px solid rgba(200,30,30,0.4)',
+                  animation: 'warPulse 1.5s ease-in-out infinite',
+                }}>
+                  WAR
+                </span>
+              )}
+            </div>
+          )
+        })}
 
         <div style={{ flex: 1 }} />
 
@@ -203,6 +273,14 @@ export default function App() {
         <button style={btnStyle(marshalsOpen)} onClick={() => setMarshalsOpen(o => !o)}>⚔️ Marshals</button>
         <button style={btnStyle(divisionsOpen)} onClick={() => setDivisionsOpen(true)}>🪖 Divisions</button>
       </div>
+
+      {/* warPulse animation for top bar */}
+      <style>{`
+        @keyframes warPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
 
       {/* ── MAIN: MAP fills remaining space ── */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
@@ -230,6 +308,14 @@ export default function App() {
             manpowerPool={playerEconomy?.manpower_pool}
           />
         </div>
+
+        {/* Order Panel — bottom center over map */}
+        <OrderPanel
+          orders={orders}
+          onRemoveOrder={removeOrder}
+          onExecuteOrders={executeOrders}
+          onClearOrders={clearOrders}
+        />
       </div>
 
       {/* ── OVERLAYS ── */}
