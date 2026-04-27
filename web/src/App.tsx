@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import type { Marshal, DivisionTemplate, PowerEconomy, GameEvent } from './types'
+import type { Marshal, DivisionTemplate, PowerEconomy, GameEvent, PowerPoliticsData } from './types'
 import MapView, { AttackArrow, ContestedArea, BattleToast } from './MapView'
 import ClockPanel from './components/ClockPanel'
 import MarshalsPanel from './components/MarshalsPanel'
@@ -7,6 +7,7 @@ import DivisionDesigner from './components/DivisionDesigner'
 import EconomyPanel from './components/EconomyPanel'
 import EventPopup from './components/EventPopup'
 import FocusTree from './components/FocusTree'
+import PoliticsPanel from './components/PoliticsPanel'
 
 const POWER_FLAGS: Record<string, string> = {
   FRA: '🇫🇷', GBR: '🇬🇧', AUS: '🦅', PRU: '⚫', RUS: '🐻', OTT: '☪️', SPA: '🇪🇸',
@@ -76,6 +77,7 @@ export default function App() {
   const [divisionsOpen, setDivisionsOpen] = useState(false)
   const [economyOpen, setEconomyOpen] = useState(false)
   const [focusOpen, setFocusOpen] = useState(false)
+  const [politicsOpen, setPoliticsOpen] = useState(false)
 
   // Data
   const [marshals, setMarshals] = useState<Marshal[]>(MOCK_MARSHALS)
@@ -87,6 +89,17 @@ export default function App() {
   const [turn, setTurn] = useState(0)
 
   const playerPower = 'FRA'
+
+  const [playerPolitics] = useState<PowerPoliticsData>({
+    power: 'FRA',
+    legitimacy: 85,
+    stability: 2,
+    government: 'Empire',
+    ruling_faction: 'Military',
+    faction_support: { Military: 60, Merchants: 40, Clergy: 30 },
+    puppets: [],
+    overlord: null,
+  })
 
   // Economy
   const [economies, setEconomies] = useState<Record<string,PowerEconomy>>({
@@ -198,6 +211,7 @@ export default function App() {
         <div style={{ flex: 1 }} />
 
         {/* Action buttons */}
+        <button style={btnStyle(politicsOpen)} onClick={() => setPoliticsOpen(o => !o)}>⚖️ Politics</button>
         <button style={btnStyle(focusOpen)} onClick={() => setFocusOpen(o => !o)}>🎯 Focus</button>
         <button style={btnStyle(economyOpen)} onClick={() => setEconomyOpen(o => !o)}>💰 Economy</button>
         <button style={btnStyle(marshalsOpen)} onClick={() => setMarshalsOpen(o => !o)}>⚔️ Marshals</button>
@@ -236,6 +250,7 @@ export default function App() {
       <MarshalsPanel marshals={marshals} onAssign={handleAssign} open={marshalsOpen} onClose={() => setMarshalsOpen(false)} />
       <DivisionDesigner templates={templates} onSave={handleSaveTemplate} open={divisionsOpen} onClose={() => setDivisionsOpen(false)} />
       {playerEconomy && <EconomyPanel economy={playerEconomy} open={economyOpen} onClose={() => setEconomyOpen(false)} onRecruit={handleRecruit} />}
+      <PoliticsPanel politics={playerPolitics} open={politicsOpen} onClose={() => setPoliticsOpen(false)} />
       <FocusTree open={focusOpen} onClose={() => setFocusOpen(false)} />
       <EventPopup events={pendingEvents} onResolve={handleResolveEvent} />
     </div>

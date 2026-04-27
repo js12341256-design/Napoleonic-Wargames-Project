@@ -23,6 +23,7 @@ pub mod movement;
 pub mod naval;
 pub mod orders;
 pub mod political;
+pub mod politics;
 pub mod production;
 pub mod projection;
 pub mod replay;
@@ -53,6 +54,10 @@ pub use production::{
     EconomyRegistry, PowerEconomy, advance_all_economies, advance_economy, can_recruit,
     default_economies, economies_to_json, power_economy_to_json, record_casualties,
     spend_resources,
+};
+
+pub use politics::{
+    Faction, Government, PoliticsRegistry, PowerPolitics, StabilityEffects,
 };
 
 pub use gc1805_core_schema as schema;

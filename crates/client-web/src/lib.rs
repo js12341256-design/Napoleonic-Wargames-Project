@@ -251,7 +251,6 @@ impl WasmDivisionRegistry {
     }
 }
 
-<<<<<<< HEAD
 // ── Economy Registry WASM bindings ──
 
 #[derive(Debug)]
@@ -298,7 +297,8 @@ impl WasmEconomyRegistry {
             false
         }
     }
-=======
+}
+
 // ── Historical Events WASM bindings ──
 
 #[derive(Debug)]
@@ -374,7 +374,53 @@ impl WasmEventRegistry {
             .collect();
         serde_json::to_string(&summaries).map_err(|e| JsValue::from_str(&e.to_string()))
     }
->>>>>>> origin/feat/events-system
+}
+
+// ── Politics & Legitimacy WASM bindings ──
+
+#[derive(Debug)]
+#[wasm_bindgen]
+pub struct WasmPoliticsRegistry {
+    registry: gc1805_core::politics::PoliticsRegistry,
+}
+
+#[wasm_bindgen]
+impl WasmPoliticsRegistry {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> WasmPoliticsRegistry {
+        WasmPoliticsRegistry {
+            registry: gc1805_core::politics::PoliticsRegistry::with_historical(),
+        }
+    }
+
+    /// Get politics for a single power as JSON.
+    #[wasm_bindgen]
+    pub fn get_politics_json(&self, power_id: &str) -> String {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        self.registry.power_politics_json(&pid)
+    }
+
+    /// Get all powers' politics as JSON.
+    #[wasm_bindgen]
+    pub fn get_all_politics_json(&self) -> String {
+        self.registry.to_json()
+    }
+
+    /// Change ruling faction for a power. Faction is an index: 0=Military, 1=Nobility, 2=Clergy, 3=Merchants, 4=Peasantry, 5=Revolutionaries.
+    #[wasm_bindgen]
+    pub fn change_faction(&mut self, power_id: &str, faction: u8) -> Result<(), JsValue> {
+        let pid = gc1805_core_schema::ids::PowerId::from(power_id);
+        let f = match faction {
+            0 => gc1805_core::politics::Faction::Military,
+            1 => gc1805_core::politics::Faction::Nobility,
+            2 => gc1805_core::politics::Faction::Clergy,
+            3 => gc1805_core::politics::Faction::Merchants,
+            4 => gc1805_core::politics::Faction::Peasantry,
+            5 => gc1805_core::politics::Faction::Revolutionaries,
+            _ => return Err(JsValue::from_str("Invalid faction index (0-5)")),
+        };
+        self.registry.change_ruling_faction(&pid, f).map_err(|e| JsValue::from_str(&e))
+    }
 }
 
 #[cfg(test)]

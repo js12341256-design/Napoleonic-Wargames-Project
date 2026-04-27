@@ -52,3 +52,31 @@ export interface GameEvent {
   firesFor: string;
   options: GameEventOption[];
 }
+
+export type Government = "Empire" | "AbsoluteMonarchy" | "ConstitutionalMonarchy" | "Republic";
+
+export type Faction =
+  | "Military"
+  | "Nobility"
+  | "Clergy"
+  | "Merchants"
+  | "Peasantry"
+  | "Revolutionaries";
+
+export interface StabilityEffects {
+  income_modifier: number;
+  manpower_modifier: number;
+  revolt_chance: number;
+  civil_war_risk: boolean;
+}
+
+export interface PowerPoliticsData {
+  power: string;
+  legitimacy: number;
+  stability: number;
+  government: Government;
+  ruling_faction: Faction;
+  faction_support: Record<string, number>;
+  puppets: string[];
+  overlord: string | null;
+}
