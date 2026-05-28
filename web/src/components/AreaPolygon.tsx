@@ -24,6 +24,8 @@ function lighten(hex: string, amount: number) {
   return `#${[r, g, b].map(part => part.toString(16).padStart(2, '0')).join('')}`
 }
 
+// Omniatlas-style: bright yellow selection, dark thin borders
+
 export default function AreaPolygon({
   areaId,
   coords,
@@ -43,20 +45,22 @@ export default function AreaPolygon({
         data-area-id={areaId}
         points={points}
         fill={fill}
-        stroke={isSelected ? '#f7e7a1' : '#5a4a3a'}
-        strokeWidth={isSelected ? 4 : 1.5}
-        style={{ cursor: 'pointer', transition: 'fill 120ms ease, stroke 120ms ease' }}
+        stroke={isSelected ? '#FFD700' : '#2a2a2a'}
+        strokeWidth={isSelected ? 2 : 0.5}
+        strokeOpacity={isSelected ? 1 : 0.7}
+        style={{ cursor: 'pointer', transition: 'fill 100ms ease, stroke 100ms ease' }}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       />
-      <polygon
-        points={points}
-        fill="none"
-        stroke={isSelected ? 'rgba(255, 248, 200, 0.95)' : 'rgba(255,255,255,0.08)'}
-        strokeWidth={isSelected ? 1.5 : 0.5}
-        style={{ pointerEvents: 'none' }}
-      />
+      {isSelected && (
+        <polygon
+          points={points}
+          fill="rgba(255,215,0,0.15)"
+          stroke="none"
+          style={{ pointerEvents: 'none' }}
+        />
+      )}
     </g>
   )
 }
